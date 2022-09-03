@@ -1,0 +1,440 @@
+.accountPageWrap {
+    margin-top: 1.0417vw;
+    z-index: 3;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.panoramaImage {
+    width: 55.7292vw;
+    height: 7.8125vw;
+    min-height: 80px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    background: #8A8A8A;
+}
+
+.accountMore {
+    width: 1.5625vw;
+    height: 1.5625vw;
+    fill: #384859;
+    margin-right: 0.7813vw;
+}
+
+.accountPage {
+    width: 55.7292vw;
+    background: linear-gradient(97.59deg, rgba(255, 255, 255, 0.4) 2.56%, rgba(255, 255, 255, 0.1) 93.91%);
+    border-radius: 0px 0px 5px 5px;
+}
+
+.userInfo {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    p {
+        margin-left: 30.8411%; 
+    }
+}
+
+.userImageHolder {
+    position: absolute;
+    top: -6.7708vw;
+    left: 2.267vw;
+    width: 13.5417vw;
+    height: 13.5417vw;
+    min-width: 90px;
+    min-height: 90px;
+    border-radius: 50%;
+    background: transparent;
+    border: 3px solid #2A323C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.userImage {
+    width: 13.0208vw;
+    height: 13.0208vw;
+    min-width: 82px;
+    min-height: 82px;
+    border-radius: 50%;
+    background: transparent;
+    background: gray;
+}
+
+.userName, .userStatus {
+    max-width: 45%;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #1F4868;
+    margin: 0;
+    padding: 0;
+}
+
+.userName {
+    padding-top: 0.7813vw;
+    font-size: calc(12px + (22 - 12) * (100vw - 200px) / (1920 - 200));
+}
+.userStatus {
+    margin-top: calc(5px + (30 - 5) * (100vw - 900px) / (1920 - 900));
+    font-size: calc(8px + (18 - 8) * (100vw - 200px) / (1920 - 200));
+}
+
+.userEditStatus {
+    margin-top: 1.7708vw;
+    border: none;
+    margin-left: 30.8411%; 
+    box-sizing: border-box;
+    width: 300px;
+    height: 30px;
+}
+
+.userDateBirth, .userCity {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: calc(8px + (16 - 8) * (100vw - 200px) / (1920 - 200));
+    color: #1F4868;
+    margin: 0;
+    padding: 0;
+}
+
+.userDateBirth {
+    margin-top: 0.8854vw;
+}
+.userCity {
+    margin-top: 0.4688vw;
+    margin-bottom: 2.7083vw;
+}
+
+.moreButton {
+    position: absolute;
+    left: 50%;
+    bottom: 5px;
+    transform: rotate(90deg);
+}
+
+.moreButtonAngle {
+    width: 2.0833vw;
+    height: 2.0833vw;
+    min-width: 20px;
+    min-height: 20px;
+    fill: #384859;
+}
+
+.userAddInFriends {
+    position: absolute;
+    cursor: pointer;
+    right: 0;
+    top: 0; 
+    margin: 0.5208vw 0.5208vw 0 0;
+    width: calc(110px + (210 - 110) * (100vw - 500px) / (1920 - 500));
+    min-width: 110px;
+    padding: 0.1vw 0;
+    background: linear-gradient(93.06deg, rgba(255, 255, 255, 0.4) -7.77%, rgba(255, 255, 255, 0.1) 121.7%);
+    border-radius: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #1F4868;
+    padding-left: 0.7813vw;
+    font-size: calc(8px + (16 - 8) * (100vw - 200px) / (1920 - 200));
+    white-space: nowrap;
+    div {
+        margin-top: 5px;
+    }
+}
+
+.userAddInFriendsPlus {
+    margin-right: 5px;
+    width: 1.3021vw;
+    height: 1.3021vw;
+    min-width: 14px;
+    min-height: 14px;
+    fill: #384859;
+}
+
+.hiddenUserAddInFriends {
+    display: none;
+    position: absolute;
+    right: calc(4px + (8 - 4) * (100vw - 200px) / (768 - 200));
+    top: calc(4px + (8 - 4) * (100vw - 200px) / (768 - 200)); 
+}
+
+.hiddenUserAddInFriendsPlus {
+    width: 1.3021vw;
+    height: 1.3021vw;
+    min-width: 18px;
+    min-height: 18px;
+    fill: #384859;
+}
+
+.userStats {
+    width: 55.7292vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.9896vw 0 1.0938vw 0;
+    background: linear-gradient(91.99deg, rgba(255, 255, 255, 0.2) -23.95%, rgba(255, 255, 255, 0.05) 109.34%);
+    div {
+        margin-left: 2.6042vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        p {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            color: #1F4868;
+            display: flex;
+        }   
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}
+
+.userStatsCount {
+    font-size: calc(10px + (22 - 10) * (100vw - 200px) / (1920 - 200));
+}
+
+.userStatsType {
+    font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));   
+}
+
+.addPostWrap {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625vw 0;
+    div {
+        position: relative;
+        width: 34.8958vw;
+        input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            padding: 
+                    calc(9px + (15 - 9) * ( (100vw - 200px) / ( 1920 - 200) ))
+                    calc(30px + (40 - 30) * ( (100vw - 200px) / ( 1920 - 200) ))
+                    calc(9px + (15 - 9) * ( (100vw - 200px) / ( 1920 - 200) ))
+                    calc(10px + (20 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+            box-sizing: border-box;
+            background: rgba(217, 217, 217, 0.25);
+            border-radius: 5px;
+        }
+        input::placeholder {
+            color: #1F4868;
+            font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+        }
+        div {
+            min-width: 18px;
+            max-width: 25px;
+            position: absolute;
+            box-sizing: border-box;
+            display: flex;
+            right: 25px;
+            // top: calc(4px + (7 - 4) * ( (100vw - 200px) / ( 1920 - 200) ));
+            top: 9px;  
+        }
+    }
+}
+
+.addPostClip, .addPostSend {
+    width: 1.3021vw;
+    height: 1.3021vw;
+    min-width: 18px;
+    min-height: 18px;
+    fill: #384859;
+}
+
+.addPostSend {
+    margin-left: 5px;
+}
+
+.userPostsOptions {
+    width: 55.7292vw;   
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200)) 1.0417vw;
+    background: linear-gradient(90.22deg, rgba(255, 255, 255, 0.4) -2.59%, rgba(255, 255, 255, 0.1) 104.52%);
+    border-radius: 3px;
+    margin-top: calc(5px + (20 - 5) * (100vw - 200px) / (1920 - 200));
+}
+
+.postFinder {
+    width: 26.0417vw;
+    position: relative;
+    input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        padding-left: 1vw;
+        box-sizing: border-box;
+        background: rgba(217, 217, 217, 0.3);
+        border-radius: 5px;
+        padding-left: 1.0417vw;
+        padding-right: 1.9229vw;
+    }
+    input::placeholder {
+        color: #1F4868;
+    }
+    div {
+        position: absolute;
+        right: 3px;
+        top: calc(2px + (7 - 2) * ( (100vw - 200px) / ( 1920 - 200) ));   
+    }
+}
+
+.postFinderSearch {
+    width: 1.3021vw;
+    height: 1.3021vw;
+    min-width: 18px;
+    min-height: 18px;  
+    fill: #384859;
+}
+
+.postOptions {
+    width: 22.9167vw;
+    min-width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    button {
+        font-size: calc(10px + (16 - 10) * (100vw - 200px) / (1920 - 200));
+        padding: calc(4px + (10 - 4) * (100vw - 200px) / (1920 - 200)) 0;
+        background: linear-gradient(94.12deg, rgba(255, 255, 255, 0.4) 7.77%, rgba(255, 255, 255, 0.1) 124.32%);
+        border-radius: 5px;
+        width: 10.9375vw;
+        min-width: 120px;
+        height: 100%;
+        border: none;
+        color: #1F4868;
+    }
+}
+
+.editablePart {
+    position: relative;
+    input {
+        border: none;
+        background: rgba(217, 217, 217, 0.3);
+        margin-top: 10px;
+        &:focus {
+            outline: none;
+            border-radius: 3px;
+        }
+    }
+}
+
+.editStatus, .editDateBirth, .editCity{
+    font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));
+    white-space: nowrap;
+    color: #1F4868;
+    margin: 0;
+    padding: 0;
+    display: none;
+    margin-right: 1vw;
+    position: absolute;
+    top: -28px;
+    right: 10px;
+}
+.editStatus  {
+    margin-top: 30px;
+}
+.editDateBirth {
+    margin-top: 10px;
+}
+.editCity {
+    margin-top: 10px;
+}
+
+.editStatus.on, .editDateBirth.on, .editCity.on {
+    display: block;
+}
+
+.editStatus.on.editing, .editDateBirth.on.editing, .editCity.on.editing {
+    top: -18px;
+}
+
+@media screen and (max-width: 1023px) {
+    .userStats {
+       display: none;
+    }
+    .userPostsOptions {
+        flex-direction: row-reverse;
+    }
+    .postFinder input {
+        display: none;
+    }
+    .postOptions button {
+        &:last-child {
+            margin-left: 5px;
+        }
+    }
+    .userImageHolder {
+        top: -50px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .userAddInFriends {
+        display: none;
+    }
+    .hiddenUserAddInFriends {
+        display: block;
+    }
+    .accountPageWrap {
+        width: 100vw;
+        margin-top: 0;
+    }
+    .panoramaImage {
+        width: 100%;
+    }
+    .accountPage {
+        width: 97vw;
+    } 
+    .groupImageHolder {
+        top: 38px;
+    }
+    .groupUsers, .userStats{
+        display: none;
+    }
+    .userInfo p {
+        margin-left: calc(90px + (140 - 90) * (100vw - 100px) / (768 - 100)); 
+        &.userCity, &.userDateBirth {
+            margin-left: 5.8411%; 
+        }
+        // &.userStatus {
+        //     margin-top: 3.8411%; 
+        // }
+    }
+    .addPostWrap {
+        position: absolute;
+        width: 97vw;
+        margin-top: 2px;
+        div {
+            width: 100%;
+        }
+    }
+    .userPostsOptions {
+        width: 97vw;
+        margin-top: calc(43px + (50 - 43) * (100vw - 200px) / (768 - 200));
+    }
+    .userDateBirth {
+        margin-top: 12px;
+    }
+}

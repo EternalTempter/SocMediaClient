@@ -1,0 +1,300 @@
+.postWrap {
+    width: 55.7292vw;
+    background: gray;
+    margin-top: 3.7037vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(111.93deg, rgba(255, 255, 255, 0.4) 4.6%, rgba(255, 255, 255, 0) 100%, rgba(255, 255, 255, 0.1) 96.42%);
+    backdrop-filter: blur(40px);
+    border-radius: 3px;
+}
+
+.postHeader {
+    display: flex;
+    width: 100%;
+    align-self: flex-start;
+    justify-content: space-between;
+}
+
+.postInfoWrap {
+    display: flex;
+    align-items: center;
+}
+
+.postImage {
+    margin: 1.3021vw 0 0 1.3021vw;
+    width: 4.1667vw;
+    height: 4.1667vw;
+    min-width: 45px;
+    min-height: 45px;
+    border-radius: 50%;
+    background: #000000;
+}
+
+.postInfo {
+    margin-left: 1.0417vw;
+    margin-top: 1.0417vw;
+    p {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.postGroupName {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: calc(12px + (18 - 12) * (100vw - 200px) / (1920 - 200));
+    line-height: 17px;
+    color: #1F4868;
+}
+
+.postPublicationDate {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+    line-height: 17px;
+    margin-top: 3px;
+    color: #1F4868;
+}
+
+.postButtons {
+    display: flex;
+    align-self: flex-end;
+    margin-right: 11%;
+}
+
+.postButton {
+    margin-left: 1.0417vw;
+} 
+
+.postReport, .postDislike, .postMore {
+    width: 1.5625vw;
+    height: 1.5625vw;
+    min-width: 20px;
+    min-height: 20px;
+    fill: #384859;
+}
+
+.postMore {
+    display: none;
+}
+
+.postBody {
+    display: flex;
+    width: 74.767%;
+    background-clip: border-box;
+    margin-top: calc(8px + (20 - 8) * (100vw - 200px) / (1920 - 200));
+    align-self: center;
+    flex-direction: column;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 0 0;
+    }
+    p {
+        margin-top: 0;
+    }
+}
+
+.postFooter {
+    margin-top: calc(12px + (30 - 12) * (100vw - 200px) / (1920 - 200));
+    margin-bottom: calc(12px + (30 - 12) * (100vw - 200px) / (1920 - 200));
+    display: flex;
+    align-self: center;
+}
+
+.postFooterActions {
+    background: lightgray;
+    width: 14.5833vw;
+    min-width: 180px;
+    padding: 0.5208vw;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background: linear-gradient(92.12deg, rgba(255, 255, 255, 0.4) -5.5%, rgba(255, 255, 255, 0.1) 114.11%);
+    border-radius: 5px;
+}
+
+.postViews {
+    background: lightgray;
+    width: 5.2083vw;
+    min-width: 70px;
+    padding: calc(5px - (10 - 5) * (100vw - 200px) / (1920 - 200));
+    box-sizing: border-box;
+    margin: 0 1.3021vw;
+    background: linear-gradient(92.12deg, rgba(255, 255, 255, 0.4) -5.5%, rgba(255, 255, 255, 0.1) 114.11%);
+    border-radius: 5px;
+}
+
+.postMostLikedComment {
+    background: lightgray;
+    box-sizing: border-box;
+    width: 25vw;
+    background: linear-gradient(92.12deg, rgba(255, 255, 255, 0.4) -5.5%, rgba(255, 255, 255, 0.1) 114.11%);
+    border-radius: 5px;
+}
+
+.postLikes, .postComments, .postShares, .postViews {
+    display: flex;
+    align-items: center;
+    div {
+        display: flex;
+        align-items: center;
+    }
+    p {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: calc(10px + (12 - 10) * (100vw - 200px) / (1920 - 200));
+        line-height: 12px;
+        color: #1F4868;
+        margin: 0;
+        padding: 0;
+        margin-left: 5px;
+    }
+}
+
+.postLike, .postComment, .postShare, .postView {
+    width: 1.5625vw;
+    height: 1.5625vw;
+    min-width: 25px;
+    min-height: 25px;
+    fill: #6c88a6;    
+    transition: 0.05s ease-in-out;
+}
+
+.postLike:hover {
+    fill: red; 
+}
+
+
+.postViews {
+    justify-content: center;
+}
+
+.postMostLikedComment {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.postMostLikedCommentDate {
+    position: absolute;
+    right: 3px;
+    top: -8px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: calc(8px + (12 - 8) * (100vw - 1024px) / (1920 - 1024));
+    color: #1F4868;
+}
+
+.postMostLikedCommentImage {
+    width: 2.68vw;
+    height: 2.18vw;
+    min-width: 30px;
+    min-height: 30px;
+    background: #000000;
+    border-radius: 50%;
+    margin: 0.1563vw 0 0.1563vw 0.1563vw;
+}
+.postMostLikedCommentInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+.postMostLikedCommentInfo p{
+    padding: 0;
+    margin: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: calc(8px + (14 - 8) * (100vw - 1024px) / (1920 - 1024));
+    color: #1F4868;
+    margin-left: 5px;
+}
+
+.postMostLikedCommentInfo p:nth-last-child(1) {
+    font-size: calc(6px + (12 - 6) * (100vw - 1024px) / (1920 - 1024));
+}
+
+.postMostLikedCommentLikes {
+    display: flex;
+    margin-top: 0.7407vw;
+    margin-left: auto;
+    margin-left: 5px;
+    p {
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: calc(8px + (14 - 8) * (100vw - 1024px) / (1920 - 1024));
+        color: #1F4868;
+        margin-right: 0.5208vw;
+        margin-left: 3px;
+    }
+}
+
+.postMostLikedCommentLike {
+    width: 0.9375vw;
+    height: 0.9375vw;
+    min-width: 14px;    
+    min-height: 14px;    
+    fill: #384859; 
+}
+
+.commentLine {
+    width: 94.3925%;
+    height: 2px;
+    background: linear-gradient(rgba(176, 219, 252, 1), rgba(176, 219, 252, 0.5));
+}
+
+.allPostComments {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 1023px) {
+    .postMostLikedComment {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .postReport, .postDislike {
+        display: none;
+    }
+    .postMore {
+        display: block;
+    }
+    .postWrap {
+        width: 97vw;
+    }
+    .postInfo {
+        margin-top: 2vw;
+    }
+    .postButtons {
+        align-self: flex-start;
+        margin-top: 2%;
+        margin-right: 2%;
+    }
+    .postBody {
+        width: 100%;
+    }
+    .postFooter {
+        width: 100%;
+        justify-content: space-between;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+}

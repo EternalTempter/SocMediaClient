@@ -1,0 +1,94 @@
+.newsPageWrap {
+    z-index: 3;
+    width: 91.5vw;
+    height: 100vh;
+    position: relative;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &::-webkit-scrollbar {
+        width: 0.45em;
+        height: 0.45em;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(255,255,255,.25);
+        border-radius: 3px;
+    }
+}
+  
+.newsToggler {
+    width: 55.7292vw;
+    background: gray;
+    display: flex;
+    padding: calc(5px + (10 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+    margin-top: calc(5px + (30 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    background: linear-gradient(90.19deg, rgba(255, 255, 255, 0.4) 3.31%, rgba(255, 255, 255, 0.1) 95.95%);
+    border-radius: 3px;
+}
+.newsTogglerButtons {
+    display: flex;
+    button {
+        width: 9.375vw;
+        min-width: 120px;
+        padding: calc(6px + (13 - 6) * ( (100vw - 200px) / ( 1920 - 200) )) 0.5208vw;
+        background: rgb(53, 53, 53);
+        font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+        border: none;
+        margin-left: 1.0417vw;
+        background: linear-gradient(94.12deg, rgba(255, 255, 255, 0.4) 7.77%, rgba(255, 255, 255, 0.1) 124.32%);
+        border-radius: 5px;
+        color: #1F4868;
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}
+
+.newsTogglerOption {
+    fill: #384859;
+    width: 1.5625vw;
+    height: 1.5625vw;
+    min-width: 20px;
+    min-height: 20px;
+    transition: ease-in-out 0.4s;
+    &:hover {
+        fill: #6a87a5;
+    }
+}
+
+@media screen and (max-width: 1024px){ 
+    .newsTogglerButtons {
+        button {
+            &:nth-child(3){
+                display: none;
+            }
+        }
+    }
+}
+  
+@media screen and (max-width: 768px){
+    .newsPageWrap {
+        width: 100vw;
+        &::-webkit-scrollbar {
+            width: 1px;
+            height: 1px;
+        }
+    }
+    .newsToggler {
+        width: 97vw;
+    }
+}
+
+@media screen and (max-width: 425px){
+    .newsTogglerButtons {
+        button {
+            &:nth-child(2){
+                display: none;
+            }
+        }
+    }
+}

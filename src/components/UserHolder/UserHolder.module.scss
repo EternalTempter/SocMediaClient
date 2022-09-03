@@ -1,0 +1,106 @@
+.userHolder {
+    margin-top: 1.8519vh;
+    width: 55.7292vw;
+    background: linear-gradient(91.3deg, rgba(255, 255, 255, 0.4) -4.25%, rgba(255, 255, 255, 0.1) 101.96%);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 0.7813vw 0;
+    cursor: pointer;
+}
+.userInfo {
+    margin-bottom: calc(8px + (15 - 8) * (100vw - 200px) / (1920 - 200));
+    p {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: calc(12px + (18 - 12) * (100vw - 200px) / (1920 - 200));
+        color: #1F4868;
+        margin-left: 0.8333vw;
+        margin-bottom: calc(7px + (16 - 7) * (100vw - 200px) / (1920 - 200));
+        margin-top: calc(7px + (16 - 7) * (100vw - 200px) / (1920 - 200));
+    }
+}
+
+.userPhoto {
+    width: 6.25vw;
+    height: 6.25vw;
+    min-width: 45px;
+    min-height: 45px;
+    background: black;
+    border-radius: 50%;
+    margin-left: 1.3021vw;
+}
+
+.userNotesWrap {
+    display: flex; 
+}
+
+.userNote {
+    background: linear-gradient(94.12deg, rgba(255, 255, 255, 0.4) 7.77%, rgba(255, 255, 255, 0.1) 124.32%);
+    border-radius: 5px;
+    // width: 16.1458vw;
+    min-width: 100px;
+    padding: calc(4px + (11 - 4) * (100vw - 500px) / (1920 - 500)) 
+             calc(6px + (20 - 6) * (100vw - 200px) / (1920 - 200));
+    margin-left: calc(6px + (13 - 6) * (100vw - 200px) / (1920 - 200));
+    font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1F4868;
+}
+
+.addButton {
+    width: 10.4167vw;
+    min-width: 170px;
+    background: linear-gradient(94.12deg, rgba(255, 255, 255, 0.4) 7.77%, rgba(255, 255, 255, 0.1) 124.32%);
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    right: 0.5%;
+    top: 3%;
+    padding: calc(2px + (7 - 2) * (100vw - 200px) / (1920 - 200));
+    p {
+        white-space: nowrap;
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: calc(6px + (14 - 6) * (100vw - 200px) / (1920 - 200));
+        color: #1F4868;
+    }
+    div {
+        width: 1.3021vw;
+        height: 1.3021vw;
+        min-width: 15px;
+        min-height: 15px;
+    }
+}
+
+.addButtonPlus {
+    width: 1.3021vw;
+    height: 1.3021vw;
+    min-width: 15px;
+    min-height: 15px;
+    fill: #384859;
+}
+
+@media screen and (max-width: 1440px) {
+    .addButton {
+        min-width: calc(120px + (158 - 120) * (100vw - 768px) / (1440 - 768));
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .userHolder {
+        width: 97vw;
+    }
+    .addButton {
+        min-width: calc(95px + (120 - 95) * (100vw - 200px) / (768 - 200));
+    }
+}

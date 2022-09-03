@@ -1,0 +1,84 @@
+.loginWrap {
+    background: linear-gradient(112.15deg, rgba(255, 255, 255, 0.4) -1.65%, rgba(255, 255, 255, 0.1) 96.33%);
+    backdrop-filter: blur(40px);
+    border-radius: 5px;
+    width: 62.5vw;
+    height: 64.8155vh;
+    display: flex;
+}
+  
+.loginImageHolder {
+    width: 36.459vw;
+    height: 59.26vh;
+    margin: 2.7778vh 0vw 2.7778vh 1.5625vw;
+    background: #000000;
+}
+  
+.loginHolder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 2.60419vw;
+    input {
+        width: 19.063vw;
+        height: 3.519vh;
+        box-shadow: 
+        12px 12px 16px 0 rgba(255, 255, 255, 0.3) inset,
+        -8px -8px 12px 0 rgba(0, 0, 0, .25) inset;
+        border: none;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.35) -1.65%;
+        margin-bottom: 1vh;
+    }
+    input::placeholder {
+        font-family: 'Roboto';
+        padding-left: 0.3vw;
+        color: #000000;
+        opacity: 0.8;
+    }
+    button{
+        width: 11.9799vw;
+        height: 4.631vh;
+        box-shadow: 
+        12px 12px 16px 0 rgba(255, 255, 255, 0.3) inset,
+        -8px -8px 12px 0 rgba(0, 0, 0, .25) inset;
+        border: none;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.35) -1.65%;
+        align-self: flex-end;
+        font-family: 'Roboto';
+    }
+    p { 
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 26px;
+        color: #000000;
+        margin-top: 3.8889vh;
+        margin-bottom: 4.6296vh;
+    }   
+}
+  
+.logoHolder {
+    width: 10.41725vw;
+    height: 6.4825vh;
+    background: darkgray;
+    margin-top: 5.55559vh;
+}
+  
+.userDontHaveAccount {
+    display: flex;
+    align-items: center;
+}
+  
+.userDontHaveAccount{
+    margin-top: 12.963vh;
+    a {
+        margin-left: 0.5vw;
+    }
+    a, span {
+        font-size: 14px;
+        color: #000000;
+    }
+}
