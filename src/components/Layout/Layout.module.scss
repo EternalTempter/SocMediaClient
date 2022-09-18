@@ -1,10 +1,14 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
 .navbar {
     height: 100vh;
     position: fixed;
-    width: 4.1667vw;
+    width: 3.7vw;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    align-items: center;
     background: linear-gradient(179.76deg, rgba(255, 255, 255, 0.4) -26.89%, rgba(255, 255, 255, 0.1) 189.85%);
     border-radius: 3px;
     z-index: 9999;
@@ -24,6 +28,14 @@
 .rightNavbar {
     right: 0;
     top: 0;
+}
+
+.chat, .news, .account, .friends, .group, .notifications {
+    @include svgIconStyles(2.6042vw, 30px, $darkIconColor);
+}
+
+.notifications.active {
+    fill: rgb(184, 27, 27);
 }
 
 

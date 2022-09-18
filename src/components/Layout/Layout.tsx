@@ -5,6 +5,12 @@ import { useGetAllNotificationsQuery } from '../../store/socmedia/friends/friend
 import Notifications from '../Notifications/Notifications';
 import jwt_decode from 'jwt-decode';
 import styles from './Layout.module.scss';
+import Chat from '../../assets/svg/Chat';
+import News from '../../assets/svg/News';
+import Account from '../../assets/svg/Account';
+import Friends from '../../assets/svg/Friends';
+import Group from '../../assets/svg/Group';
+import NotificationsSvg from '../../assets/svg/NotificationsSvg';
 
 const Layout = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -23,27 +29,28 @@ const Layout = () => {
                     Домой
                 </Link>
                 <Link to='/messages'>
-                    <img src=""/>
-                    Сообщения
+                    <Chat className={styles.chat}/>
                 </Link>
                 <Link to='/news'>
-                    <img src=""/>
-                    Посты
+                    <News className={styles.news}/>
                 </Link>
-                    <Link to={['/account/', user.email].join('')}>
-                    <img src=""/>
-                    Аккаунт
+                <Link to={['/account/', user.email].join('')}>
+                    <Account className={styles.account}/>
                 </Link>
             </nav>
             <nav className={[styles.rightNavbar, styles.navbar].join(' ')}>
                 <Link to='/friends'>
-                    <img src=""/>
-                    Друзья
+                    <Friends className={styles.friends}/>
                 </Link>
-                <button onClick={() => setAreNotificationsVisible(true)}>{data && data ? 'Уведомления' : 'Новое уведомление'}</button>
+                <div onClick={() => setAreNotificationsVisible(true)}>
+                    {data && data.filter(elem => elem.profile_to === user.email).length > 0 ? 
+                        <NotificationsSvg className={styles.notifications} secondClassName={styles.active}/>
+                        : 
+                        <NotificationsSvg className={styles.notifications}/> 
+                    }
+                </div>
                 <Link to='/groups'>
-                    <img src=""/>
-                    Группы
+                    <Group className={styles.group}/>
                 </Link>
                 <Link to='/'>
                     <img src=""/>

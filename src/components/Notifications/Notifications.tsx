@@ -4,6 +4,7 @@ import { useGetAllNotificationsQuery } from '../../store/socmedia/friends/friend
 import jwt_decode from 'jwt-decode';
 import styles from './Notifications.module.scss';
 import AddInFriendsNotifications from '../AddInFriendsNotification/AddInFriendsNotifications';
+import Plus from '../../assets/svg/Plus';
 
 interface NotificationsProps {
     visible: boolean;
@@ -20,7 +21,9 @@ const Notifications:FC<NotificationsProps> = ({visible, setVisible}) => {
     const {isLoading, isError, data} = useGetAllNotificationsQuery(user.email);
     return (
         <div className={rootClasses.join(' ')}>
-            <div className={styles.notificationsClose} onClick={() => setVisible(false)}></div>
+            <div className={styles.notificationsClose} onClick={() => setVisible(false)}>
+                <Plus className={styles.notificationsCloseIcon}/>
+            </div>
             {data && data.map(item =>          
                 (item.profile_from !== user.email) ? <AddInFriendsNotifications key={item.id} notification={item}/> : ''
             )}

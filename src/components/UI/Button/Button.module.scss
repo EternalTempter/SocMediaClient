@@ -1,0 +1,20 @@
+.button {
+    width: 10.42vw;
+    min-width: 120px;
+    padding: calc(6px + (10 - 6) * ( (100vw - 200px) / ( 1920 - 200) )) 0.5208vw;
+    background: rgb(53, 53, 53);
+    font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+    border: none;
+    margin-left: 1.0417vw;
+    background: linear-gradient(94.12deg, rgba(255, 255, 255, 0.4) 7.77%, rgba(255, 255, 255, 0.1) 124.32%);
+    border-radius: 5px;
+    color: #1F4868;
+    transition: 0.5s;
+    &.active {
+        box-shadow: inset -10px -10px 20px rgba(255, 255, 255, 0.3), inset 10px 10px 20px rgba(17, 48, 77, 0.45);
+        transition: 0.5s;
+    }
+    &:first-child {
+        margin-left: 0;
+    }
+}

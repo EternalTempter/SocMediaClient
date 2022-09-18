@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { IUser } from '../../models';
+import { IPost, IUser } from '../../models';
 import jwt_decode from 'jwt-decode';
 import { useChangeUserStatusMutation, useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
 import styles from './AccountPage.module.scss';
@@ -12,27 +12,56 @@ import Search from '../../assets/svg/Search';
 import Comment from '../../assets/svg/Comment';
 import { useNavigate, useParams } from 'react-router-dom';
 import Send from '../../assets/svg/Send';
-import { useCreatePostMutation, useGetAllUserPostsQuery } from '../../store/socmedia/posts/posts.api';
+import { useCreatePostMutation, useFindUserPostsByDescriptionQuery, useLazyGetAllUserPostsQuery } from '../../store/socmedia/posts/posts.api';
 import Post from '../../components/Post/Post';
 import { useAcceptFriendRequestMutation, useDeleteFriendRequestMutation, useGetAllFriendsQuery, useGetAllNotificationsQuery, useSendFriendRequestMutation } from '../../store/socmedia/friends/friends.api';
+import { useObserver } from '../../hooks/useObserver';
+import ImageOptionsModal from '../../components/ImageOptionsModal/ImageOptionsModal';
+import Options from '../../assets/svg/Options';
+import InputBar from '../../components/InputBar/InputBar';
+import Input from '../../components/UI/Input/Input';
+import Button from '../../components/UI/Button/Button';
+import { useDebounce } from '../../hooks/useDebounce';
+import UserOptionsModal from '../../components/UserOptionsModal/UserOptionsModal';
+import UserStats from '../../components/UserStats/UserStats';
 
 const AccountPage = () => {
+    const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const navigate = useNavigate();
+
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState<number | null>(null); 
 
     const [userStatusClasses, setUserStatusClasses] = useState([styles.editStatus]);
     const [isEditing, setIsEditing] = useState(false);
     const [editingPartValue, setEditingPartValue] = useState('Нажми для редактирования');
     const [userCurrentStatus, setUserCurrentStatus] = useState('');
-    const [userCurrentPost, setUserCurrentPost] = useState('');
+    const [userCurrentPostDescription, setUserCurrentPostDescription] = useState('');
+    const [userCurrentFile, setUserCurrentFile] = useState();
     const [buttonState, setButtonState] = useState('');
 
-    const {id} = useParams();
+    const [posts, setPosts] = useState<IPost[]>([]);
 
-    const user : IUser = jwt_decode(localStorage.getItem('token') || '');
-    
+    const [search, setSearch] = useState('');
+    const [isSearch, setIsSearch] = useState(false);
+    const debounced = useDebounce(search);
+    const {isError: isFindedPostsError, isLoading: isFindedPostsLoading, data: findedPostsData} = useFindUserPostsByDescriptionQuery({description: debounced, user_id: user.email}, {
+        skip: debounced.length < 1
+    });
+
+    const lastElement = useRef<HTMLDivElement | null>(null);
+
+    const [visible, setVisible] = useState(false);
+    const [imageEditingType, setImageEditingType] = useState('');
+
+    const [visibleUserOptionsModal, setVisibleUserOptionsModal] = useState(false);
+
+    const [optionsButton, setOptionsButton] = useState('Популярные');
+
+    const {id} = useParams();
     const {isError, isLoading, data} = useGetUserByEmailQuery(id || user.email);
-    const {isError: isUserPostsError, isLoading: isUserPostsLoading, data: userPostsData} = useGetAllUserPostsQuery(id || user.email);
-    const {isError: isUserDataError, isLoading: isUserDataLoading, data: userData} = useGetUserDataQuery(id || user.email);
+    const [getPosts, {isError: isUserPostsError, isLoading: isUserPostsLoading, data: userPostsData}] = useLazyGetAllUserPostsQuery();
+    const {isError: isUserDataError, isLoading: isUserDataLoading, data: userData, refetch} = useGetUserDataQuery(id || user.email);
 
     const [changeStatus, {isError: isStatusError, isLoading: isStatusLoading, data: statusData}] = useChangeUserStatusMutation();
     const [createUserPost, {isError: isUserPostError, isLoading: isUserPostLoading, data: userPostData}] = useCreatePostMutation();
@@ -46,6 +75,22 @@ const AccountPage = () => {
 
     function checkIsNotFriend(user) {
         return (friendsData?.filter(friend => (friend.profile_from === (data && data.email) || friend.profile_to === (data && data.email))))?.length == 0
+    }
+
+    function hidePost(id: number) {
+        setPosts(posts.filter(post => post.id !== id))
+    }
+
+    function showPopularPostsHandler() {
+        setOptionsButton('Популярные');
+    }
+
+    function showMostViewedPostsHandler() {
+        setOptionsButton('Просматриваемые');
+    }
+
+    const showFileUpload = e => {
+        setUserCurrentFile(e.target.files[0]);
     }
 
     useEffect(() => {
@@ -83,9 +128,14 @@ const AccountPage = () => {
     }
 
     function createPost(key?: any) {
-        if(userCurrentPost.length > 0 && (key === 'Enter' || key === 'click')) {
-            createUserPost({post_handler_type: 'USER', post_handler_id: user.email, description: userCurrentPost})
-            setUserCurrentPost('');
+        if(userCurrentPostDescription.length > 0 && (key === 'Enter' || key === 'click')) {
+            const formData = new FormData()
+            formData.append('description', userCurrentPostDescription);
+            formData.append('img', userCurrentFile ? userCurrentFile : 'none');
+            formData.append('post_handler_type', 'USER');
+            formData.append('post_handler_id', user.email);
+            createUserPost(formData);
+            setUserCurrentPostDescription('');
         }
     }
 
@@ -107,15 +157,50 @@ const AccountPage = () => {
         }
     }
 
+    function showImageOptionsHandler(type: string) {
+        setVisible(true);
+        setImageEditingType(type);
+    }
+
+    useObserver(lastElement, isUserPostsLoading, totalPages, page, () => {
+        setPage((page) => page + 1)
+    });
+
+    useEffect(() => {
+        getPosts({id: id || user.email, limit: 5, page: page})
+    }, [page])
+
+    useEffect(() => {
+        if(userPostsData) {
+            setPosts([...posts, ...userPostsData.rows])
+            if(totalPages === null) {
+                setTotalPages(userPostsData.count);
+            }
+        }
+    }, [userPostsData])
+
     useEffect(() => {
         if(userData) {
-            setUserCurrentStatus(userData.status);
+            setUserCurrentStatus(userData.status !== '' ? userData.status : 'Статус не задан');
         }
     }, [userData]);
 
+    useEffect(() => {
+        setIsSearch(debounced.length > 1 && findedPostsData?.length! > 0)
+    }, [debounced]);
+
     return (
         <div className={styles.accountPageWrap}>
-            <div className={styles.panoramaImage}>
+            {
+                visibleUserOptionsModal && <UserOptionsModal visible={visibleUserOptionsModal} setVisible={setVisibleUserOptionsModal} refetch={refetch}/>
+            }
+            {
+                userData && visible && <ImageOptionsModal id={id || user.email} mainImage={userData.image} panoramaImage={userData.panoramaImage} visible={visible} setVisible={setVisible} type={imageEditingType}/>
+            }
+            <div className={styles.panoramaImage} onClick={() => showImageOptionsHandler('panoramaImage')}>
+                {(userData && userData.panoramaImage !== 'none') &&
+                    <img src={'http://localhost:5000/' + userData.panoramaImage}/>
+                }
                 <div>
                     <More className={styles.accountMore}/>
                 </div>
@@ -123,29 +208,41 @@ const AccountPage = () => {
             <div className={styles.accountPage}>
                 <div className={styles.userInfo}>
                     <div className={styles.userImageHolder}>
-                        <div className={styles.userImage}/>
+                        <div className={styles.userImage} onClick={() => showImageOptionsHandler('regularImage')}>
+                            {(userData && userData.image !== 'none') &&
+                               <img src={'http://localhost:5000/' + userData.image}/>
+                            }
+                        </div>
                     </div>
                     {
-                        (id !== user.email) &&
-                        <div className={styles.userAddInFriends} onClick={() => sendFrindRequestHandler(data && data.email)}>
-                            {buttonState}
-                            <div>
-                                {buttonState === 'Написать сообщение' 
-                                    ? 
-                                    <Comment className={styles.userAddInFriendsPlus}/>
-                                    :
-                                    buttonState === 'Запрос отправлен' 
-                                    ? 
-                                    <Angle className={styles.userAddInFriendsPlus}/> 
-                                    :
-                                    <Plus className={styles.userAddInFriendsPlus}/>
-                                }
+                        (id !== user.email) 
+                        ?
+                            <div className={styles.userAddInFriends} onClick={() => sendFrindRequestHandler(data && data.email)}>
+                                {buttonState}
+                                <div>
+                                    {buttonState === 'Написать сообщение' 
+                                        ? 
+                                        <Comment className={styles.userAddInFriendsPlus}/>
+                                        :
+                                        buttonState === 'Запрос отправлен' 
+                                        ? 
+                                        <Angle className={styles.userAddInFriendsPlus}/> 
+                                        :
+                                        <Plus className={styles.userAddInFriendsPlus}/>
+                                    }
+                                </div>
                             </div>
+                        :
+                            <div className={styles.userOptionsWrap} onClick={() => setVisibleUserOptionsModal(true)}>
+                                <Options className={styles.userOptions}/>
+                            </div>
+                    }
+                    {
+                        (id !== user.email) &&
+                        <div className={styles.hiddenUserAddInFriends}>
+                            <Plus className={styles.hiddenUserAddInFriendsPlus}/>
                         </div>
                     }
-                    <div className={styles.hiddenUserAddInFriends}>
-                        <Plus className={styles.hiddenUserAddInFriendsPlus}/>
-                    </div>
                     <p className={styles.userName}>{data && data.name} {data && data.surname}</p>
                     <div className={styles.editablePart}>
                         {!isEditing ? 
@@ -174,70 +271,53 @@ const AccountPage = () => {
                         <Angle className={styles.moreButtonAngle}/>
                     </div>
                 </div>
-                <div className={styles.userStats}>
-                    <div>
-                        <p className={styles.userStatsCount}>23</p>
-                        <p className={styles.userStatsType}>друзей</p>
-                    </div>
-                    <div>
-                        <p className={styles.userStatsCount}>44</p>
-                        <p className={styles.userStatsType}>группы</p>
-                    </div>
-                    <div>
-                        <p className={styles.userStatsCount}>56</p>
-                        <p className={styles.userStatsType}>подписчиков</p>
-                    </div>
-                    <div>
-                        <p className={styles.userStatsCount}>4520</p>
-                        <p className={styles.userStatsType}>фото</p>
-                    </div>
-                    <div>
-                        <p className={styles.userStatsCount}>123</p>
-                        <p className={styles.userStatsType}>аудиозаписи</p>
-                    </div>
-                    <div>
-                        <p className={styles.userStatsCount}>65</p>
-                        <p className={styles.userStatsType}>видеозаписи</p>
-                    </div>
-                    <div>
-                        <p className={styles.userStatsCount}>16</p>
-                        <p className={styles.userStatsType}>записи</p>
-                    </div>
-                </div>
-                <div className={styles.addPostWrap}>
-                    <div>
-                        <input 
-                            type="text" 
-                            placeholder='Расскажите что у вас нового'
-                            value={userCurrentPost}
-                            onChange={e => setUserCurrentPost(e.target.value)}
-                            // onKeyDown={e => createPost(e.key)}
-                        />
+                <UserStats id={String(id)}/>
+                {(id === user.email) &&
+                    <div className={styles.addPostWrap}>
                         <div>
-                            <Clip className={styles.addPostClip}/>
-                            <div onClick={() => createPost('click')}>
-                                <Send className={styles.addPostSend}/>
+                            <input 
+                                type="text" 
+                                placeholder='Расскажите что у вас нового'
+                                value={userCurrentPostDescription}
+                                onChange={e => setUserCurrentPostDescription(e.target.value)}
+                                // onKeyDown={e => createPost(e.key)}
+                            />
+                            <div>
+                                <div onClick={showFileUpload}>
+                                    <input type="file" className={styles.fileUploadInput} onChange={showFileUpload}/>
+                                    <Clip className={styles.addPostClip}/>
+                                </div>
+                                <div onClick={() => createPost('click')}>
+                                    <Send className={styles.addPostSend}/>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
             <div className={styles.userPostsOptions}>
-                <div className={styles.postFinder}>
-                    <input type="text" placeholder="Искать записи..."/>
-                    <div>
-                        <Search className={styles.postFinderSearch}/>
+                <InputBar>
+                    <div className={styles.postFinder}>
+                        <Input placeholder='Искать записи...' value={search} onChange={setSearch}/>
                     </div>
-                </div>
-                <div className={styles.postOptions}>
-                    <button>Все записи</button>
-                    <button>Только мои записи</button>
-                </div>
+                    <div className={styles.postOptions}>
+                        <Button onClick={showPopularPostsHandler} isActive={(optionsButton === 'Популярные')}>
+                            Популярные
+                        </Button>
+                        <Button onClick={showMostViewedPostsHandler} isActive={(optionsButton === 'Просматриваемые')}>
+                            Просматриваемые
+                        </Button>
+                    </div>
+                </InputBar>
             </div>
             <div className={styles.userPosts}>
-                {userPostsData && userPostsData.map(post => 
-                                                    <Post post={post}
-                                                />)}
+                {!isSearch && posts.map(post => 
+                    <Post key={post.id} hidePost={hidePost} post={post}/>
+                )}
+                {findedPostsData && isSearch && findedPostsData.map(post =>       
+                    <Post key={post.id} hidePost={hidePost} post={post}/>
+                )}
+                <div className={styles.lastElement} ref={lastElement}></div>
             </div>
         </div>
     );

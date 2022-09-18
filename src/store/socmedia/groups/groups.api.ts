@@ -23,6 +23,11 @@ export const groupsApi = createApi({
                 }
             })
         }),
+        getAllGroups: build.query<IGroup[], void>({
+            query: () => ({
+                url: 'getAll',
+            })
+        }),
         getAllUserGroupSubscriptions: build.query<IGroupUsers[], string>({
             query: (id: string) => ({
                 url: 'getAllUserSubscriptions',
@@ -40,4 +45,4 @@ export const groupsApi = createApi({
     })
 })
 
-export const {useFindAllGroupsByNameQuery, useGetAllUserGroupSubscriptionsQuery, useCreateGroupMutation, useGetGroupByIdQuery} = groupsApi;
+export const {useFindAllGroupsByNameQuery, useGetAllUserGroupSubscriptionsQuery, useCreateGroupMutation, useGetGroupByIdQuery, useLazyGetAllGroupsQuery} = groupsApi;

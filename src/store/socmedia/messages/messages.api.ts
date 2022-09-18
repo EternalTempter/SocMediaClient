@@ -4,23 +4,43 @@ import { IMessage } from '../../../models';
 export const messagesApi = createApi({
     reducerPath: 'messages/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/api/'
+        baseUrl: 'http://localhost:5000/api/messages/'
     }),
     endpoints: build => ({
-        getMessages: build.query<IMessage[], {}>({
+        getMessages: build.query<any, {}>({
             query: (usersId: {}) => ({
-                url: 'messages/getAll',
+                url: 'getAll',
                 params: usersId
             })
         }),
         postMessage: build.mutation<IMessage[], {}>({
             query: (message: {}) => ({
-                url: 'messages/create',
+                url: 'create',
                 method: 'post',
                 body: message
+            })
+        }),
+        updateMessage: build.mutation<any, {}>({
+            query: (body: {}) => ({
+                url: 'updateMessage',
+                method: 'put',
+                body: body
+            })
+        }),
+        deleteMessage: build.mutation<any, {}>({
+            query: (body: {}) => ({
+                url: 'deleteMessage',
+                method: 'delete',
+                body: body
+            })
+        }),
+        findMessages: build.query<any, {}>({
+            query: (params: {}) => ({
+                url: 'findMessages',
+                params: params
             })
         }),
     })
 })
 
-export const {useGetMessagesQuery, usePostMessageMutation} = messagesApi;
+export const {useGetMessagesQuery, usePostMessageMutation, useUpdateMessageMutation, useDeleteMessageMutation, useFindMessagesQuery} = messagesApi;

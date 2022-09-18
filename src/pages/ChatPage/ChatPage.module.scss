@@ -1,3 +1,6 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
 .chatWrap {
     height: 100vh;
     position: relative;
@@ -31,28 +34,19 @@
         background: gray;
     }
     p {
+        @include fontStyles($textColor);
         font-size: 12px;
         margin: 0;
-        margin-left: calc(5px + (12 - 5) * ( (100vw - 0px) / ( 1920 - 0) )) ;
-        color: #1F4868;
-        font-family: 'Roboto';
+        margin-left: calc(5px + (12 - 5) * ( (100vw - 0px) / ( 1920 - 0) ));
     }
 }
 
 .charHeaderBackArrow {
-    width: 2.0833vw;
-    height: 2.0833vw;
-    min-width: 25px;
-    min-height: 25px;
-    fill: #6c88a6;
+    @include svgIconStyles(2.0833vw, 25px, $lightIconColor);
 }
 
 .chatHeaderMore {
-    width: 2.0833vw;
-    height: 2.0833vw;
-    min-width: 25px;
-    min-height: 25px;
-    fill: #384859;
+    @include svgIconStyles(2.0833vw, 25px, $darkIconColor);
 }
   
 .leftSideUser {
@@ -84,24 +78,18 @@
     height: 8.5938vw;
     background: lightgray;
     border-radius: 50%;
+    @include roundedImageStyles();
 }
 
 .chatArea {
     height: 100%;
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden; 
     display: flex;
     flex-direction: column;
     background: linear-gradient(137.07deg, rgba(255, 255, 255, 0.2) 4.35%, rgba(255, 255, 255, 0.3) 4.36%, rgba(255, 255, 255, 0.1) 95.32%);
-    &::-webkit-scrollbar {
-        width: 0.25em;
-        height: 0.25em;
-    }
-    &::-webkit-scrollbar-thumb {
-        background-color: rgba(255,255,255,.1);
-        border-radius: 3px;
-    }
+    @include scrollStyles(0.25em);
 }
 
 .chatInteractive {
@@ -113,6 +101,7 @@
     width: 100%;
     display: flex;
     align-items: center;
+    position: relative;
     background: linear-gradient(90.61deg, rgba(255, 255, 255, 0.5) 13.27%, rgba(255, 255, 255, 0.15) 95.79%);
 }
 
@@ -123,7 +112,6 @@
     align-items: center;
     textarea{
         border: none;
-        // width: 43.2292vw;
         height: 3.125vw;
         min-height: 35px;
         width: 100%;   
@@ -138,6 +126,11 @@
         overflow-y: hidden;
         line-height: 40px;
     }
+}
+
+.lastElement {
+    height: 10px;
+    visibility: hidden;
 }
 
 .chatUserInputButtons{
@@ -161,29 +154,17 @@
 }
 
 .chatUserInputSend {
-    width: 2.6042vw;
-    height: 2.6042vw;
-    fill: #384859;
-    min-width: 20px;
-    min-height: 20px;
+    @include svgIconStyles(2.6042vw, 20px, $darkIconColor);
 }
 
 .chatButtonsSmile, .chatButtonsClip {
-    width: 1.5625vw;
-    height: 1.5625vw;
     margin-left: 0.7813vw;
-    fill: #384859;
-    min-width: 20px;
-    min-height: 20px;
+    @include svgIconStyles(1.5625vw, 20px, $darkIconColor);
 }
 
 .chatButtonsMicrophone {
-    width: 2.6042vw;
-    height: 2.6042vw;
+    @include svgIconStyles(2.6042vw, 20px, $darkIconColor);
     margin-left: 1.0417vw;
-    fill: #384859;
-    min-width: 20px;
-    min-height: 20px;
 }
 
 .ourMessage, .otherUserMessage {
@@ -195,29 +176,66 @@
     border-radius: 3px;
     margin-top: calc(20px + (45 - 20) * ( (100vw - 0px) / ( 1920 - 0) ));
     font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
-    color: #1F4868;
-    font-family: 'Roboto';
+    @include fontStyles($textColor);
     p {
         margin: 0;
         position: absolute;
         top: -22px;
         font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
-        color: #1F4868;
-        font-family: 'Roboto';
+        @include fontStyles($textColor);
     }
 }
-.ourMessage {
+.ourMessageWrap {
+    margin-right: calc(10px + (65 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
+    align-self: flex-end;
+    p {
+        right: 0.5vw;
+    }
+}
+
+.otherUserMessage {
     margin-left: calc(10px + (65 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
     align-self: flex-start;
     p {
         left: 0.5vw;
     }
 }
-.otherUserMessage {
-    margin-right: calc(10px + (65 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
-    align-self: flex-end;
+
+.messageOptions.on {
+    display: flex;
+    position: absolute;
+    top: -20px;
+    left: 1%;
+}
+
+.messageOptions {
+    display: none;
+}
+
+.messageOptionsEdit, .messageOptionsTrashCan {
+    @include svgIconStyles(1.0417vw, 14px, $darkIconColor);
+    margin-left: 0.7813vw;
+}
+
+.editingMode {
+    position: absolute;
+    top: -70%;
+    left: 7%;
+    width: 45.7292vw;
+    display: flex;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
     p {
-        right: 0.5vw;
+        margin: 0;
+        font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
+        @include fontStyles($textColor);
+    }
+    button {
+        padding: 2px;
+        font-size: 28px;
+        border: none;
+        background: #1F4868;
     }
 }
 

@@ -1,19 +1,44 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
 .notification {
     width: 100%;
-    background: black;
+    border: 1px solid #302f2f;
+    background: rgba(0, 0, 0, 0.075);
     margin-top: 0.7vh;
-    border-radius: 5px;
+    border-radius: 15px;
     display: flex;
     justify-content: space-between;
     color: white;
     box-sizing: border-box;
     padding: 3%;
     p {
-        margin: 0;
+        margin: 0 0 0 10px;
         padding: 0;
-        font-size: 12px;
+        font-size: calc(14px - (14 - 8) * (100vw - 200px) / (1920 - 200));
+        @include fontStyles($textColor);
     }
-    button {
-        border: none;
+    div {
+        display: flex;
+        align-items: center;
     }
+}
+
+.image {
+    min-width: 3.13vw;
+    min-height: 3.13vw;
+    width: 3.13vw;
+    height: 3.13vw;
+    border-radius: 50%;
+    background: gray;
+    @include roundedImageStyles();
+}
+
+.checkMark, .decline {
+    @include svgIconStyles(1.5625vw, 18px, $darkIconColor);
+}
+
+.declineWrap {
+    transform: rotate(45deg);
+    margin-left: 10px;
 }

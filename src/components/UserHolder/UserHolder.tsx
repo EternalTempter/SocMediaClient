@@ -8,21 +8,24 @@ import Angle from '../../assets/svg/Angle';
 import { useGetUserByEmailQuery } from '../../store/socmedia/users/users.api';
 import Comment from '../../assets/svg/Comment';
 import { useNavigate } from 'react-router-dom';
+import { useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
 
 interface UserHolderProps {
     user_id: string
     isFriend: boolean
+    refetch: () => void
 }
 
-const UserHolder:FC<UserHolderProps> = ({user_id, isFriend}) => {
+const UserHolder:FC<UserHolderProps> = ({user_id, isFriend, refetch}) => {
     const navigate = useNavigate();
 
     const [buttonState, setButtonState] = useState('none');
 
     const mainUser : IUser = jwt_decode(localStorage.getItem('token') || '');
+    const {isError: isUserDataError, isLoading: isUserDataLoading, data: userData} = useGetUserDataQuery(user_id);
     const {isLoading, isError, data} = useGetAllNotificationsQuery(mainUser.email);
 
-    const {isLoading: isUserLoading, isError: isUserError, data: userData} = useGetUserByEmailQuery(user_id);
+    const {isLoading: isUserLoading, isError: isUserError, data: user} = useGetUserByEmailQuery(user_id);
 
     const [sendFriendRequest, {isLoading: isFriendRequestLoading, isError: isFriendRequestError, data: friendRequestData}] = useSendFriendRequestMutation()
     const [sendDeleteFriendRequest, {isLoading: isFriendDeleteRequestLoading, isError: isFriendDeleteRequestError, data: friendDeleteRequestData}] = useDeleteFriendRequestMutation();
@@ -43,6 +46,7 @@ const UserHolder:FC<UserHolderProps> = ({user_id, isFriend}) => {
         }
         else {
             sendAcceptFriendRequest({profile_from: email, profile_to: mainUser.email})
+            refetch();
             setButtonState('Написать сообщение');
 
         }
@@ -52,8 +56,8 @@ const UserHolder:FC<UserHolderProps> = ({user_id, isFriend}) => {
         if(isFriend) {
             setButtonState('Написать сообщение')
         }
-        if(data && userData && !isFriend) {          
-            let asdf = data.filter(notification => (notification.profile_to === userData.email || notification.profile_from === userData.email));
+        if(data && user && !isFriend) {          
+            let asdf = data.filter(notification => (notification.profile_to === user.email || notification.profile_from === user.email));
             if(asdf.length === 0) 
                 setButtonState('Добавить в друзья')
             else if(asdf[0].profile_from === mainUser.email)
@@ -61,19 +65,23 @@ const UserHolder:FC<UserHolderProps> = ({user_id, isFriend}) => {
             else 
                 setButtonState('Принять запрос')
         } 
-    }, [data, userData])
+    }, [data, user])
 
     return (
         <div className={styles.userHolder} onClick={() => navigate(`/account/${user_id}`)}>
-            <div className={styles.userPhoto}></div>
+            <div className={styles.userPhoto}>
+                {(userData && userData.image !== 'none') &&
+                    <img src={'http://localhost:5000/' + userData.image}/>
+                }
+            </div>
             <div className={styles.userInfo}>
-                <p>{userData && userData.name} {userData && userData.surname}</p>
+                <p>{user && user.name} {user && user.surname}</p>
                 <div className={styles.userNotesWrap}>
                     <div className={styles.userNote}>Unique case</div>
                     <div className={styles.userNote}>Unique case</div>
                 </div>
             </div>
-            <div className={styles.addButton} onClick={userData ? event => sendFrindRequestHandler(event, userData.email) : undefined}>
+            <div className={styles.addButton} onClick={user ? event => sendFrindRequestHandler(event, user.email) : undefined}>
                 <p>{buttonState}</p>
                 <div>
                     {buttonState === 'Написать сообщение' 

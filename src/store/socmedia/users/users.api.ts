@@ -37,7 +37,12 @@ export const usersApi = createApi({
                 }
             })
         }),
+        getAllUsers: build.query<IUser[], void>({
+            query: () => ({
+                url: 'user/getAll',
+            })
+        }),
     })
 })
 
-export const { useAuthorizeMutation, useRegistrateMutation, useGetUserByEmailQuery, useLazyGetUserByEmailQuery, useFindAllUsersByNameQuery} = usersApi;
+export const { useAuthorizeMutation, useRegistrateMutation, useGetUserByEmailQuery, useLazyGetUserByEmailQuery, useFindAllUsersByNameQuery, useLazyGetAllUsersQuery} = usersApi;

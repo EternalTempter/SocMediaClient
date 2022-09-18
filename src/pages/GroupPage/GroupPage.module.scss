@@ -1,3 +1,6 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
 .groupPageWrap {
     margin-top: 1.0417vw;
     z-index: 3;
@@ -8,14 +11,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    &::-webkit-scrollbar {
-        width: 0.45em;
-        height: 0.45em;
-    }
-    &::-webkit-scrollbar-thumb {
-        background-color: rgba(255,255,255,.25);
-        border-radius: 3px;
-    }
+    @include scrollStyles(0.45em);
 }
 
 .groupWrap {
@@ -74,20 +70,14 @@
 }
 
 .groupName {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
+    @include fontStyles($textColor);
     font-size: calc(16px + (22 - 16) * (100vw - 768px) / (1920 - 768));
-    color: #1F4868;
     margin: 0;
 }
 
 .groupUsersAmount {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
+    @include fontStyles($textColor);
     font-size: calc(10px + (16 - 10) * (100vw - 768px) / (1920 - 768));
-    color: #1F4868;
     text-align: center;
     margin: 0.7292vw 0 0.9375vw 0;
     white-space: nowrap;
@@ -158,11 +148,7 @@
 }
 
 .subscribeButtonHeart, .shareButton {
-    width: 1.3021vw;
-    height: 1.3021vw;
-    min-width: 18px;
-    min-height: 18px;
-    fill: #384859;
+    @include svgIconStyles(1.3021vw, 18px, $darkIconColor);
 }
 
 .groupMobileViewButtons {
@@ -185,12 +171,9 @@
     border-radius: 4px;
     margin-top: 1.0417vw;
     p {
+        @include fontStyles($textColor);
         margin: 0.7813vw;
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
         font-size: calc(8px + (14 - 8) * (100vw - 768px) / (1920 - 768));
-        color: #1F4868;
     }
 }
 
@@ -202,11 +185,7 @@
 }
 
 .moreButtonAngle {
-    width: 2.0833vw;
-    height: 2.0833vw;
-    min-width: 20px;
-    min-height: 20px;
-    fill: #384859;
+    @include svgIconStyles(2.0833vw, 20px, $darkIconColor);
 }
 
 @media screen and (max-width: 1023px) {

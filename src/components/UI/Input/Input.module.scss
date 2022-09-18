@@ -1,0 +1,34 @@
+@import "../../../styles/Mixins.scss";
+@import "../../../styles/Variables.scss";
+
+.inputWrap {
+    min-width: 300px; 
+    width: 26.0417vw;  
+    position: relative;
+    input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        box-sizing: border-box;
+        padding: calc(7px + (10 - 7) * ( (100vw - 200px) / ( 1920 - 200) ));
+        background: rgba(217, 217, 217, 0.3);
+        border-radius: 5px;
+        font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+    }
+    input::placeholder {
+        color: #1F4868;
+        margin-top: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+        font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+    }
+    div {
+        position: absolute;
+        right: calc(3px + (10 - 3) * ( (100vw - 200px) / ( 1920 - 200) ));
+        top: calc(2px + (7 - 2) * ( (100vw - 200px) / ( 1920 - 200) ));
+        width: 0%;
+        min-width: 20px;
+    }
+}
+
+.search {
+    @include svgIconStyles(1.3021vw, 20px, $darkIconColor);
+}

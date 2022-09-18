@@ -12,7 +12,7 @@ export const groupUsersApi = createApi({
                 params: {
                     group_id
                 }
-            })
+            }),
         }),
         subscribeOnGroup: build.query<any, {}>({
             query: (params: {}) => ({
@@ -26,8 +26,16 @@ export const groupUsersApi = createApi({
                 method: 'delete',
                 body: body
             })
+        }),
+        getUserGroupSubsCount: build.query<any, string>({
+            query: (id: string) => ({
+                url: 'getUserGroupSubsCount',
+                params: {
+                    id: id
+                }
+            }),
         })
     })
 })
 
-export const {useGetAllGroupSubscribersQuery, useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation} = groupUsersApi;
+export const {useGetAllGroupSubscribersQuery, useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation, useGetUserGroupSubsCountQuery} = groupUsersApi;

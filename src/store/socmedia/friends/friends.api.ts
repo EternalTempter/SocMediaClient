@@ -66,7 +66,23 @@ export const friendsApi = createApi({
                 body: body
             })
         }),
+        getUserSubscribersCount: build.query<any, string>({
+            query: (id: string) => ({
+                url: 'getUserSubscribersCount',
+                params: {
+                    id: id
+                }
+            })
+        }),
+        getUserFriendsCount: build.query<any, string>({
+            query: (id: string) => ({
+                url: 'getUserFriendsCount',
+                params: {
+                    id: id
+                }
+            })
+        })
     })
 })
 
-export const {useGetAllFriendsQuery, useGetAllNotificationsQuery, useGetAllSubscribersQuery, useSendFriendRequestMutation, useRejectFriendRequestMutation, useAcceptFriendRequestMutation, useDeleteFriendMutation, useDeleteFriendRequestMutation} = friendsApi;
+export const {useGetAllFriendsQuery, useGetAllNotificationsQuery, useGetAllSubscribersQuery, useSendFriendRequestMutation, useRejectFriendRequestMutation, useAcceptFriendRequestMutation, useDeleteFriendMutation, useDeleteFriendRequestMutation, useGetUserFriendsCountQuery, useGetUserSubscribersCountQuery} = friendsApi;

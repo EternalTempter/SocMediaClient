@@ -11,9 +11,11 @@ import { useNavigate } from 'react-router-dom';
 interface GroupHolderProps {
     group_id: string
     user_subscriptions?: string[]
+    refetch: () => void
+    // refetchArgs: {}
 }
 
-const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions}) => {  
+const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions, refetch}) => {  
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
 
     const navigate = useNavigate();
@@ -30,11 +32,16 @@ const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions}) => {
             setButtonValue('Отписаться')
     }, [user_subscriptions])
 
-    function groupOptionHandler() {
-        if(buttonValue === 'Отписаться') 
+    function groupOptionHandler(event) {
+        event.stopPropagation();
+        if(buttonValue === 'Отписаться'){
             unsubscribe({group_id: group_id, id: user.email})
-        else 
+            refetch()
+        } 
+        else {
             subscribe({group_id: group_id, id: user.email});
+            refetch()
+        }
     }
 
     return (
@@ -53,9 +60,9 @@ const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions}) => {
                 </div>
                 <p>23 623 участников</p>
             </div>
-            <div className={styles.addButton} onClick={groupOptionHandler}>
+            <div className={styles.addButton} onClick={event => groupOptionHandler(event)}>
                 <p>{buttonValue}</p>
-                <div onClick={e => e.stopPropagation()}>
+                <div>
                     {buttonValue === 'Отписаться' ? <BrokenHeart className={styles.addButtonBrokenHeart}/> : <Like className={styles.addButtonHeart}/>}              
                 </div>
             </div>

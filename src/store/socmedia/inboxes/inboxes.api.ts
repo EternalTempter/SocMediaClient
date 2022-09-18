@@ -7,12 +7,10 @@ export const inboxesApi = createApi({
         baseUrl: 'http://localhost:5000/api/inbox/'
     }),
     endpoints: build => ({
-        getUserInboxes: build.query<IInbox[], string>({
-            query: (id: string) => ({
+        getUserInboxes: build.query<any, {}>({
+            query: (params: {}) => ({
                 url: 'get',
-                params: {
-                    id: id
-                }
+                params: params
             })
         }),
         updateLastInboxMessage: build.mutation<IInbox[], {}>({
@@ -38,4 +36,4 @@ export const inboxesApi = createApi({
     })
 })
 
-export const {useGetUserInboxesQuery, useUpdateLastInboxMessageMutation, useCreateInboxMutation, useGetInboxQuery} = inboxesApi;
+export const {useLazyGetUserInboxesQuery, useGetUserInboxesQuery, useUpdateLastInboxMessageMutation, useCreateInboxMutation, useGetInboxQuery} = inboxesApi;

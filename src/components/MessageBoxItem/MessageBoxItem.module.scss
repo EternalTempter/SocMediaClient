@@ -1,3 +1,6 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
 .message {
     background: linear-gradient(91.35deg, rgba(255, 255, 255, 0.4) 14.79%, rgba(255, 255, 255, 0.1) 69.05%);
     backdrop-filter: blur(40px);
@@ -6,9 +9,11 @@
     display: flex;
     margin-top: 5px;
     cursor: pointer;
+    position: relative;
 }
   
 .userImageHolder {
+    @include roundedImageStyles();
     width: 5.209vw;
     height: 5.209vw;
     min-width: 45px;
@@ -23,12 +28,9 @@
 }
   
 .userMessageGetter {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
+    @include fontStyles($textColor);
     font-size: calc(12px + (18 - 12) * ( (100vw - 0px) / ( 1920 - 0) ));
     line-height: 22px;
-    color: #4D4D4D;
     margin: 0;
     padding: 0;
     margin-top: calc(2px + (16 - 2) * ( (100vw - 0px) / ( 1920 - 0) ));
@@ -40,6 +42,7 @@
     margin-top: calc(0px + (13 - 0) * ( (100vw - 0px) / ( 1920 - 0) ));
     align-items: center;
     div {
+        @include roundedImageStyles();
         width: 2.0833vw;
         height: 2.0833vw;
         min-width: 20px;
@@ -49,25 +52,13 @@
         color: white;
     }
     p {
+        @include fontStyles($textColor);
         margin: 0;
         padding: 0;
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
         font-size: calc(10px + (16 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
         line-height: 22px;
-        color: #4D4D4D;
         margin-left: 11px;
     }
-}
-  
-.messageReadIndicator {
-    width: 1.0417vw;
-    height: 1.0417vw;
-    background: black;
-    // margin: 5.5556vh 5.2083vw 3.7037vh 0;
-    margin-left: auto;
-    border-radius: 50%;
 }
 
 @media screen and (max-width: 768px){

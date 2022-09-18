@@ -2,14 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useDebounce } from '../../hooks/useDebounce';
 import { IUser } from '../../models';
 import { useGetAllFriendsQuery } from '../../store/socmedia/friends/friends.api';
-import { useFindAllUsersByNameQuery } from '../../store/socmedia/users/users.api';
+import { useFindAllUsersByNameQuery, useLazyGetAllUsersQuery } from '../../store/socmedia/users/users.api';
 import jwt_decode from 'jwt-decode';
 import styles from './FriendsPage.module.scss';
 import UserHolder from '../../components/UserHolder/UserHolder';
 import Search from '../../assets/svg/Search';
+import ButtonBar from '../../components/ButtonBar/ButtonBar';
+import Button from '../../components/UI/Button/Button';
+import InputBar from '../../components/InputBar/InputBar';
+import Input from '../../components/UI/Input/Input';
 
 const FriendsPage = () => {
     const mainUser : IUser = jwt_decode(localStorage.getItem('token') || '');
+
+    const [buttonState, setButtonState] = useState('Мои друзья');
     
     const [search, setSearch] = useState('');
     const [isSearch, setIsSearch] = useState(false);
@@ -17,39 +23,53 @@ const FriendsPage = () => {
     const {isError, isLoading, data} = useFindAllUsersByNameQuery(debounced, {
         skip: debounced.length < 1
     });
-    const {isError: isFriendsError, isLoading: isFriendsLoading, data: friendsData} = useGetAllFriendsQuery(mainUser.email);
+    const {isError: isFriendsError, isLoading: isFriendsLoading, data: friendsData, refetch} = useGetAllFriendsQuery(mainUser.email);
+    const [getAllUsers, {isError: isUsersError, isLoading: isUsersLoading, data: usersData}] = useLazyGetAllUsersQuery();
 
     useEffect(() => {
         setIsSearch(debounced.length > 1 && data?.length! > 0)
     }, [debounced]);
 
-    function checkIsFriend(user) {
-        return (friendsData?.filter(friend => (friend.profile_from === user.email || friend.profile_to === user.email)))?.length == 0
+    function checkIsFriend(email) {
+        return (friendsData?.filter(friend => (friend.profile_from === email || friend.profile_to === email)))?.length == 0
+    }
+
+    function showMyFriendsHandler() {
+        setButtonState('Мои друзья');
+    }
+
+    function showRecommendationsHandler() {
+        setButtonState('Рекомендации');
+        getAllUsers();
     }
 
     return (
         <div className={styles.friendsWrap}>
-            <div className={styles.friendsToggler}>
-                <button>Мои друзья</button>
-                <button>Рекомендации</button>
-            </div>
-            <div className={styles.friendsFinderWrap}>
-                <div className={styles.friendsFinder}>
-                    <input type="text" placeholder='Искать пользователя...' value={search} onChange={e => setSearch(e.target.value)}/>
-                    <div>
-                        <Search className={styles.friendsFinderSearch}/>
-                    </div>
-                </div>
-            </div>
+            <ButtonBar>
+                <Button onClick={showMyFriendsHandler} isActive={(buttonState === 'Мои друзья')}>
+                    Мои друзья
+                </Button>
+                <Button onClick={showRecommendationsHandler} isActive={(buttonState === 'Рекомендации')}>
+                    Рекомендации
+                </Button>
+            </ButtonBar>
 
-            {!isSearch && friendsData && friendsData.map(user =>
-                <UserHolder key={user.id} user_id={user.profile_from} isFriend={true}/> 
+            <InputBar>
+                <Input placeholder='Искать пользователя...' value={search} onChange={setSearch}/>
+            </InputBar>
+
+            {!isSearch && buttonState === 'Мои друзья' && friendsData && friendsData.map(user =>
+                <UserHolder key={user.id} user_id={user.profile_from !== mainUser.email ? user.profile_from : user.profile_to} isFriend={true} refetch={refetch}/> 
+            )}
+
+            {(buttonState === 'Рекомендации') && usersData && !isSearch && usersData.filter(user => checkIsFriend(user.email)).map(user => 
+                user.email !== mainUser.email && <UserHolder key={user.id} user_id={user.email} isFriend={!checkIsFriend(user.email)} refetch={refetch}/>
             )}
 
             {friendsData && isSearch && data && data.map(user => 
                 (user.email !== mainUser.email)
                 ?       
-                <UserHolder key={user.id} user_id={user.email} isFriend={!checkIsFriend(user)}/> 
+                <UserHolder key={user.id} user_id={user.email} isFriend={!checkIsFriend(user.email)} refetch={refetch}/> 
                 : 
                 ''
             )}

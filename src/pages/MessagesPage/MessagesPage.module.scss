@@ -1,13 +1,21 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
 .messageBox {
     display: flex;
     flex-direction: column;
+    align-items: center;
     padding: 5px 5px 0px 5px;
     height: 100vh;
+    width: 91.5vw;
     position: relative;
     top: 2.55vh;
+    overflow-y: scroll;
+    @include scrollStyles(0.45em);
 }
 
 .messagesSearch {
+    width: 55.7299vw;
     position: relative;
     box-sizing: border-box;
     input {
@@ -31,8 +39,21 @@
     margin-bottom: 0.5208vw;
 }
 
+.lastElement {
+    width: 50px;
+    min-height: 50px;
+    visibility: hidden;
+}
+
 .messagesSearchIcon {
-    width: 1.3021vw;
-    height: 1.3021vw;
-    fill: #384859;
+    @include svgIconStyles(1.3021vw, 18px, $darkIconColor);
+}
+
+@media screen and(max-width: 768px) {
+    .messagesSearch, .messageBox {
+        width: 97vw;
+    }
+    .messageBox {
+        @include scrollStyles(0.25em)
+    }
 }

@@ -1,3 +1,6 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
 .groupHolder {
     width: 55.7292vw;
     background: linear-gradient(91.3deg, rgba(255, 255, 255, 0.4) -4.25%, rgba(255, 255, 255, 0.1) 101.96%);
@@ -9,6 +12,7 @@
     padding: 0.7813vw 0;
     position: relative;
     align-items: center;
+    cursor: pointer;
 }
 
 .groupPhoto {
@@ -31,20 +35,14 @@
 }
 
 .groupName {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
+    @include fontStyles($textColor);
     font-size: calc(12px + (18 - 12) * (100vw - 200px) / (1920 - 200));   
-    color: #1F4868;
     margin: 0 0 0 calc(6px + (13 - 6) * (100vw - 200px) / (1920 - 200));
 }
 
 .groupDescription {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
+    @include fontStyles($textColor);
     font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));   
-    color: #1F4868;
     margin: 0 0 0 1.25vw;
 
 }
@@ -96,11 +94,8 @@
         margin-left: 0;
     }
     p {
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
+        @include fontStyles($textColor);
         font-size: 12px;
-        color: #1F4868;
     }
 }
 
@@ -120,13 +115,10 @@
              calc(1px + (6 - 1) * (100vw - 200px) / (1920 - 200)) 
              calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
     p {
+        @include fontStyles($textColor);
         margin: 0;
         padding: 0;
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
         font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));
-        color: #1F4868;
     }
     div {
         display: flex;
@@ -136,11 +128,7 @@
 }
 
 .addButtonBrokenHeart, .addButtonHeart {
-    width: 1.3021vw;
-    height: 1.3021vw;
-    min-width: 13px;
-    min-height: 13px;
-    fill: #384859;
+    @include svgIconStyles(1.3021vw, 13px, $darkIconColor);
 }
 
 @media screen and (max-width: 768px) {

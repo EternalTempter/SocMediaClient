@@ -1,0 +1,35 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.userStats {
+    width: 55.7292vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.9896vw 0 1.0938vw 0;
+    background: linear-gradient(91.99deg, rgba(255, 255, 255, 0.2) -23.95%, rgba(255, 255, 255, 0.05) 109.34%);
+    div {
+        margin-left: 2.6042vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        p {
+            @include fontStyles($textColor);
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }   
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}
+
+.userStatsCount {
+    font-size: calc(10px + (22 - 10) * (100vw - 200px) / (1920 - 200));
+}
+
+.userStatsType {
+    font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));   
+} 

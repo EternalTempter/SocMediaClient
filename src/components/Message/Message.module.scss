@@ -1,0 +1,60 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.ourMessage, .otherUserMessage {
+    position: relative;
+    padding: calc(7px + (16 - 7) * ( (100vw - 0px) / ( 1920 - 0) ));
+    min-width: 180px;
+    max-width: 270px;
+    background: linear-gradient(92.05deg, rgba(255, 255, 255, 0.45) 7.46%, rgba(255, 255, 255, 0.125) 100%);
+    border-radius: 3px;
+    margin-top: calc(20px + (45 - 20) * ( (100vw - 0px) / ( 1920 - 0) ));
+    font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
+    color: #1F4868;
+    font-family: 'Roboto';
+    p {
+        @include fontStyles($textColor);
+        margin: 0;
+        position: absolute;
+        top: -22px;
+        font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
+    }
+}
+.ourMessageWrap {
+    margin-right: calc(10px + (65 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
+    align-self: flex-end;
+    p {
+        right: 0.5vw;
+    }
+}
+
+.otherUserMessageWrap {
+    margin-left: calc(10px + (65 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
+    align-self: flex-start;
+    p {
+        left: 0.5vw;
+    }
+}
+
+.ourMessageOptions.on, .otherUserMessageOptions.on {
+    display: flex;
+    position: absolute;
+    top: -28px;
+}
+
+.ourMessageOptions.on {
+    left: 1%;
+}
+
+.otherUserMessageOptions.on {
+    right: 1%;
+}
+
+.ourMessageOptions, .otherUserMessageOptions {
+    display: none;
+}
+
+.messageOptionsEdit, .messageOptionsTrashCan {
+    @include svgIconStyles(1.0417vw, 14px, $darkIconColor);
+    margin-left: 0.7813vw;
+}

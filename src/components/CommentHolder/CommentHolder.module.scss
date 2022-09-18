@@ -1,8 +1,12 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
 .commentWrap {
     width: 62.6168%;
     display: flex;
     align-items: center;
     position: relative;
+    margin-top: calc(7px + (20 - 7) * (100vw - 200px) / (1920 - 200));
 }
 
 .imageHolder {
@@ -19,32 +23,23 @@
 }
 
 .commenterName {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
+    @include fontStyles($textColor);
     font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
-    color: #1F4868;
     margin: 2px 0 0 0;
 }
 
 .comment {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
+    @include fontStyles($textColor);
     font-size: calc(8px + (12 - 8) * (100vw - 200px) / (1920 - 200));
-    color: #1F4868;
     margin: 4px 0 4px 0;
 }
 
 .commentDate {
+    @include fontStyles($textColor);
     position: absolute;
     right: 5px;
     top: 5px;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
     font-size: calc(8px + (12 - 8) * (100vw - 200px) / (1920 - 200));
-    color: #1F4868;
     margin: 0;
 }
 
@@ -54,11 +49,8 @@
     align-items: center;
     margin-left: auto;
     p {
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
+        @include fontStyles($textColor);
         font-size: calc(8px + (10 - 8) * (100vw - 200px) / (1920 - 200));
-        color: #1F4868;
         margin: 0;
     }
     div {
@@ -67,9 +59,10 @@
 }
 
 .commentLike {
-    width: 0.9375vw;
-    height: 0.9375vw;
-    min-width: 14px;
-    min-height: 14px;
-    fill: #384859;
+    @include svgIconStyles(0.9375vw, 14px, $darkIconColor);
+    cursor: pointer;
+}
+
+.commentLike.liked {
+    fill: red;
 }

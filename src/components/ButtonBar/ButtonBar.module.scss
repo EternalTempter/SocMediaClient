@@ -1,0 +1,41 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.buttonBarWrap {
+    width: 55.7292vw;
+    background: gray;
+    display: flex;
+    padding: calc(5px + (10 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    background: linear-gradient(90.19deg, rgba(255, 255, 255, 0.4) 3.31%, rgba(255, 255, 255, 0.1) 95.95%);
+    border-radius: 3px;
+}
+
+.buttonBar {
+    display: flex;
+    width: 100%;
+    div {
+        margin-left: auto;
+        align-self: center;
+    }
+}
+
+@media screen and (max-width: 1024px){ 
+    .buttonBarWrap button:nth-child(4){
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .buttonBarWrap {
+        width: 97vw;
+    }
+}
+
+@media screen and (max-width: 425px){
+    .buttonBarWrap button:nth-child(3){
+        display: none;
+    }
+}

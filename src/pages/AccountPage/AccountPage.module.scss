@@ -1,7 +1,11 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
 .accountPageWrap {
+    @include scrollStyles(0.45em);
     margin-top: 1.0417vw;
     z-index: 3;
-    width: 100vw;
+    width: 92.5vw;
     height: 100vh;
     position: relative;
     overflow-y: scroll;
@@ -11,13 +15,14 @@
 }
 
 .panoramaImage {
+    @include imageStyles();
     width: 55.7292vw;
-    height: 7.8125vw;
-    min-height: 80px;
+    min-height: 7.8125vw;
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
     background: #8A8A8A;
+    cursor: pointer;
 }
 
 .accountMore {
@@ -59,23 +64,21 @@
 }
 
 .userImage {
+    @include roundedImageStyles();
     width: 13.0208vw;
     height: 13.0208vw;
     min-width: 82px;
     min-height: 82px;
+    object-fit: contain;
     border-radius: 50%;
     background: transparent;
-    background: gray;
+    background: gray;   
+    cursor: pointer;
 }
 
 .userName, .userStatus {
+    @include fontStyles($textColor);
     max-width: 45%;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
-    color: #1F4868;
     margin: 0;
     padding: 0;
 }
@@ -99,11 +102,8 @@
 }
 
 .userDateBirth, .userCity {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
+    @include fontStyles($textColor);
     font-size: calc(8px + (16 - 8) * (100vw - 200px) / (1920 - 200));
-    color: #1F4868;
     margin: 0;
     padding: 0;
 }
@@ -111,6 +111,7 @@
 .userDateBirth {
     margin-top: 0.8854vw;
 }
+
 .userCity {
     margin-top: 0.4688vw;
     margin-bottom: 2.7083vw;
@@ -119,16 +120,12 @@
 .moreButton {
     position: absolute;
     left: 50%;
-    bottom: 5px;
+    bottom: -2vw;
     transform: rotate(90deg);
 }
 
 .moreButtonAngle {
-    width: 2.0833vw;
-    height: 2.0833vw;
-    min-width: 20px;
-    min-height: 20px;
-    fill: #384859;
+    @include svgIconStyles(2.0833vw, 20px, $darkIconColor);
 }
 
 .userAddInFriends {
@@ -155,12 +152,8 @@
 }
 
 .userAddInFriendsPlus {
+    @include svgIconStyles(1.3021vw, 14px, $darkIconColor);
     margin-right: 5px;
-    width: 1.3021vw;
-    height: 1.3021vw;
-    min-width: 14px;
-    min-height: 14px;
-    fill: #384859;
 }
 
 .hiddenUserAddInFriends {
@@ -171,47 +164,17 @@
 }
 
 .hiddenUserAddInFriendsPlus {
-    width: 1.3021vw;
-    height: 1.3021vw;
-    min-width: 18px;
-    min-height: 18px;
-    fill: #384859;
+    @include svgIconStyles(1.3021vw, 18px, $darkIconColor);
 }
 
-.userStats {
-    width: 55.7292vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.9896vw 0 1.0938vw 0;
-    background: linear-gradient(91.99deg, rgba(255, 255, 255, 0.2) -23.95%, rgba(255, 255, 255, 0.05) 109.34%);
-    div {
-        margin-left: 2.6042vw;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        p {
-            margin: 0;
-            padding: 0;
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 400;
-            color: #1F4868;
-            display: flex;
-        }   
-        &:first-child {
-            margin-left: 0;
-        }
-    }
+.userOptionsWrap {
+    position: absolute;
+    cursor: pointer;
+    right: 5px;
+    top: 5px; 
 }
-
-.userStatsCount {
-    font-size: calc(10px + (22 - 10) * (100vw - 200px) / (1920 - 200));
-}
-
-.userStatsType {
-    font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));   
+.userOptions {
+    @include svgIconStyles(1.7021vw, 18px, $darkIconColor)
 }
 
 .addPostWrap {
@@ -240,91 +203,36 @@
             color: #1F4868;
             font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
         }
-        div {
+        div {           
             min-width: 18px;
             max-width: 25px;
             position: absolute;
             box-sizing: border-box;
             display: flex;
-            right: 25px;
-            // top: calc(4px + (7 - 4) * ( (100vw - 200px) / ( 1920 - 200) ));
-            top: 9px;  
+            top: calc(4px + (6 - 4) * ( (100vw - 200px) / ( 1920 - 200) ));
+            &:nth-child(1) {
+                right: 35px;
+                position: relative;
+            }
+            &:nth-child(2) {
+                right: 5px;
+            }
         }
     }
 }
 
-.addPostClip, .addPostSend {
-    width: 1.3021vw;
-    height: 1.3021vw;
-    min-width: 18px;
-    min-height: 18px;
-    fill: #384859;
+.addPostClip, .addPostSend, .postFinderSearch {
+    @include svgIconStyles(1.3021vw, 18px, $darkIconColor);
 }
 
 .addPostSend {
     margin-left: 5px;
 }
 
-.userPostsOptions {
-    width: 55.7292vw;   
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    padding: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200)) 1.0417vw;
-    background: linear-gradient(90.22deg, rgba(255, 255, 255, 0.4) -2.59%, rgba(255, 255, 255, 0.1) 104.52%);
-    border-radius: 3px;
-    margin-top: calc(5px + (20 - 5) * (100vw - 200px) / (1920 - 200));
-}
-
-.postFinder {
-    width: 26.0417vw;
-    position: relative;
-    input {
-        width: 100%;
-        height: 100%;
-        border: none;
-        padding-left: 1vw;
-        box-sizing: border-box;
-        background: rgba(217, 217, 217, 0.3);
-        border-radius: 5px;
-        padding-left: 1.0417vw;
-        padding-right: 1.9229vw;
-    }
-    input::placeholder {
-        color: #1F4868;
-    }
-    div {
-        position: absolute;
-        right: 3px;
-        top: calc(2px + (7 - 2) * ( (100vw - 200px) / ( 1920 - 200) ));   
-    }
-}
-
-.postFinderSearch {
-    width: 1.3021vw;
-    height: 1.3021vw;
-    min-width: 18px;
-    min-height: 18px;  
-    fill: #384859;
-}
-
 .postOptions {
-    width: 22.9167vw;
-    min-width: 250px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    button {
-        font-size: calc(10px + (16 - 10) * (100vw - 200px) / (1920 - 200));
-        padding: calc(4px + (10 - 4) * (100vw - 200px) / (1920 - 200)) 0;
-        background: linear-gradient(94.12deg, rgba(255, 255, 255, 0.4) 7.77%, rgba(255, 255, 255, 0.1) 124.32%);
-        border-radius: 5px;
-        width: 10.9375vw;
-        min-width: 120px;
-        height: 100%;
-        border: none;
-        color: #1F4868;
-    }
 }
 
 .editablePart {
@@ -340,7 +248,7 @@
     }
 }
 
-.editStatus, .editDateBirth, .editCity{
+.editStatus {
     font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));
     white-space: nowrap;
     color: #1F4868;
@@ -352,33 +260,52 @@
     top: -28px;
     right: 10px;
 }
+
 .editStatus  {
     margin-top: 30px;
 }
-.editDateBirth {
-    margin-top: 10px;
-}
-.editCity {
-    margin-top: 10px;
-}
 
-.editStatus.on, .editDateBirth.on, .editCity.on {
+.editStatus.on {
     display: block;
 }
 
-.editStatus.on.editing, .editDateBirth.on.editing, .editCity.on.editing {
+.editStatus.on.editing {
     top: -18px;
 }
 
+.fileUploadInput {
+    padding: 0 !important;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+}
+
+.lastElement {
+    width: 50px;
+    min-height: 50px;
+    visibility: hidden;
+}
+
 @media screen and (max-width: 1023px) {
+    .panoramaImage {
+        min-height: 80px;
+    }
     .userStats {
        display: none;
     }
-    .userPostsOptions {
+    .userPostsOptions div:first-child {
         flex-direction: row-reverse;
+        min-width: 20px;
     }
     .postFinder input {
         display: none;
+    }
+    .postFinder div {
+        width: 0;
+    }
+    .postFinder div div {
+        position: static;
     }
     .postOptions button {
         &:last-child {
@@ -387,6 +314,12 @@
     }
     .userImageHolder {
         top: -50px;
+    }
+    .userName {
+        margin-top: 10px;
+    }
+    .userStatus {
+        margin-top: 12px
     }
 }
 
@@ -418,9 +351,6 @@
         &.userCity, &.userDateBirth {
             margin-left: 5.8411%; 
         }
-        // &.userStatus {
-        //     margin-top: 3.8411%; 
-        // }
     }
     .addPostWrap {
         position: absolute;

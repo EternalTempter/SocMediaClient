@@ -4,6 +4,7 @@ import jwt_decode from 'jwt-decode';
 import { IInbox, IUser } from '../../models';
 import { useNavigate } from 'react-router-dom';
 import styles from './MessageBoxItem.module.scss';
+import { useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
 
 interface MessageBoxItemProps {
     inbox: IInbox
@@ -12,6 +13,7 @@ interface MessageBoxItemProps {
 const MessageBoxItem:FC<MessageBoxItemProps> = ({inbox}) => {    
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
 
+    const {isError: isUserDataError, isLoading: isUserDataLoading, data: userData} = useGetUserDataQuery(inbox.inbox_sender_user_id !== user.email ? inbox.inbox_sender_user_id : inbox.inbox_holder_user_id);
     const {isError, isLoading, data} = useGetUserByEmailQuery(
         (user.email !== inbox.inbox_sender_user_id) 
             ? inbox.inbox_sender_user_id 
@@ -26,22 +28,31 @@ const MessageBoxItem:FC<MessageBoxItemProps> = ({inbox}) => {
                 ? inbox.inbox_sender_user_id 
                 : inbox.inbox_holder_user_id}`)
             }>
-                <div className={styles.userImageHolder}></div>
+                <span></span>
+                <div className={styles.userImageHolder}>
+                    {(userData && userData.image !== 'none') &&
+                        <img src={'http://localhost:5000/' + userData.image}/>
+                    }
+                </div>
                 <div className={styles.userMessageDirect}>
                     <p className={styles.userMessageGetter}>
                         {data && data.name} {data && data.surname}
                     </p>
                     <div className={styles.lastMessage}>
-                        <div>{data && (data.email !== inbox.last_message_user_id) 
-                                ? 'You: ' 
-                                : 'Him: '}
+                        <div>
+                            {(userData && userData.image !== 'none') &&
+                                <img src={'http://localhost:5000/' + userData.image}/>
+                            }
                         </div>
                         <p>{inbox.last_message}</p>
                     </div>
                 </div>
-                <div className={styles.messageReadIndicator}></div>
             </div>
     );
 };
+
+// {data && (data.email !== inbox.last_message_user_id) 
+//     ? 'You: ' 
+//     : 'Him: '}
 
 export default MessageBoxItem;
