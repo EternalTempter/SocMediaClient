@@ -38,4 +38,9 @@ export const groupUsersApi = createApi({
     })
 })
 
-export const {useGetAllGroupSubscribersQuery, useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation, useGetUserGroupSubsCountQuery} = groupUsersApi;
+export const {
+    useGetAllGroupSubscribersQuery,
+    useLazySubscribeOnGroupQuery, 
+    useUnsubscribeOnGroupMutation, 
+    useGetUserGroupSubsCountQuery
+} = groupUsersApi;

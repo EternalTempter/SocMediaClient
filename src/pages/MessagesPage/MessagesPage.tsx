@@ -47,8 +47,8 @@ const MessagesPage = () => {
     }, [page])
     
     useEffect(() => {
-        setIsSearch(debounced.length > 1 && data?.length! > 0)
-    }, [debounced]);
+        setIsSearch(debounced.length > 1)
+        }, [debounced]);
 
     useEffect(() => {
         if(updatedInboxesData && inboxes.length !== 0) {

@@ -36,4 +36,10 @@ export const inboxesApi = createApi({
     })
 })
 
-export const {useLazyGetUserInboxesQuery, useGetUserInboxesQuery, useUpdateLastInboxMessageMutation, useCreateInboxMutation, useGetInboxQuery} = inboxesApi;
+export const {
+    useLazyGetUserInboxesQuery, 
+    useGetUserInboxesQuery, 
+    useUpdateLastInboxMessageMutation, 
+    useCreateInboxMutation, 
+    useGetInboxQuery
+} = inboxesApi;

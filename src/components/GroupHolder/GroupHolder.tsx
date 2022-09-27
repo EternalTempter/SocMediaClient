@@ -46,7 +46,11 @@ const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions, refetch
 
     return (
         <div className={styles.groupHolder} onClick={() => navigate(`/groups/${group_id}`)}>
-            <div className={styles.groupPhoto}></div>
+            <div className={styles.groupPhoto}>
+                {(data && data.image !== 'none') &&
+                    <img src={'http://localhost:5000/' + data.image}/>
+                }
+            </div>
             <div className={styles.groupInfo}>
                 <p className={styles.groupName}>{data && data.group_name}</p>
                 <p className={styles.groupDescription}>{data && data.description}</p>

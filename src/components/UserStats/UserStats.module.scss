@@ -33,3 +33,9 @@
 .userStatsType {
     font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));   
 } 
+
+@media screen and (max-width: 1023px) {
+    .userStats {
+       display: none;
+    }
+}

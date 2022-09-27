@@ -67,6 +67,8 @@ export interface IGroup {
     id: number;
     group_name: string;
     image: string;
+    panoramaImage: string;
+    owner_id: string;
     description: string;
     createdAt: Date;
     updatedAt: Date;

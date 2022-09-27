@@ -61,11 +61,12 @@ export const userDataApi = createApi({
 });
 
 export const {
-        useGetUserDataQuery,
-        useLazySetDefaultUserDataQuery,
-        useChangeUserCityMutation,
-        useChangeUserDateBirthMutation,
-        useChangeUserStatusMutation,
-        useUpdateImageMutation,
-        useUpdatePanoramaImageMutation
+    useGetUserDataQuery,
+    useLazySetDefaultUserDataQuery,
+    useChangeUserCityMutation,
+    useChangeUserDateBirthMutation,
+    useChangeUserStatusMutation,
+    useUpdateImageMutation,
+    useUpdatePanoramaImageMutation,
+    useLazyGetUserDataQuery
 } = userDataApi;

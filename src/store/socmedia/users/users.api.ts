@@ -4,26 +4,26 @@ import { IToken, IUser } from '../../../models';
 export const usersApi = createApi({
     reducerPath: 'socmedia/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/api/'
+        baseUrl: 'http://localhost:5000/api/user/'
     }),
     endpoints: build => ({
         registrate: build.mutation<IToken, IUser>({
             query: (user: IUser) => ({
-                url: 'user/registration',
+                url: 'registration',
                 method: 'post',
                 body: user
             })
         }),      
         authorize: build.mutation<IToken, {}>({
             query: (user: {}) => ({
-                url: 'user/login',
+                url: 'login',
                 method: 'post',
                 body: user
             })
         }),
         getUserByEmail: build.query<IUser, string>({
             query: (email: string) => ({
-                url: 'user/getByEmail',
+                url: 'getByEmail',
                 params: {
                     email: email
                 }
@@ -31,7 +31,7 @@ export const usersApi = createApi({
         }),
         findAllUsersByName: build.query<IUser[], string>({
             query: (name: string) => ({
-                url: 'user/findAllByName',
+                url: 'findAllByName',
                 params: {
                     queryParameter: name
                 }
@@ -39,10 +39,17 @@ export const usersApi = createApi({
         }),
         getAllUsers: build.query<IUser[], void>({
             query: () => ({
-                url: 'user/getAll',
+                url: 'getAll',
             })
         }),
     })
 })
 
-export const { useAuthorizeMutation, useRegistrateMutation, useGetUserByEmailQuery, useLazyGetUserByEmailQuery, useFindAllUsersByNameQuery, useLazyGetAllUsersQuery} = usersApi;
+export const { 
+    useAuthorizeMutation, 
+    useRegistrateMutation, 
+    useGetUserByEmailQuery, 
+    useLazyGetUserByEmailQuery, 
+    useFindAllUsersByNameQuery, 
+    useLazyGetAllUsersQuery
+} = usersApi;

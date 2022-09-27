@@ -13,6 +13,7 @@ import FriendsPage from './pages/FriendsPage/FriendsPage';
 import GroupsPage from './pages/GroupsPage/GroupsPage';
 import { useEffect, useState } from 'react';
 import GroupPage from './pages/GroupPage/GroupPage';
+import AboutPage from './pages/AboutPage/AboutPage';
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
@@ -26,6 +27,7 @@ function App() {
       {isAuth ? <Layout/> : ''}
       <Routes>
         <Route path='/auth' element={<PublicRoute><AuthorizePage setIsAuth={setIsAuth}/></PublicRoute>}/>
+        <Route path='/about' element={<AboutPage/>}/>
         <Route path='/registrate' element={<PublicRoute><RegistratePage setIsAuth={setIsAuth}/></PublicRoute>}/>
         <Route path='/' element={<PrivateRoute><HomePage setIsAuth={setIsAuth}/></PrivateRoute>}/>
         <Route path='/news' element={<PrivateRoute><NewsPage/></PrivateRoute>}/>

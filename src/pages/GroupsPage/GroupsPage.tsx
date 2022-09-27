@@ -13,11 +13,15 @@ import Button from '../../components/UI/Button/Button';
 import ComplexButton from '../../components/UI/ComplexButton/ComplexButton';
 import InputBar from '../../components/InputBar/InputBar';
 import Input from '../../components/UI/Input/Input';
+import ModalWrap from '../../components/ModalWrap/ModalWrap';
+import CreateGroupModal from '../../components/CreateGroupModal/CreateGroupModal';
 
 const GroupsPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
 
     const [buttonState, setButtonState] = useState('Мои сообщества');
+
+    const [createGroupModalVisible, setCreateGroupModalVisible] = useState(false);
     
     const [search, setSearch] = useState('');
     const {isError, isLoading, data, refetch} = useGetAllUserGroupSubscriptionsQuery(user.email);
@@ -61,6 +65,12 @@ const GroupsPage = () => {
 
     return (
         <div className={styles.groupsPageWrap}>
+            {
+                createGroupModalVisible &&
+                    <ModalWrap visible={createGroupModalVisible} setVisible={setCreateGroupModalVisible} type='column'>
+                        <CreateGroupModal/>
+                    </ModalWrap>
+            }
             <ButtonBar>
                 <Button onClick={showMyGroupsHandler} isActive={(buttonState === 'Мои сообщества')}>
                     Мои сообщества
@@ -71,7 +81,7 @@ const GroupsPage = () => {
                 <div className={styles.groupsOptions}>
                     <Options className={styles.groupsOptionsIcon}/>
                 </div>
-                <div className={styles.createGroup}>
+                <div className={styles.createGroup} onClick={() => setCreateGroupModalVisible(true)}>
                     <ComplexButton>
                         <p>Создать сообщество</p>
                         <Plus className={styles.createGroupPlus}/>

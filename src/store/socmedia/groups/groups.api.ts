@@ -36,13 +36,21 @@ export const groupsApi = createApi({
                 }
             })
         }),
-        createGroup: build.mutation<IGroup, {}>({
+        createGroup: build.mutation<any, {}>({
             query: (body: {}) => ({
                 url: 'create',
+                method: 'post',
                 body: body
             })
         })
     })
 })
 
-export const {useFindAllGroupsByNameQuery, useGetAllUserGroupSubscriptionsQuery, useCreateGroupMutation, useGetGroupByIdQuery, useLazyGetAllGroupsQuery} = groupsApi;
+export const {
+    useFindAllGroupsByNameQuery,
+    useGetAllUserGroupSubscriptionsQuery,
+    useCreateGroupMutation,
+    useGetGroupByIdQuery, 
+    useLazyGetAllGroupsQuery,
+    useLazyGetGroupByIdQuery
+} = groupsApi;

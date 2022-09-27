@@ -5,15 +5,13 @@ import jwt_decode from 'jwt-decode';
 import { useUpdateImageMutation, useUpdatePanoramaImageMutation } from '../../store/socmedia/userData/userData.api';
 
 interface ImageOptionsModalProps {
-    visible: boolean
-    setVisible: (value: boolean) => void
     type: string
     mainImage: string
     panoramaImage: string
     id: string
 }
 
-const ImageOptionsModal:FC<ImageOptionsModalProps> = ({visible, setVisible, type, mainImage, panoramaImage, id}) => {
+const ImageOptionsModal:FC<ImageOptionsModalProps> = ({type, mainImage, panoramaImage, id}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const [userCurrentFile, setUserCurrentFile] = useState();
     const [preview, setPreview] = useState('');
@@ -45,31 +43,29 @@ const ImageOptionsModal:FC<ImageOptionsModalProps> = ({visible, setVisible, type
     }, [userCurrentFile])
 
     return (
-        <div className={styles.modalWrap} onClick={() => setVisible(false)}>
-            <div className={styles.modal} onClick={e => e.stopPropagation()}>
-                <div className={styles.imageHolder}>
-                    {
-                        preview && <img src={preview}/>
-                    }
-                    {
-                        (!preview && type === 'regularImage' && mainImage !== 'none') ? <img src={'http://localhost:5000/' + mainImage}/> : ''
-                    }
-                    {
-                        (!preview && type === 'panoramaImage' && panoramaImage !== 'none') ? <img src={'http://localhost:5000/' + panoramaImage}/> : ''
-                    }
-                </div>
+        <>
+            <div className={styles.imageHolder}>
                 {
-                    (id === user.email) &&
-                    <div className={styles.imageOptions}>
-                        <div className={styles.addImage} onClick={showFileUpload}>
-                            <p>Заменить фото</p>
-                            <input type="file" onChange={showFileUpload}/>
-                        </div>
-                        <button onClick={updateImage}>Сохранить</button>
-                    </div>
+                    preview && <img src={preview}/>
+                }
+                {
+                    (!preview && type === 'regularImage' && mainImage !== 'none') ? <img src={'http://localhost:5000/' + mainImage}/> : ''
+                }
+                {
+                    (!preview && type === 'panoramaImage' && panoramaImage !== 'none') ? <img src={'http://localhost:5000/' + panoramaImage}/> : ''
                 }
             </div>
-        </div>
+            {
+                (id === user.email) &&
+                <div className={styles.imageOptions}>
+                    <div className={styles.addImage} onClick={showFileUpload}>
+                        <p>Заменить фото</p>
+                        <input type="file" onChange={showFileUpload}/>
+                    </div>
+                    <button onClick={updateImage}>Сохранить</button>
+                </div>
+            }
+        </>
     );
 };
 

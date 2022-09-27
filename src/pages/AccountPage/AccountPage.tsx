@@ -8,7 +8,6 @@ import More from '../../assets/svg/More';
 import Plus from '../../assets/svg/Plus';
 import Angle from '../../assets/svg/Angle';
 import Clip from '../../assets/svg/Clip';
-import Search from '../../assets/svg/Search';
 import Comment from '../../assets/svg/Comment';
 import { useNavigate, useParams } from 'react-router-dom';
 import Send from '../../assets/svg/Send';
@@ -24,6 +23,8 @@ import Button from '../../components/UI/Button/Button';
 import { useDebounce } from '../../hooks/useDebounce';
 import UserOptionsModal from '../../components/UserOptionsModal/UserOptionsModal';
 import UserStats from '../../components/UserStats/UserStats';
+import AddPostPanel from '../../components/AddPostPanel/AddPostPanel';
+import ModalWrap from '../../components/ModalWrap/ModalWrap';
 
 const AccountPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -99,11 +100,11 @@ const AccountPage = () => {
                 setButtonState('Написать сообщение')
             }
             if(notificationsData && data && checkIsNotFriend(data?.email)) {          
-                let asdf = notificationsData.filter(notification => (notification.profile_to === data.email || notification.profile_from === data.email));
+                let subs = notificationsData.filter(notification => (notification.profile_to === data.email || notification.profile_from === data.email));
 
-                if(asdf.length === 0) 
+                if(subs.length === 0) 
                     setButtonState('Добавить в друзья')
-                else if(asdf[0].profile_from === user.email)
+                else if(subs[0].profile_from === user.email)
                     setButtonState('Запрос отправлен')
                 else 
                     setButtonState('Принять запрос')
@@ -192,10 +193,16 @@ const AccountPage = () => {
     return (
         <div className={styles.accountPageWrap}>
             {
-                visibleUserOptionsModal && <UserOptionsModal visible={visibleUserOptionsModal} setVisible={setVisibleUserOptionsModal} refetch={refetch}/>
+                visibleUserOptionsModal &&
+                    <ModalWrap visible={visibleUserOptionsModal} setVisible={setVisibleUserOptionsModal} type='column'>
+                        <UserOptionsModal refetch={refetch}/>
+                    </ModalWrap>
             }
             {
-                userData && visible && <ImageOptionsModal id={id || user.email} mainImage={userData.image} panoramaImage={userData.panoramaImage} visible={visible} setVisible={setVisible} type={imageEditingType}/>
+                userData && visible && 
+                    <ModalWrap visible={visible} setVisible={setVisible} type='row'>
+                        <ImageOptionsModal id={id || user.email} mainImage={userData.image} panoramaImage={userData.panoramaImage} type={imageEditingType}/>
+                    </ModalWrap>
             }
             <div className={styles.panoramaImage} onClick={() => showImageOptionsHandler('panoramaImage')}>
                 {(userData && userData.panoramaImage !== 'none') &&
@@ -273,26 +280,13 @@ const AccountPage = () => {
                 </div>
                 <UserStats id={String(id)}/>
                 {(id === user.email) &&
-                    <div className={styles.addPostWrap}>
-                        <div>
-                            <input 
-                                type="text" 
-                                placeholder='Расскажите что у вас нового'
-                                value={userCurrentPostDescription}
-                                onChange={e => setUserCurrentPostDescription(e.target.value)}
-                                // onKeyDown={e => createPost(e.key)}
-                            />
-                            <div>
-                                <div onClick={showFileUpload}>
-                                    <input type="file" className={styles.fileUploadInput} onChange={showFileUpload}/>
-                                    <Clip className={styles.addPostClip}/>
-                                </div>
-                                <div onClick={() => createPost('click')}>
-                                    <Send className={styles.addPostSend}/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <AddPostPanel 
+                        currentPostDescription={userCurrentPostDescription} 
+                        setCurrentPostDescription={setUserCurrentPostDescription} 
+                        showFileUpload={showFileUpload} 
+                        createPost={createPost}
+                        type='regular'
+                    />
                 }
             </div>
             <div className={styles.userPostsOptions}>

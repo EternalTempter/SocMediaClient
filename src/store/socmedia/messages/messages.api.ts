@@ -43,4 +43,10 @@ export const messagesApi = createApi({
     })
 })
 
-export const {useGetMessagesQuery, usePostMessageMutation, useUpdateMessageMutation, useDeleteMessageMutation, useFindMessagesQuery} = messagesApi;
+export const {
+    useGetMessagesQuery, 
+    usePostMessageMutation, 
+    useUpdateMessageMutation, 
+    useDeleteMessageMutation, 
+    useFindMessagesQuery
+} = messagesApi;

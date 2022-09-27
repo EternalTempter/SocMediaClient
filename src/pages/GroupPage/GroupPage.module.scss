@@ -26,6 +26,7 @@
     height: 7.8125vw;
     min-height: 80px;
     background: gray;
+    @include imageStyles();
 }
 
 .groupBody {
@@ -58,6 +59,7 @@
         min-height: 82px;
         border-radius: 50%;
         background: gray;
+        @include roundedImageStyles();
     }
 }
 
@@ -184,8 +186,19 @@
     transform: rotate(90deg);
 }
 
+.groupPosts {
+    display: flex;
+    flex-direction: column;
+}
+
 .moreButtonAngle {
     @include svgIconStyles(2.0833vw, 20px, $darkIconColor);
+}
+
+.lastElement {
+    width: 50px;
+    min-height: 50px;
+    visibility: hidden;
 }
 
 @media screen and (max-width: 1023px) {

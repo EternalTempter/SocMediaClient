@@ -129,8 +129,34 @@ export const postsApi = createApi({
                     id: id
                 }
             })
+        }),
+        getAllGroupPosts: build.query<any, {}>({
+            query: (params: {}) => ({
+                url: 'getAllGroupPosts',
+                params: params
+            })
         })
     })
 });
 
-export const {useLazyGetAllPostsQuery, useSetLikeMutation, useLazyGetAllPostCommentsQuery, useGetBestPostCommentQuery, usePasteCommentToPostMutation, useSetLikeToPostCommentMutation, useCreatePostMutation, useLazyGetAllUserPostsQuery, useIsPostLikedQuery, useIsCommentLikedQuery, useLazyRemoveLikeFromCommentQuery, useLazyRemoveLikeQuery, useLazyGetAllFriendsPostsQuery, useGetAllLikesQuery, useLazyGetAllLikedPostsQuery, useUpdateViewsCountMutation, useFindUserPostsByDescriptionQuery, useGetUserPostsCountQuery} = postsApi;
+export const {
+    useLazyGetAllPostsQuery, 
+    useSetLikeMutation, 
+    useLazyGetAllPostCommentsQuery, 
+    useGetBestPostCommentQuery, 
+    usePasteCommentToPostMutation, 
+    useSetLikeToPostCommentMutation, 
+    useCreatePostMutation, 
+    useLazyGetAllUserPostsQuery, 
+    useIsPostLikedQuery, 
+    useIsCommentLikedQuery, 
+    useLazyRemoveLikeFromCommentQuery, 
+    useLazyRemoveLikeQuery, 
+    useLazyGetAllFriendsPostsQuery, 
+    useGetAllLikesQuery, 
+    useLazyGetAllLikedPostsQuery, 
+    useUpdateViewsCountMutation, 
+    useFindUserPostsByDescriptionQuery, 
+    useGetUserPostsCountQuery,
+    useLazyGetAllGroupPostsQuery
+} = postsApi;

@@ -26,7 +26,7 @@ const Layout = () => {
             <nav className={[styles.leftNavbar, styles.navbar].join(' ')}>
                 <Link to='/'>
                     <img src=""/>
-                    Домой
+                    Лого
                 </Link>
                 <Link to='/messages'>
                     <Chat className={styles.chat}/>
@@ -52,9 +52,9 @@ const Layout = () => {
                 <Link to='/groups'>
                     <Group className={styles.group}/>
                 </Link>
-                <Link to='/'>
+                <Link to='/about'>
                     <img src=""/>
-                    Затычка
+                    О проекте
                 </Link>
             </nav>
         </>

@@ -23,6 +23,7 @@
     background: black;
     border-radius: 50%;
     margin-left: 1.3021vw;
+    @include roundedImageStyles();
 }
 
 .groupInfo {

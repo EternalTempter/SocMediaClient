@@ -3,7 +3,7 @@ import Like from '../../assets/svg/Like';
 import Comment from '../../assets/svg/Comment';
 import { IPost, IUser } from '../../models';
 import { useGetBestPostCommentQuery, useIsPostLikedQuery, useLazyGetAllPostCommentsQuery, useLazyRemoveLikeQuery, usePasteCommentToPostMutation, useSetLikeMutation, useUpdateViewsCountMutation } from '../../store/socmedia/posts/posts.api';
-import { useGetUserByEmailQuery } from '../../store/socmedia/users/users.api';
+import { useLazyGetUserByEmailQuery } from '../../store/socmedia/users/users.api';
 import styles from './Post.module.scss'
 import Share from '../../assets/svg/Share';
 import View from '../../assets/svg/View';
@@ -16,7 +16,8 @@ import Smile from '../../assets/svg/Smile';
 import Send from '../../assets/svg/Send';
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
-import { useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
+import { useLazyGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
+import { useLazyGetGroupByIdQuery } from '../../store/socmedia/groups/groups.api';
 
 interface PostProps {
     post: IPost
@@ -27,10 +28,11 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
 
     const navigate = useNavigate();
-    
-    const {isError: isUserDataError, isLoading: isUserDataLoading, data: userData} = useGetUserDataQuery(post.post_handler_id);
 
-    const {isError, isLoading, data} = useGetUserByEmailQuery(post.post_handler_id);
+    const [getGroupData, {isError: isGroupDataError, isLoading: isGroupDataLoading, data: groupData}] = useLazyGetGroupByIdQuery();
+    const [getUserData, {isError: isUserDataError, isLoading: isUserDataLoading, data: userData}] = useLazyGetUserDataQuery();
+
+    const [getUser, {isError, isLoading, data}] = useLazyGetUserByEmailQuery();
     const [setLike, {isError: isLikeError, isLoading: isLikeLoading, data: isLikeData}] = useSetLikeMutation();
     const [removeLike, {isError: isRemoveLikeError, isLoading: isRemoveLikeLoading, data: removeLikeData}] = useLazyRemoveLikeQuery();
 
@@ -88,6 +90,17 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
     }
 
     useEffect(() => {
+        if(post) {
+            if(post.post_handler_type === 'USER'){
+                getUserData(post.post_handler_id);
+                getUser(post.post_handler_id);
+            } 
+            else
+                getGroupData(post.post_handler_id);
+        }
+    }, [post])
+
+    useEffect(() => {
         if(postLikeData) {
             setIsLiked(postLikeData);
         }
@@ -114,15 +127,25 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
                 <div className={styles.postHeader}>
                     <div className={styles.postInfoWrap}>
                         <div className={styles.postImage}>
-                        {(userData && userData.image !== 'none') &&
-                            <img src={'http://localhost:5000/' + userData.image}/>
+                        {
+                            (userData && userData.image !== 'none') &&
+                                <img src={'http://localhost:5000/' + userData.image}/>
+                                    ||
+                            (groupData && groupData.image !== 'none') && 
+                                <img src={'http://localhost:5000/' + groupData.image}/>
                         }
                         </div>
                         <div className={styles.postInfo}>
                             <p 
                                 className={styles.postGroupName} 
                                 onClick={() => post.post_handler_type === 'USER' ? navigate(`/account/${post.post_handler_id}`) : navigate(`/groups/${post.post_handler_id}`)}
-                            >{data && data.name} {data && data.surname}</p>
+                            >
+                                {
+                                    data && [data.name, data.surname].join(' ')
+                                        ||
+                                    groupData && groupData.group_name
+                                }
+                            </p>
                             <p className={styles.postPublicationDate}>{String(post.createdAt).replace('T', ' ').slice(0, -5)}</p>
                         </div>
                     </div>
