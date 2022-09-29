@@ -124,7 +124,7 @@ const ChatPage = () => {
                         {/* {
                             (post && post.image !== 'none') 
                                 &&
-                            <img src={'http://localhost:5000/' + post.image}/>
+                            <img src={'http://80.78.245.233:5000/' + post.image}/>
                         } */}
                     </div>
                 </div>
@@ -136,7 +136,7 @@ const ChatPage = () => {
                         {
                             (userAdditionalData && userAdditionalData.image !== 'none') 
                                 &&
-                            <img src={'http://localhost:5000/' + userAdditionalData.image}/>
+                            <img src={'http://80.78.245.233:5000/' + userAdditionalData.image}/>
                         }
                     </div>
                 </div>

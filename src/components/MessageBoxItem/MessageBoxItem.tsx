@@ -31,7 +31,7 @@ const MessageBoxItem:FC<MessageBoxItemProps> = ({inbox}) => {
                 <span></span>
                 <div className={styles.userImageHolder}>
                     {(userData && userData.image !== 'none') &&
-                        <img src={'http://localhost:5000/' + userData.image}/>
+                        <img src={'http://80.78.245.233:5000/' + userData.image}/>
                     }
                 </div>
                 <div className={styles.userMessageDirect}>
@@ -41,7 +41,7 @@ const MessageBoxItem:FC<MessageBoxItemProps> = ({inbox}) => {
                     <div className={styles.lastMessage}>
                         <div>
                             {(userData && userData.image !== 'none') &&
-                                <img src={'http://localhost:5000/' + userData.image}/>
+                                <img src={'http://80.78.245.233:5000/' + userData.image}/>
                             }
                         </div>
                         <p>{inbox.last_message}</p>

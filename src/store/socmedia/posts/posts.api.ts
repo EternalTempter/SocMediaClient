@@ -4,7 +4,7 @@ import { IComment, IPost } from "../../../models";
 export const postsApi = createApi({
     reducerPath: 'posts/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/api/post/'
+        baseUrl: 'http://80.78.245.233:5000/api/post/'
     }),
     endpoints: build => ({
         getAllPosts: build.query<any, {}>({

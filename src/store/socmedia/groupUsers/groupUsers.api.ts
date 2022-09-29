@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 export const groupUsersApi = createApi({
     reducerPath: 'groupUsers/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/api/groupUser/'
+        baseUrl: 'http://80.78.245.233:5000/api/groupUser/'
     }),
     endpoints: build => ({
         getAllGroupSubscribers: build.query<any, string>({

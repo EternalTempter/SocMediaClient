@@ -49,10 +49,10 @@ const ImageOptionsModal:FC<ImageOptionsModalProps> = ({type, mainImage, panorama
                     preview && <img src={preview}/>
                 }
                 {
-                    (!preview && type === 'regularImage' && mainImage !== 'none') ? <img src={'http://localhost:5000/' + mainImage}/> : ''
+                    (!preview && type === 'regularImage' && mainImage !== 'none') ? <img src={'http://80.78.245.233:5000/' + mainImage}/> : ''
                 }
                 {
-                    (!preview && type === 'panoramaImage' && panoramaImage !== 'none') ? <img src={'http://localhost:5000/' + panoramaImage}/> : ''
+                    (!preview && type === 'panoramaImage' && panoramaImage !== 'none') ? <img src={'http://80.78.245.233:5000/' + panoramaImage}/> : ''
                 }
             </div>
             {

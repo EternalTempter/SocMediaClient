@@ -4,7 +4,7 @@ import { IGroup, IGroupUsers } from "../../../models";
 export const groupsApi = createApi({
     reducerPath: 'groups/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/api/group/'
+        baseUrl: 'http://80.78.245.233:5000/api/group/'
     }),
     endpoints: build => ({
         findAllGroupsByName: build.query<IGroup[], string>({

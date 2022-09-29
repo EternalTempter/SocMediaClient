@@ -71,7 +71,7 @@ const UserHolder:FC<UserHolderProps> = ({user_id, isFriend, refetch}) => {
         <div className={styles.userHolder} onClick={() => navigate(`/account/${user_id}`)}>
             <div className={styles.userPhoto}>
                 {(userData && userData.image !== 'none') &&
-                    <img src={'http://localhost:5000/' + userData.image}/>
+                    <img src={'http://80.78.245.233:5000/' + userData.image}/>
                 }
             </div>
             <div className={styles.userInfo}>

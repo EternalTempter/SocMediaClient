@@ -4,7 +4,7 @@ import { IInbox } from '../../../models';
 export const inboxesApi = createApi({
     reducerPath: 'inboxes/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/api/inbox/'
+        baseUrl: 'http://80.78.245.233:5000/api/inbox/'
     }),
     endpoints: build => ({
         getUserInboxes: build.query<any, {}>({

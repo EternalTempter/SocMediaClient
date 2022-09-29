@@ -4,7 +4,7 @@ import { IAddInFriendsNotification, IFriend, IUser } from '../../../models';
 export const friendsApi = createApi({
     reducerPath: 'friends/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/api/friendship/'
+        baseUrl: 'http://80.78.245.233:5000/api/friendship/'
     }),
     endpoints: build => ({
         getAllFriends: build.query<IFriend[], string>({

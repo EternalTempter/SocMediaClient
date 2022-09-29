@@ -4,7 +4,7 @@ import { IMessage } from '../../../models';
 export const messagesApi = createApi({
     reducerPath: 'messages/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/api/messages/'
+        baseUrl: 'http://80.78.245.233:5000/api/messages/'
     }),
     endpoints: build => ({
         getMessages: build.query<any, {}>({

@@ -102,13 +102,13 @@ const GroupPage = () => {
                 <div className={styles.groupImageHolder}>
                     <div>
                         {(data && data.image !== 'none') &&
-                            <img src={'http://localhost:5000/' + data.image}/>
+                            <img src={'http://80.78.245.233:5000/' + data.image}/>
                         }
                     </div>
                 </div>
                 <div className={styles.groupHeader}>
                     {(data && data.panoramaImage !== 'none') &&
-                        <img src={'http://localhost:5000/' + data.panoramaImage}/>
+                        <img src={'http://80.78.245.233:5000/' + data.panoramaImage}/>
                     }
                 </div>
                 <div className={styles.groupBody}>

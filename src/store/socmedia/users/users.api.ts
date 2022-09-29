@@ -4,7 +4,7 @@ import { IToken, IUser } from '../../../models';
 export const usersApi = createApi({
     reducerPath: 'socmedia/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000/api/user/'
+        baseUrl: 'http://80.78.245.233:5000/api/user/'
     }),
     endpoints: build => ({
         registrate: build.mutation<IToken, IUser>({

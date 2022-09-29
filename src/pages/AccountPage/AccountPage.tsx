@@ -206,7 +206,7 @@ const AccountPage = () => {
             }
             <div className={styles.panoramaImage} onClick={() => showImageOptionsHandler('panoramaImage')}>
                 {(userData && userData.panoramaImage !== 'none') &&
-                    <img src={'http://localhost:5000/' + userData.panoramaImage}/>
+                    <img src={'http://80.78.245.233:5000/' + userData.panoramaImage}/>
                 }
                 <div>
                     <More className={styles.accountMore}/>
@@ -217,7 +217,7 @@ const AccountPage = () => {
                     <div className={styles.userImageHolder}>
                         <div className={styles.userImage} onClick={() => showImageOptionsHandler('regularImage')}>
                             {(userData && userData.image !== 'none') &&
-                               <img src={'http://localhost:5000/' + userData.image}/>
+                               <img src={'http://80.78.245.233:5000/' + userData.image}/>
                             }
                         </div>
                     </div>
