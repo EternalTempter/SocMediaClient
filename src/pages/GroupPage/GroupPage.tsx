@@ -14,7 +14,8 @@ import jwt_decode from 'jwt-decode';
 import { useCreatePostMutation, useLazyGetAllGroupPostsQuery } from '../../store/socmedia/posts/posts.api';
 import styles from './GroupPage.module.scss';
 import Post from '../../components/Post/Post';
-import { useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation } from '../../store/socmedia/groupUsers/groupUsers.api';
+import { useGetGroupSubsCountQuery, useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation } from '../../store/socmedia/groupUsers/groupUsers.api';
+import { baseUrl } from "../../envVariables/variables";
 
 const GroupPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -30,6 +31,7 @@ const GroupPage = () => {
     const [totalPages, setTotalPages] = useState<number | null>(null); 
     const [posts, setPosts] = useState<IPost[]>([]);
 
+    const {isError: isGroupSubsCountError, isLoading: isGroupSubsCountLoading, data: groupSubsCountData, refetch: refetchGroupSubs} = useGetGroupSubsCountQuery(String(id));
     const {isError: isUserGroupSubscriptionsError, isLoading: isUserGroupSubscriptionsLoading, data: userGroupSubscriptionsData, refetch} = useGetAllUserGroupSubscriptionsQuery(user.email);
 
     const [unsubscribe, {isError: isUnsubscribeError, isLoading: isUnsubscribeLoading, data: unsubscribeData}] = useUnsubscribeOnGroupMutation();
@@ -58,10 +60,12 @@ const GroupPage = () => {
         event.stopPropagation();
         if(buttonValue === 'Отписаться'){
             unsubscribe({group_id: id, id: user.email})
+            refetchGroupSubs()
             refetch()
         } 
         else {
             subscribe({group_id: id, id: user.email});
+            refetchGroupSubs()
             refetch()
         }
     }
@@ -102,19 +106,19 @@ const GroupPage = () => {
                 <div className={styles.groupImageHolder}>
                     <div>
                         {(data && data.image !== 'none') &&
-                            <img src={'http://80.78.245.233:5000/' + data.image}/>
+                            <img src={baseUrl + data.image}/>
                         }
                     </div>
                 </div>
                 <div className={styles.groupHeader}>
                     {(data && data.panoramaImage !== 'none') &&
-                        <img src={'http://80.78.245.233:5000/' + data.panoramaImage}/>
+                        <img src={baseUrl + data.panoramaImage}/>
                     }
                 </div>
                 <div className={styles.groupBody}>
                     <div className={styles.groupBodyLeftSide}>
                         <p className={styles.groupName}>{data && data.group_name}</p>
-                        <p className={styles.groupUsersAmount}>1056703 участника</p>
+                        <p className={styles.groupUsersAmount}>{groupSubsCountData && groupSubsCountData} участника</p>
                         <div className={styles.groupUsers}>
                             <div></div>
                             <div></div>

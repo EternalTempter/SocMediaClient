@@ -8,9 +8,10 @@ import jwt_decode from 'jwt-decode';
 
 interface CommentHolderProps {
     comment: IComment
+    type: string
 }
 
-const CommentHolder:FC<CommentHolderProps> = ({comment}) => {
+const CommentHolder:FC<CommentHolderProps> = ({comment, type}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
 
     const [isLiked, setIsLiked] = useState(false);
@@ -42,7 +43,7 @@ const CommentHolder:FC<CommentHolderProps> = ({comment}) => {
     }, [commentLikeData]);
 
     return (
-        <div className={styles.commentWrap}>
+        <div className={type === 'REGULAR_COMMENT' ? styles.commentWrap : styles.bestCommentWrap}>
             <div className={styles.imageHolder}></div>
             <div className={styles.commentInfo}>
                 <p className={styles.commenterName}>{data && data.name} {data && data.surname}</p>

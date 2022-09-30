@@ -3,15 +3,18 @@ import { IUser } from '../../models';
 import styles from './ImageOptionsModal.module.scss';
 import jwt_decode from 'jwt-decode';
 import { useUpdateImageMutation, useUpdatePanoramaImageMutation } from '../../store/socmedia/userData/userData.api';
+import { baseUrl } from "../../envVariables/variables";
 
 interface ImageOptionsModalProps {
     type: string
     mainImage: string
     panoramaImage: string
     id: string
+    refetch: () => void
+    setVisible: (value: boolean) => void
 }
 
-const ImageOptionsModal:FC<ImageOptionsModalProps> = ({type, mainImage, panoramaImage, id}) => {
+const ImageOptionsModal:FC<ImageOptionsModalProps> = ({type, mainImage, panoramaImage, id, refetch, setVisible}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const [userCurrentFile, setUserCurrentFile] = useState();
     const [preview, setPreview] = useState('');
@@ -33,6 +36,8 @@ const ImageOptionsModal:FC<ImageOptionsModalProps> = ({type, mainImage, panorama
             else
                 updatePanoramaImage(formData);
         }
+        setVisible(false);
+        setTimeout(() => refetch(), 500);
     }
 
     useEffect(() => {
@@ -49,10 +54,10 @@ const ImageOptionsModal:FC<ImageOptionsModalProps> = ({type, mainImage, panorama
                     preview && <img src={preview}/>
                 }
                 {
-                    (!preview && type === 'regularImage' && mainImage !== 'none') ? <img src={'http://80.78.245.233:5000/' + mainImage}/> : ''
+                    (!preview && type === 'regularImage' && mainImage !== 'none') ? <img src={baseUrl + mainImage}/> : ''
                 }
                 {
-                    (!preview && type === 'panoramaImage' && panoramaImage !== 'none') ? <img src={'http://80.78.245.233:5000/' + panoramaImage}/> : ''
+                    (!preview && type === 'panoramaImage' && panoramaImage !== 'none') ? <img src={baseUrl + panoramaImage}/> : ''
                 }
             </div>
             {

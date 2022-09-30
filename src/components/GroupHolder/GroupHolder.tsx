@@ -3,10 +3,11 @@ import styles from './GroupHolder.module.scss';
 import { IGroup, IGroupUsers, IUser } from '../../models';
 import BrokenHeart from '../../assets/svg/BrokenHeart';
 import { useGetGroupByIdQuery } from '../../store/socmedia/groups/groups.api';
-import { useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation } from '../../store/socmedia/groupUsers/groupUsers.api';
+import { useGetAllGroupSubscribersQuery, useGetGroupSubsCountQuery, useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation } from '../../store/socmedia/groupUsers/groupUsers.api';
 import jwt_decode from 'jwt-decode';
 import Like from '../../assets/svg/Like';
 import { useNavigate } from 'react-router-dom';
+import { baseUrl } from "../../envVariables/variables";
 
 interface GroupHolderProps {
     group_id: string
@@ -21,6 +22,7 @@ const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions, refetch
     const navigate = useNavigate();
     
     const {isError, isLoading, data} = useGetGroupByIdQuery(group_id);
+    const {isError: isGroupSubsCountError, isLoading: isGroupSubsCountLoading, data: groupSubsCountData, refetch: refetchGroupSubs} = useGetGroupSubsCountQuery(group_id);
     const [unsubscribe, {isError: isUnsubscribeError, isLoading: isUnsubscribeLoading, data: unsubscribeData}] = useUnsubscribeOnGroupMutation();
     const [subscribe, {isError: isSubscribeError, isLoading: isSubscribeLoading, data: subscribeData}] = useLazySubscribeOnGroupQuery();
     const [buttonValue, setButtonValue] = useState('');
@@ -36,10 +38,12 @@ const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions, refetch
         event.stopPropagation();
         if(buttonValue === 'Отписаться'){
             unsubscribe({group_id: group_id, id: user.email})
+            refetchGroupSubs()
             refetch()
         } 
         else {
             subscribe({group_id: group_id, id: user.email});
+            refetchGroupSubs()
             refetch()
         }
     }
@@ -48,7 +52,7 @@ const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions, refetch
         <div className={styles.groupHolder} onClick={() => navigate(`/groups/${group_id}`)}>
             <div className={styles.groupPhoto}>
                 {(data && data.image !== 'none') &&
-                    <img src={'http://80.78.245.233:5000/' + data.image}/>
+                    <img src={baseUrl + data.image}/>
                 }
             </div>
             <div className={styles.groupInfo}>
@@ -62,7 +66,7 @@ const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions, refetch
                     <div></div>
                     <div></div>
                 </div>
-                <p>23 623 участников</p>
+                <p>{groupSubsCountData && groupSubsCountData} участников</p>
             </div>
             <div className={styles.addButton} onClick={event => groupOptionHandler(event)}>
                 <p>{buttonValue}</p>

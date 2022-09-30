@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IToken, IUser } from '../../../models';
+import { baseUrl } from "../../../envVariables/variables";
 
 export const usersApi = createApi({
     reducerPath: 'socmedia/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://80.78.245.233:5000/api/user/'
+        baseUrl: baseUrl + 'api/user/'
     }),
     endpoints: build => ({
         registrate: build.mutation<IToken, IUser>({

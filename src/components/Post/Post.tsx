@@ -18,6 +18,7 @@ import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { useLazyGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
 import { useLazyGetGroupByIdQuery } from '../../store/socmedia/groups/groups.api';
+import { baseUrl } from "../../envVariables/variables";
 
 interface PostProps {
     post: IPost
@@ -72,6 +73,7 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
     function pasteCommentHandler() {
         if(currentComment. length > 0) {
             pasteComment({post_id: post.id, user_id: user.email , comment: currentComment});
+            setInterval(() => getComments(String(post.id)), 500)
             setCurrentComment('');
         }
     }
@@ -129,10 +131,10 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
                         <div className={styles.postImage}>
                         {
                             (userData && userData.image !== 'none') &&
-                                <img src={'http://localhost:5000/' + userData.image}/>
+                                <img src={baseUrl + userData.image}/>
                                     ||
                             (groupData && groupData.image !== 'none') && 
-                                <img src={'http://localhost:5000/' + groupData.image}/>
+                                <img src={baseUrl + groupData.image}/>
                         }
                         </div>
                         <div className={styles.postInfo}>
@@ -166,7 +168,7 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
                     {
                         (post && post.image !== 'none') 
                             &&
-                        <img src={'http://localhost:5000/' + post.image}/>
+                        <img src={baseUrl + post.image}/>
                     }
                 </div>
                 <div className={styles.postFooter}>
@@ -202,25 +204,15 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
                         <p>{post.views_amount}</p>
                     </div>
                     <div className={styles.postMostLikedComment}>
-                        {/* {
+                        {
                             bestCommentData && <CommentHolder comment={bestCommentData} type='BEST_COMMENT'/>
-                        } */}
-                        <div className={styles.postMostLikedCommentImage}></div>
-                        <div className={styles.postMostLikedCommentInfo}>
-                            <p>{bestCommentData && bestCommentData.user_id}</p>
-                            <p>{bestCommentData && bestCommentData.comment}</p>
-                        </div>
-                        <div className={styles.postMostLikedCommentLikes}>
-                            <Like className={styles.postMostLikedCommentLike}/>
-                            <p>{bestCommentData && bestCommentData.likes_amount}</p>
-                        </div>
-                        <p className={styles.postMostLikedCommentDate}>{bestCommentData && String(bestCommentData.createdAt).replace('T', ' ').slice(0, -5)}</p>
+                        }
                     </div>
                 </div>
                 <div className={commentClasses.join(' ')}>
                     <div className={styles.commentLine}></div>
                     {commentsData && commentsData.map(comment => 
-                        <CommentHolder comment={comment}/>
+                        <CommentHolder comment={comment} type='REGULAR_COMMENT'/>
                     )}
                     <div className={styles.addComment}>
                         <div className={styles.addCommentUserImage}></div>

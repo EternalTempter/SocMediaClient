@@ -13,7 +13,7 @@ import Clip from '../../assets/svg/Clip';
 import Microphone from '../../assets/svg/Microphone';
 import { useGetUserByEmailQuery } from '../../store/socmedia/users/users.api';
 import Message from '../../components/Message/Message';
-import { useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
+import ChatUser from '../../components/ChatUser/ChatUser';
 
 const ChatPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -33,9 +33,7 @@ const ChatPage = () => {
     const observer = useRef<IntersectionObserver | null>(null);
     
     const {isError: isCurrentInboxError, isLoading: isCurrentInboxLoading, data: currentInboxData} = useGetInboxQuery({firstUserId: user.email, secondUserId: String(searchParams.get('id'))});
-    
-    const {isError: isUserDataError, isLoading: isUserDataLoading, data: userAdditionalData} = useGetUserDataQuery(user.email);
-      
+         
     const [createPost, {isError, isLoading, data}] = usePostMessageMutation();
     
     const {isError: isMessagesError, isLoading: isMessagesLoading, data: messagesData} = useGetMessagesQuery({
@@ -118,30 +116,8 @@ const ChatPage = () => {
 
     return (
         <>
-            <div className={styles.leftSideUser}>
-                <div className={styles.leftSideUserOutline}>
-                    <div className={styles.rightSideUserImage}>
-                        {/* {
-                            (post && post.image !== 'none') 
-                                &&
-                            <img src={'http://80.78.245.233:5000/' + post.image}/>
-                        } */}
-                    </div>
-                </div>
-                <p>{userData && userData.name} {userData && userData.surname}</p>
-            </div>
-            <div className={styles.rightSideUser}>
-                <div className={styles.rightSideUserOutline}>
-                    <div className={styles.rightSideUserImage}>
-                        {
-                            (userAdditionalData && userAdditionalData.image !== 'none') 
-                                &&
-                            <img src={'http://80.78.245.233:5000/' + userAdditionalData.image}/>
-                        }
-                    </div>
-                </div>
-                <p>{user.name} {user.surname}</p>
-            </div>
+            <ChatUser userId={String(searchParams.get('id'))} type="LEFT_SIDE"/>
+            <ChatUser userId={user.email} type="RIGHT_SIDE"/>
             <div className={styles.chatWrap}>
                 <div className={styles.chatHeader}>
                     <div>

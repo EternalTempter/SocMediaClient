@@ -1,10 +1,11 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import { IAddInFriendsNotification, IFriend, IUser } from '../../../models';
+import { baseUrl } from "../../../envVariables/variables";
 
 export const friendsApi = createApi({
     reducerPath: 'friends/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://80.78.245.233:5000/api/friendship/'
+        baseUrl: baseUrl + 'api/friendship/'
     }),
     endpoints: build => ({
         getAllFriends: build.query<IFriend[], string>({

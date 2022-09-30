@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { IGroup, IGroupUsers } from "../../../models";
+import { baseUrl } from "../../../envVariables/variables";
 
 export const groupsApi = createApi({
     reducerPath: 'groups/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://80.78.245.233:5000/api/group/'
+        baseUrl: baseUrl + 'api/group/'
     }),
     endpoints: build => ({
         findAllGroupsByName: build.query<IGroup[], string>({

@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { IComment, IPost } from "../../../models";
+import { baseUrl } from "../../../envVariables/variables";
 
 export const postsApi = createApi({
     reducerPath: 'posts/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://80.78.245.233:5000/api/post/'
+        baseUrl: baseUrl + 'api/post/'
     }),
     endpoints: build => ({
         getAllPosts: build.query<any, {}>({

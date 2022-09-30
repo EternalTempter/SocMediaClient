@@ -48,38 +48,6 @@
 .chatHeaderMore {
     @include svgIconStyles(2.0833vw, 25px, $darkIconColor);
 }
-  
-.leftSideUser {
-    position: fixed;
-    left: 8%;
-    top: 36%;
-    text-align: center;
-}
-
-.rightSideUser {
-    position: fixed;
-    right: 8%;
-    top: 36%;
-    text-align: center;
-}
-
-.leftSideUserOutline, .rightSideUserOutline {
-    width: 9.1146vw;
-    height: 9.1146vw;
-    border: 3px solid gray;
-    display: flex;
-    align-items: center;
-    border-radius: 50%;
-    justify-content: center;
-}
-
-.leftSideUserImage, .rightSideUserImage {
-    width: 8.5938vw;
-    height: 8.5938vw;
-    background: lightgray;
-    border-radius: 50%;
-    @include roundedImageStyles();
-}
 
 .chatArea {
     height: 100%;
@@ -242,9 +210,6 @@
 @media screen and (max-width: 1023px){
     .chatWrap {
         width: 65vw;
-    }
-    .leftSideUser, .rightSideUser {
-        display: none;
     }
     .chatHeaderUserData {
         display: flex;

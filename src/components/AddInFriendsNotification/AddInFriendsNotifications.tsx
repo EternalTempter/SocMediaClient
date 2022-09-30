@@ -23,7 +23,7 @@ const AddInFriendsNotifications:FC<AddInFriendsNotificationsProps> = ({notificat
             <div>
                 <div className={styles.image}>
                     {(userData && userData.image !== 'none') &&
-                        <img src={'http://80.78.245.233:5000/' + userData.image}/>
+                        <img src={process.env.HTTP_REQUESTS_URL + userData.image}/>
                     }
                 </div>
                 <p>{data?.name} {data?.surname} хочет добавить вас в друзья</p>

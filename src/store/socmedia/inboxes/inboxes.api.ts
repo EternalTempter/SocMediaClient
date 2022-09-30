@@ -1,10 +1,11 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import { IInbox } from '../../../models';
+import { baseUrl } from "../../../envVariables/variables";
 
 export const inboxesApi = createApi({
     reducerPath: 'inboxes/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://80.78.245.233:5000/api/inbox/'
+        baseUrl: baseUrl + 'api/inbox/'
     }),
     endpoints: build => ({
         getUserInboxes: build.query<any, {}>({

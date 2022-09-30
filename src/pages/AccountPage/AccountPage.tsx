@@ -25,6 +25,7 @@ import UserOptionsModal from '../../components/UserOptionsModal/UserOptionsModal
 import UserStats from '../../components/UserStats/UserStats';
 import AddPostPanel from '../../components/AddPostPanel/AddPostPanel';
 import ModalWrap from '../../components/ModalWrap/ModalWrap';
+import { baseUrl } from "../../envVariables/variables";
 
 const AccountPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -137,6 +138,7 @@ const AccountPage = () => {
             formData.append('post_handler_id', user.email);
             createUserPost(formData);
             setUserCurrentPostDescription('');
+            setTimeout(() => getPosts({id: id || user.email, limit: 5, page: page}), 1000);
         }
     }
 
@@ -201,12 +203,12 @@ const AccountPage = () => {
             {
                 userData && visible && 
                     <ModalWrap visible={visible} setVisible={setVisible} type='row'>
-                        <ImageOptionsModal id={id || user.email} mainImage={userData.image} panoramaImage={userData.panoramaImage} type={imageEditingType}/>
+                        <ImageOptionsModal id={id || user.email} mainImage={userData.image} panoramaImage={userData.panoramaImage} type={imageEditingType} refetch={refetch} setVisible={setVisible}/>
                     </ModalWrap>
             }
             <div className={styles.panoramaImage} onClick={() => showImageOptionsHandler('panoramaImage')}>
                 {(userData && userData.panoramaImage !== 'none') &&
-                    <img src={'http://80.78.245.233:5000/' + userData.panoramaImage}/>
+                    <img src={baseUrl + userData.panoramaImage}/>
                 }
                 <div>
                     <More className={styles.accountMore}/>
@@ -217,7 +219,7 @@ const AccountPage = () => {
                     <div className={styles.userImageHolder}>
                         <div className={styles.userImage} onClick={() => showImageOptionsHandler('regularImage')}>
                             {(userData && userData.image !== 'none') &&
-                               <img src={'http://80.78.245.233:5000/' + userData.image}/>
+                               <img src={baseUrl + userData.image}/>
                             }
                         </div>
                     </div>

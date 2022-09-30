@@ -16,13 +16,20 @@
 
 .panoramaImage {
     @include imageStyles();
+    position: relative;
     width: 55.7292vw;
     min-height: 7.8125vw;
+    height: 7.8125vw;
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
     background: #8A8A8A;
     cursor: pointer;
+    div {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
 }
 
 .accountMore {

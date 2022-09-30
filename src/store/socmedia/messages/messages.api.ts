@@ -1,10 +1,11 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import { IMessage } from '../../../models';
+import { baseUrl } from "../../../envVariables/variables";
 
 export const messagesApi = createApi({
     reducerPath: 'messages/api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://80.78.245.233:5000/api/messages/'
+        baseUrl: baseUrl + 'api/messages/'
     }),
     endpoints: build => ({
         getMessages: build.query<any, {}>({

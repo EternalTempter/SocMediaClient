@@ -176,62 +176,6 @@
     align-items: center;
 }
 
-.postMostLikedCommentDate {
-    @include fontStyles($textColor);
-    position: absolute;
-    right: 3px;
-    top: -8px;
-    font-size: calc(8px + (12 - 8) * (100vw - 1024px) / (1920 - 1024));
-}
-
-.postMostLikedCommentImage {
-    width: 2.18vw;
-    height: 2.18vw;
-    min-width: 30px;
-    min-height: 30px;
-    background: #000000;
-    border-radius: 50%;
-    margin: 0.1563vw 0 0.1563vw 0.1563vw;
-}
-.postMostLikedCommentInfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    height: 100%;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    box-sizing: border-box;
-}
-.postMostLikedCommentInfo p {
-    @include fontStyles($textColor);
-    padding: 0;
-    margin: 0;
-    font-size: calc(8px + (14 - 8) * (100vw - 1024px) / (1920 - 1024));
-    margin-left: 5px;
-}
-
-.postMostLikedCommentInfo p:nth-last-child(1) {
-    font-size: calc(6px + (12 - 6) * (100vw - 1024px) / (1920 - 1024));
-}
-
-.postMostLikedCommentLikes {
-    display: flex;
-    margin-top: 0.7407vw;
-    margin-left: auto;
-    p {
-        @include fontStyles($textColor);
-        margin: 0;
-        padding: 0;
-        font-size: calc(8px + (14 - 8) * (100vw - 1024px) / (1920 - 1024));
-        margin-right: 0.5208vw;
-        margin-left: 3px;
-    }
-}
-
-.postMostLikedCommentLike {
-    @include svgIconStyles(0.9375vw, 14px, $darkIconColor);
-}
-
 .commentLine {
     width: 94.3925%;
     height: 2px;

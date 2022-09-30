@@ -9,6 +9,7 @@ import { useGetUserByEmailQuery } from '../../store/socmedia/users/users.api';
 import Comment from '../../assets/svg/Comment';
 import { useNavigate } from 'react-router-dom';
 import { useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
+import { baseUrl } from "../../envVariables/variables";
 
 interface UserHolderProps {
     user_id: string
@@ -71,7 +72,7 @@ const UserHolder:FC<UserHolderProps> = ({user_id, isFriend, refetch}) => {
         <div className={styles.userHolder} onClick={() => navigate(`/account/${user_id}`)}>
             <div className={styles.userPhoto}>
                 {(userData && userData.image !== 'none') &&
-                    <img src={'http://80.78.245.233:5000/' + userData.image}/>
+                    <img src={baseUrl + userData.image}/>
                 }
             </div>
             <div className={styles.userInfo}>
