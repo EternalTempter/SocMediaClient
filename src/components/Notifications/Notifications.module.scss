@@ -4,6 +4,7 @@
 .notificationsWrap {
     @include scrollStyles(0.25em);
     width: 25vw;
+    min-width: 220px;
     height: 15vw;
     border-radius: 5px;
     background: rgb(196, 215, 235);

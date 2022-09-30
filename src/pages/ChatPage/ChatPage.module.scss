@@ -223,6 +223,9 @@
 }
 
 @media screen and (max-width: 768px){
+    .chatInteractive {
+        margin-bottom: 54px;
+    }
     .chatWrap {
         width: 100vw;
     }
@@ -244,7 +247,7 @@
         display: flex;
         div {
             display: flex;
-            &:last-child {
+            &:nth-child(2) {
                 display: none;
             }
         }

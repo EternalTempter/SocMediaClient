@@ -1,0 +1,34 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.menuWrap {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+    width: 100vw;
+    height: 100vh;
+    background: #C4D7EB;
+    a {
+        display: block;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        text-decoration: none;
+        p {
+            margin: 0 0 0 6px;
+            @include fontStyles($textColor);
+            font-size: 14px;
+        }
+    }
+}
+
+.menuWrap.on {
+    display: block;
+}
+
+.account, .group {
+    @include svgIconStyles(0.94vw, 16px, $darkIconColor);
+}

@@ -30,17 +30,33 @@
     top: 0;
 }
 
-.chat, .news, .account, .friends, .group, .notifications {
-    @include svgIconStyles(2.6042vw, 30px, $darkIconColor);
+.chat, .news, .account, .friends, .group, .notifications, .burgerMenu {
+    @include svgIconStyles(2.6042vw, 25px, $darkIconColor);
 }
 
 .notifications.active {
     fill: rgb(184, 27, 27);
 }
 
+.mobileViewNavBar {
+    display: none;
+    position: absolute;
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+    background: linear-gradient(91.38deg, rgba(255, 255, 255, 0.4) -3.6%, rgba(255, 255, 255, 0.1) 114.8%);
+    align-items: center;
+    justify-content: space-evenly;
+    padding: calc(12px + (17 - 12) * (100vw - 200px) / (1920 - 200));
+    bottom: 0;
+    left: 0;
+}
 
 @media screen and (max-width: 768px){
     .navbar {
         display: none;
+    }
+    .mobileViewNavBar {
+        display: flex;
     }
 }
