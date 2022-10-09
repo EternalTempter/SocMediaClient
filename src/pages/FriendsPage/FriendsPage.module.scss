@@ -5,11 +5,13 @@
     margin-top: 1.0417vw;
     height: 100vh;
     position: relative;
-    width: 55.7292vw;
+    width: 92.5vw;
     display: flex;
     flex-direction: column;
+    align-items: center;
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: scroll;
+    @include scrollStyles(0.45em)
 }
 
 .friendsFinderSearch {
@@ -18,6 +20,11 @@
 
 @media screen and (max-width: 768px) {
     .friendsWrap {
-        width: 97vw;
+        width: 100vw;
+        height: calc(100vh - calc(60px + (70 - 60) * (100vw - 300px) / (768 - 300)));
+        &::-webkit-scrollbar {
+            width: 1px;
+            height: 1px;
+        }
     }
 }

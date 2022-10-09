@@ -1,3 +1,6 @@
+@import "./styles/Mixins.scss";
+@import "./styles/Variables.scss";
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -19,4 +22,53 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.swiper-button-next, .swiper-button-prev {
+  cursor: pointer;
+  transition: 0.5s;
+  position: absolute;
+  width: 2.604vw !important; 
+  height: 2.604vw !important;
+  border-radius: 50%;
+  min-width: 25px;
+  min-height: 25px;
+  background: linear-gradient(141.34deg, rgba(255, 255, 255, 0.4) 8.89%, rgba(255, 255, 255, 0.1) 100%);
+}
+
+.swiper-button-next:after, .swiper-button-prev:after {
+  color: $darkIconColor;
+  font-size: calc(8px + (24 - 8) * (100vw - 300px) / (1920 - 300)) !important;
+}
+
+.swiper-button-next:hover, .swiper-button-prev:hover {
+  opacity: 1;
+  transition: 0.5s;
+}
+.swiper-button-prev {
+  left: 5px !important;
+}
+
+.swiper-button-next {
+  right: 5px !important;
+}
+.swiper-pagination-bullet {
+  width: calc(40px + (70 - 40) * (100vw - 300px) / (1920 - 300)) !important;
+  height: calc(3px + (5 - 3) * (100vw - 300px) / (1920 - 300)) !important;
+  cursor: pointer;
+  background: linear-gradient(90.32deg, rgba(255, 255, 255, 0.4) 4.97%, rgba(255, 255, 255, 0.1) 95.03%) !important;
+}
+.swiper-pagination-bullet-active {
+  transition: 0.5s;
+  background: #C4D7EB;
 }

@@ -14,8 +14,10 @@ import jwt_decode from 'jwt-decode';
 import { useCreatePostMutation, useLazyGetAllGroupPostsQuery } from '../../store/socmedia/posts/posts.api';
 import styles from './GroupPage.module.scss';
 import Post from '../../components/Post/Post';
-import { useGetGroupSubsCountQuery, useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation } from '../../store/socmedia/groupUsers/groupUsers.api';
+import { useGetFirstGroupSubsQuery, useGetGroupSubsCountQuery, useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation } from '../../store/socmedia/groupUsers/groupUsers.api';
 import { baseUrl } from "../../envVariables/variables";
+import BrokenHeart from '../../assets/svg/BrokenHeart';
+import GroupSubscriber from '../../components/GroupSubscriber/GroupSubscriber';
 
 const GroupPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -25,11 +27,13 @@ const GroupPage = () => {
     const [userCurrentFile, setUserCurrentFile] = useState();
 
     const [buttonValue, setButtonValue] = useState('');
-
+    
     const lastElement = useRef<HTMLDivElement | null>(null);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState<number | null>(null); 
     const [posts, setPosts] = useState<IPost[]>([]);
+    
+    const {isError: isGroupSubsError, isLoading: isGroupSubsLoading, data: groupSubsData, refetch: refetchFirstGroupSubs} = useGetFirstGroupSubsQuery({group_id: String(id), amount: 3});
 
     const {isError: isGroupSubsCountError, isLoading: isGroupSubsCountLoading, data: groupSubsCountData, refetch: refetchGroupSubs} = useGetGroupSubsCountQuery(String(id));
     const {isError: isUserGroupSubscriptionsError, isLoading: isUserGroupSubscriptionsLoading, data: userGroupSubscriptionsData, refetch} = useGetAllUserGroupSubscriptionsQuery(user.email);
@@ -58,17 +62,22 @@ const GroupPage = () => {
 
     function groupOptionHandler(event) {
         event.stopPropagation();
-        if(buttonValue === 'Отписаться'){
-            unsubscribe({group_id: id, id: user.email})
+        if(buttonValue === 'Отписаться') unsubscribe({group_id: id, id: user.email})
+        else subscribe({group_id: id, id: user.email});
+
+    }
+
+    useEffect(() => {
+        if(subscribeData || unsubscribeData) {
             refetchGroupSubs()
-            refetch()
-        } 
-        else {
-            subscribe({group_id: id, id: user.email});
-            refetchGroupSubs()
+            refetchFirstGroupSubs()
             refetch()
         }
-    }
+    }, [subscribeData, unsubscribeData])
+
+    useEffect(() => {
+        if(groupPostData) setPosts([groupPostData, ...posts])
+    }, [groupPostData])
 
     useObserver(lastElement, isPostsLoading, totalPages, page, () => {
         setPage((page) => page + 1)
@@ -120,23 +129,28 @@ const GroupPage = () => {
                         <p className={styles.groupName}>{data && data.group_name}</p>
                         <p className={styles.groupUsersAmount}>{groupSubsCountData && groupSubsCountData} участника</p>
                         <div className={styles.groupUsers}>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div>+245</div>
+                            {groupSubsData && groupSubsData.map(sub => 
+                                <GroupSubscriber key={sub.id} user_id={sub.user_id}/>
+                            )}
+                            {groupSubsCountData && groupSubsCountData > 5 &&
+                                <div>+{groupSubsCountData - 5}</div>
+                            }
                         </div>
                     </div>
                     <div className={styles.groupBodyRightSide}>
                         <div className={styles.groupButtons}>
                             <div className={styles.groupMobileViewButtons}>
-                                <Like className={styles.subscribeMobileViewButtonHeart}/>
+                                <div onClick={event => groupOptionHandler(event)}>
+                                    {buttonValue === 'Подписаться' && <Like className={styles.subscribeMobileViewButtonHeart}/>}
+                                    {buttonValue === 'Отписаться' && <BrokenHeart className={styles.subscribeMobileViewButtonHeart}/>}   
+                                </div>
                                 <More className={styles.moreMobileViewButtonHeart}/>
                             </div>
                             <div className={styles.subscribeButton} onClick={event => groupOptionHandler(event)}>
                                 <p>{buttonValue}</p>
                                 <div>
-                                    <Like className={styles.subscribeButtonHeart}/>
+                                    {buttonValue === 'Подписаться' && <Like className={styles.subscribeButtonHeart}/>}
+                                    {buttonValue === 'Отписаться' && <BrokenHeart className={styles.subscribeButtonHeart}/>}                       
                                 </div>
                             </div>
                             <div>

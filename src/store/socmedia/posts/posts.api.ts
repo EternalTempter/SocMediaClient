@@ -136,7 +136,31 @@ export const postsApi = createApi({
                 url: 'getAllGroupPosts',
                 params: params
             })
-        })
+        }),
+        getAllUserCommentsCount: build.query<any, string>({
+            query: (user_id: string) => ({
+                url: 'getAllUserCommentsCount',
+                params: {
+                    user_id: user_id
+                }
+            })
+        }),
+        getAllLikedPostsCount: build.query<any, string>({
+            query: (user_id: string) => ({
+                url: 'getAllLikedPostsCount',
+                params: {
+                    user_id: user_id
+                }
+            })
+        }),
+        getUserMostLikedPostCount: build.query<any, string>({
+            query: (user_id: string) => ({
+                url: 'getUserMostLikedPostCount',
+                params: {
+                    user_id: user_id
+                }
+            })
+        }),
     })
 });
 
@@ -159,5 +183,8 @@ export const {
     useUpdateViewsCountMutation, 
     useFindUserPostsByDescriptionQuery, 
     useGetUserPostsCountQuery,
-    useLazyGetAllGroupPostsQuery
+    useLazyGetAllGroupPostsQuery,
+    useGetAllUserCommentsCountQuery,
+    useGetAllLikedPostsCountQuery,
+    useGetUserMostLikedPostCountQuery
 } = postsApi;

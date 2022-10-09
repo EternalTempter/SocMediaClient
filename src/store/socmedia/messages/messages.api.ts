@@ -41,6 +41,27 @@ export const messagesApi = createApi({
                 params: params
             })
         }),
+        updateView: build.mutation<any, {}>({
+            query: (body: {}) => ({
+                url: 'updateView',
+                method: 'put',
+                body: body
+            })
+        }),
+        getMessagesCount: build.query<any, {}>({
+            query: (params: {}) => ({
+                url: 'getMessagesCount',
+                params: params
+            })
+        }),
+        getAllUserMessagesCount: build.query<any, string>({
+            query: (user_id: string) => ({
+                url: 'getAllUserMessagesCount',
+                params: {
+                    user_id: user_id
+                }
+            })
+        }),
     })
 })
 
@@ -49,5 +70,9 @@ export const {
     usePostMessageMutation, 
     useUpdateMessageMutation, 
     useDeleteMessageMutation, 
-    useFindMessagesQuery
+    useFindMessagesQuery,
+    useUpdateViewMutation,
+    useLazyGetMessagesQuery,
+    useGetMessagesCountQuery,
+    useGetAllUserMessagesCountQuery
 } = messagesApi;

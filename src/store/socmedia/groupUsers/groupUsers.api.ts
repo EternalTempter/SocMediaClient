@@ -43,6 +43,12 @@ export const groupUsersApi = createApi({
                     group_id: group_id
                 }
             }),
+        }),
+        getFirstGroupSubs: build.query<any, {}>({
+            query: (params: {}) => ({
+                url: 'getFirstGroupSubs',
+                params: params
+            }),
         })
     })
 })
@@ -52,5 +58,6 @@ export const {
     useLazySubscribeOnGroupQuery, 
     useUnsubscribeOnGroupMutation, 
     useGetUserGroupSubsCountQuery,
-    useGetGroupSubsCountQuery
+    useGetGroupSubsCountQuery,
+    useGetFirstGroupSubsQuery
 } = groupUsersApi;

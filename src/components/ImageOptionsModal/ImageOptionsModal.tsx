@@ -10,11 +10,12 @@ interface ImageOptionsModalProps {
     mainImage: string
     panoramaImage: string
     id: string
+    currentUserId: string
     refetch: () => void
     setVisible: (value: boolean) => void
 }
 
-const ImageOptionsModal:FC<ImageOptionsModalProps> = ({type, mainImage, panoramaImage, id, refetch, setVisible}) => {
+const ImageOptionsModal:FC<ImageOptionsModalProps> = ({type, mainImage, panoramaImage, id, refetch, setVisible, currentUserId}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const [userCurrentFile, setUserCurrentFile] = useState();
     const [preview, setPreview] = useState('');
@@ -49,7 +50,7 @@ const ImageOptionsModal:FC<ImageOptionsModalProps> = ({type, mainImage, panorama
 
     return (
         <>
-            <div className={styles.imageHolder}>
+            <div className={(currentUserId === user.email) ? styles.imageHolder : [styles.imageHolder, styles.fullsized].join(' ')}>
                 {
                     preview && <img src={preview}/>
                 }

@@ -5,6 +5,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .aboutPage {
@@ -48,5 +51,11 @@
         @include fontStyles($textColor);
         font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
         margin: 5px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .aboutPageWrap {
+        height: calc(100vh - calc(60px + (70 - 60) * (100vw - 300px) / (768 - 300)));
     }
 }

@@ -1,17 +1,23 @@
 import React, { FC, useEffect, useState } from 'react';
 import { IUser } from '../../models';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useCreateGroupMutation } from '../../store/socmedia/groups/groups.api';
 import jwt_decode from 'jwt-decode';
 import styles from './CreateGroupModal.module.scss';
+import { useLazySubscribeOnGroupQuery } from '../../store/socmedia/groupUsers/groupUsers.api';
 
 interface CreateGroupModalProps {
-
+    setVisible: (value: boolean) => void
+    refetch: () => void
 }
 
-const CreateGroupModal:FC<CreateGroupModalProps> = () => {
+const CreateGroupModal:FC<CreateGroupModalProps> = ({setVisible, refetch}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
 
     const [groupInfo, setGroupInfo] = useState({name: '', type: '', description: ''});
+    const [isGroupNameError, setIsGroupNameError] = useState(false);
+    const [isGroupDescriptionError, setIsGroupDescriptionError] = useState(false);
 
     const [groupImage, setGroupImage] = useState();
     const [groupPanoramaImage, setGroupPanoramaImage] = useState();
@@ -21,16 +27,36 @@ const CreateGroupModal:FC<CreateGroupModalProps> = () => {
 
     const [createGroup, {isError, isLoading, data}] = useCreateGroupMutation();
 
+    const [subscribe, {isError: isSubError, isLoading: isSubLoading, data: subData}] = useLazySubscribeOnGroupQuery()
+
+    const isValidFileUploaded=(file)=>{
+        const validExtensions = ['png','jpeg','jpg']
+        const fileExtension = file.type.split('/')[1]
+        return validExtensions.includes(fileExtension)
+    }
+
     const showGroupImageUpload = e => {
-        setGroupImage(e.target.files[0]);
+        if(isValidFileUploaded(e.target.files[0])) setGroupImage(e.target.files[0]);
     }
 
     const showGroupPanoramaImageUpload = e => {
-        setGroupPanoramaImage(e.target.files[0]);
+        if(isValidFileUploaded(e.target.files[0])) setGroupPanoramaImage(e.target.files[0]);
+    }
+
+    function notify() {
+        toast.warn('Правильно заполните первые три поля', {
+            position: "top-right",
+            autoClose: 3500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
     }
 
     function createGroupHandler() {
-        if(groupInfo.name !== '' && groupInfo.type !== '' && groupInfo.description !== '') {
+        if((groupInfo.name !== '' && !isGroupNameError) && groupInfo.type !== '' && (groupInfo.description !== '' && !isGroupDescriptionError)) {
             const formData = new FormData()
             formData.append('group_name', groupInfo.name);
             formData.append('type', groupInfo.type);
@@ -42,8 +68,33 @@ const CreateGroupModal:FC<CreateGroupModalProps> = () => {
             setGroupInfo({name: '', type: '', description: ''});
             setGroupImage(undefined);
             setGroupPanoramaImage(undefined);
+            setTimeout(() => refetch(), 750);
+            setVisible(false);
         }
+        else notify();
     }
+
+    function validateGroupName() {
+        setIsGroupNameError(groupInfo.name.length > 40 || groupInfo.name.length < 2);
+    }
+
+    function validateGroupDescription() {
+        setIsGroupDescriptionError(groupInfo.description.length > 200 || groupInfo.description.length < 2);
+    }
+
+    function handleGroupNameChange(e: any) {
+        setGroupInfo({...groupInfo, name: e.target.value})
+        validateGroupName()
+    }
+
+    function handleGroupDescriptionChange(e: any) {
+        setGroupInfo({...groupInfo, description: e.target.value})
+        validateGroupDescription()
+    }
+
+    useEffect(() => {
+        if(data) refetch();
+    }, [data])
 
     useEffect(() => {
         if(groupImage) {
@@ -61,30 +112,51 @@ const CreateGroupModal:FC<CreateGroupModalProps> = () => {
 
     return (
         <>
+        <ToastContainer
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            className={styles.toast}
+        />
             <h3 className={styles.textLabel}>Создание сообщества</h3>
+            <p className={styles.inputLabel}>Допустимая длина от 2 до 40 символов</p>
             <input 
-                className={styles.groupNameInput} 
+                className={isGroupNameError ? [styles.groupNameInput, styles.error].join(' ') : styles.groupNameInput} 
                 type="text" 
                 placeholder='Введите название сообщества'
                 value={groupInfo.name}
-                onChange={e => setGroupInfo({...groupInfo, name: e.target.value})}
+                onChange={(e) => handleGroupNameChange(e)}
+                onBlur={validateGroupName}
             />
-            <input 
+            <select
                 className={styles.groupTypeInput} 
-                type="text" 
-                placeholder='Введите тематику группы'
                 value={groupInfo.type}
                 onChange={e => setGroupInfo({...groupInfo, type: e.target.value})}
-            />
+            >
+                <option disabled value="">Выберите тематику группы</option>
+                <option value="Мемы">Анекдоты</option>
+                <option value="Наука">Наука</option>
+                <option value="Религия">Новости</option>
+                <option value="Игры">Игры</option>
+                <option value="Другое">Другое</option>
+            </select>
+            <p className={styles.inputLabel}>Допустимая длина от 2 до 200 символов. Осталось - {((200 - groupInfo.description.length) > 0) ? 200 - groupInfo.description.length : 0}</p>
             <textarea 
-                className={styles.groupDescriptionInput} 
+                className={isGroupDescriptionError ? [styles.groupDescriptionInput, styles.error].join(' ') : styles.groupDescriptionInput} 
                 placeholder='Введите описание сообщества'
                 value={groupInfo.description}
-                onChange={e => setGroupInfo({...groupInfo, description: e.target.value})}
+                onChange={(e) => handleGroupDescriptionChange(e)}
+                onBlur={validateGroupDescription}
             />
             <div className={styles.groupViews}>
                 <div className={styles.groupImage}>
-                    <p>Прикрепите фотографию</p>
+                    {groupImagePreview === '' && <p>Прикрепите фотографию</p>}
                     {
                         groupImagePreview && <img src={groupImagePreview} />
                     }
@@ -92,10 +164,11 @@ const CreateGroupModal:FC<CreateGroupModalProps> = () => {
                         type="file" 
                         placeholder='Прикрепите фотографию сообщества'
                         onChange={showGroupImageUpload}
+                        accept=".png, .jpg, .jpeg"
                     />
                 </div>
                 <div className={styles.groupPanoramaImage}>
-                    <p>Прикрепите панорамную фотографию</p>
+                    {groupPanoramaImagePreview === '' && <p>Прикрепите панорамную фотографию</p>}
                     {
                         groupPanoramaImagePreview && <img src={groupPanoramaImagePreview} />
                     }
@@ -103,6 +176,7 @@ const CreateGroupModal:FC<CreateGroupModalProps> = () => {
                         type="file" 
                         placeholder='Прикрепите панорамную фотографию сообщества'
                         onChange={showGroupPanoramaImageUpload}
+                        accept=".png, .jpg, .jpeg"
                     />
                 </div>
             </div>

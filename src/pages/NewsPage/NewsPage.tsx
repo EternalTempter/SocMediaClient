@@ -1,14 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Options from '../../assets/svg/Options';
-import Post from '../../components/Post/Post';
-import { IPost, IUser } from '../../models';
+import { IUser } from '../../models';
 import { useGetAllFriendsQuery } from '../../store/socmedia/friends/friends.api';
 import { useGetAllLikesQuery, useLazyGetAllPostsQuery, useLazyGetAllFriendsPostsQuery, useLazyGetAllLikedPostsQuery } from '../../store/socmedia/posts/posts.api';
 import styles from './NewsPage.module.scss';
 import jwt_decode from 'jwt-decode';
-import { useObserver } from '../../hooks/useObserver';
 import ButtonBar from '../../components/ButtonBar/ButtonBar';
 import Button from '../../components/UI/Button/Button';
+import PostsWrap from '../../components/PostsWrap/PostsWrap';
 
 const NewsPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -16,21 +15,14 @@ const NewsPage = () => {
     const [buttonState, setButtonState] = useState('Интересное');
     
     const [getPosts, {isLoading, isError, data}] = useLazyGetAllPostsQuery();
-    const [posts, setPosts] = useState<IPost[]>([]);
 
-    const lastElement = useRef<HTMLDivElement>(null)
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState<number | null>(null);
-
+    const [friendsIds, setFriendsIds] = useState<string[]>([])
     const {isLoading: isFriendsLoading, isError: isFriendsError, data: friendsData} = useGetAllFriendsQuery(user.email)
     const [getAllFriendsPosts, {isLoading: isFriendsPostsLoading, isError: isFriendsPostsError, data: friendsPostsData}] = useLazyGetAllFriendsPostsQuery()
 
+    const [likesIds, setLikesIds] = useState<string[]>([])
     const {isLoading: isLikesLoading, isError: isLikesError, data: likesData} = useGetAllLikesQuery(user.email)
     const [getAllLikedPosts, {isLoading: isLikedPostsLoading, isError: isLikedPostsError, data: likedPostsData}] = useLazyGetAllLikedPostsQuery();
-
-    function hidePost(id: number) {
-        setPosts(posts.filter(post => post.id !== id))
-    }
     
     function showInterestPostsHandler() {
         setButtonState('Интересное');
@@ -39,10 +31,9 @@ const NewsPage = () => {
     function showFriendsPostsHandler() {
         setButtonState('Новости друзей');
         if(friendsData) {
-            console.log(friendsData)
-            let ids: string[] = [];
+            let ids:string[] = [];
             friendsData.forEach(friend => ids.push(friend.profile_from !== user.email ? friend.profile_from : friend.profile_to))
-            getAllFriendsPosts({id: user.email, friendsArray: JSON.stringify(ids)})
+            setFriendsIds(ids);
         }
     }
 
@@ -55,26 +46,9 @@ const NewsPage = () => {
         if(likesData) {
             let ids: string[] = [];
             likesData.forEach(like => ids.push(like.post_id))
-            getAllLikedPosts({id: user.email, likesArray: JSON.stringify(ids)})
+            setLikesIds(ids);
         }
     }
-
-    useObserver(lastElement, isLoading, totalPages, page, () => {
-        setPage((page) => page + 1);
-    })
-
-    useEffect(() => {
-        if(data) {
-            setPosts([...posts, ...data.rows])
-            if(totalPages === null) {
-                setTotalPages(data.count);
-            }
-        }
-    }, [data])
-    
-    useEffect(() => {
-        getPosts({limit: 4, page: page})
-    }, [page])
 
     return (
         <div className={styles.newsPageWrap}>
@@ -96,18 +70,17 @@ const NewsPage = () => {
             </div>
         </ButtonBar>
 
-        {(buttonState === 'Интересное' || buttonState === 'Только новое') && posts.map(post => 
-            <Post key={post.id} hidePost={hidePost} post={post}></Post>
-        )}
+        {(buttonState === 'Интересное' || buttonState === 'Только новое') &&
+            <PostsWrap getPosts={getPosts} isLoading={isLoading} data={data} type="NEW_POSTS"/>
+        }
 
-        {buttonState === 'Новости друзей' && friendsPostsData && [...friendsPostsData].reverse().map(post => 
-            <Post key={post.id} hidePost={hidePost} post={post}></Post>
-        )}
+        {(buttonState === 'Новости друзей') &&
+            <PostsWrap getPosts={getAllFriendsPosts} isLoading={isFriendsPostsLoading} data={friendsPostsData} type="FRIENDS_POSTS" friendsIds={friendsIds}/>
+        }
 
-        {buttonState === 'Понравившееся' && likedPostsData && [...likedPostsData].reverse().map(post => 
-            <Post key={post.id} hidePost={hidePost} post={post}></Post>
-        )}
-        <div ref={lastElement} className={styles.lastElement}></div>
+        {(buttonState === 'Понравившееся') &&
+            <PostsWrap getPosts={getAllLikedPosts} isLoading={isLikedPostsLoading} data={likedPostsData} type="LIKED_POSTS" likesIds={likesIds}/>
+        }
         </div>
     );
 };

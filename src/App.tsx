@@ -24,7 +24,7 @@ function App() {
 
   return (
     <>
-      {isAuth ? <Layout/> : ''}
+      {isAuth ? <Layout setIsAuth={setIsAuth}/> : ''}
       <Routes>
         <Route path='/auth' element={<PublicRoute><AuthorizePage setIsAuth={setIsAuth}/></PublicRoute>}/>
         <Route path='/about' element={<AboutPage/>}/>

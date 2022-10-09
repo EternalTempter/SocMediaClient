@@ -50,25 +50,12 @@ const GroupsPage = () => {
         setIsSearch(debounced.length > 1 && data?.length! >= 0)
     }, [debounced]);
 
-    useEffect(() => {
-        if(groupsData) {
-            console.log(groupsData);
-        }
-    })
-
-    useEffect(() => {
-        if(allGroupsData && data) {
-            console.log(allGroupsData, data);
-            console.log(allGroupsData.filter(group => checkIsSubscribed(group.id)));
-        }
-    }, [allGroupsData, data])
-
     return (
         <div className={styles.groupsPageWrap}>
             {
                 createGroupModalVisible &&
                     <ModalWrap visible={createGroupModalVisible} setVisible={setCreateGroupModalVisible} type='column'>
-                        <CreateGroupModal/>
+                        <CreateGroupModal refetch={refetch} setVisible={setCreateGroupModalVisible}/>
                     </ModalWrap>
             }
             <ButtonBar>
@@ -78,7 +65,7 @@ const GroupsPage = () => {
                 <Button onClick={showRecommendationsHandler} isActive={(buttonState === 'Рекомендации')}>
                     Рекомендации
                 </Button>
-                <div className={styles.groupsOptions}>
+                <div className={styles.groupsOptions} onClick={() => setCreateGroupModalVisible(true)}>
                     <Options className={styles.groupsOptionsIcon}/>
                 </div>
                 <div className={styles.createGroup} onClick={() => setCreateGroupModalVisible(true)}>

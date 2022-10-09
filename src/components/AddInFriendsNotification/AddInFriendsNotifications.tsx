@@ -7,32 +7,51 @@ import { useAcceptFriendRequestMutation, useRejectFriendRequestMutation } from '
 import { useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
 import CheckMark from '../../assets/svg/CheckMark';
 import Plus from '../../assets/svg/Plus';
+import { baseUrl } from '../../envVariables/variables';
+import { useNavigate } from 'react-router-dom';
 
 interface AddInFriendsNotificationsProps {
     notification: IAddInFriendsNotification
+    setVisible: (value: boolean) => void
+    refetch: () => void
 }
 
-const AddInFriendsNotifications:FC<AddInFriendsNotificationsProps> = ({notification}) => {
+const AddInFriendsNotifications:FC<AddInFriendsNotificationsProps> = ({notification, setVisible, refetch}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
+    const navigate = useNavigate();
     const {isError, isLoading, data} = useGetUserByEmailQuery(notification.profile_from)
     const {isError: isUserDataError, isLoading: isUserDataLoading, data: userData} = useGetUserDataQuery(notification.profile_from);
     const [acceptFriendRequest, {isError: isFriendRequestError, isLoading: isFriendRequestLoading, data: friendRequestData}] = useAcceptFriendRequestMutation();
     const [rejectFriendRequest, {isError: isRejectError, isLoading: isRejectLoading, data: rejectData}] = useRejectFriendRequestMutation();
+
+    function sendToUserAccount() {
+        navigate(`/account/${notification.profile_from}`);
+        setVisible(false);
+    }
+
+    function acceptRequest() {
+        acceptFriendRequest({profile_from: data?.email, profile_to: user.email})
+    }
+
+    function rejectRequest() {
+        rejectFriendRequest({profile_from: data?.email, profile_to: user.email})
+    }
+
     return (
         <div className={styles.notification}>
-            <div>
+            <div onClick={sendToUserAccount}>
                 <div className={styles.image}>
                     {(userData && userData.image !== 'none') &&
-                        <img src={process.env.HTTP_REQUESTS_URL + userData.image}/>
+                        <img src={baseUrl + userData.image}/>
                     }
                 </div>
                 <p>{data?.name} {data?.surname} хочет добавить вас в друзья</p>
             </div>
             <div>
-                <div onClick={() => acceptFriendRequest({profile_from: data?.email, profile_to: user.email})}>
+                <div onClick={acceptRequest}>
                     <CheckMark className={styles.checkMark}/>
                 </div>
-                <div onClick={() => rejectFriendRequest({profile_from: data?.email, profile_to: user.email})} className={styles.declineWrap}>
+                <div onClick={rejectRequest} className={styles.declineWrap}>
                     <Plus className={styles.decline}/>
                 </div>
             </div>

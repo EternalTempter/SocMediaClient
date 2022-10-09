@@ -25,7 +25,7 @@ const MessagesPage = () => {
         skip: debounced.length < 1
     });
     const {isLoading: isUpdatedInboxesLoading, isError: isUpdatedInboxesError, data: updatedInboxesData} = useGetUserInboxesQuery({id: user.email, limit: 50, page: 1}, {
-        pollingInterval: 2000
+        pollingInterval: 1000
     });
 
     useObserver(lastElement, isLoading, totalPages, page, () => {
@@ -59,7 +59,6 @@ const MessagesPage = () => {
                 else
                     return inbox;
             });
-            console.log(updates, updatedInboxesData.rows);
             if(updates.length !== 0) {
                 setInboxes([...inboxes.filter(inbox => !check(inbox.id, updates)), ...updates])
             }
@@ -97,7 +96,8 @@ const MessagesPage = () => {
                     last_message: elem.message,
                     last_message_user_id: elem.outgoing_id,
                     inbox_holder_user_id: elem.outgoing_id,
-                    inbox_sender_user_id: elem.incoming_id}}
+                    inbox_sender_user_id: elem.incoming_id,
+                    viewed: elem.viewed}}
                 />
             )}
             <div className={styles.lastElement} ref={lastElement}/>

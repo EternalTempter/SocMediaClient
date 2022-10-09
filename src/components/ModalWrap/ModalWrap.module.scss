@@ -21,10 +21,17 @@
 
 .modalColumn {
     width: 50vw;
-    padding: 20px;
+    min-width: 280px;
+    padding: calc(10px + (20 - 10) * (100vw - 200px) / (1920 - 200));
     display: flex;
     flex-direction: column;
     background: green;
     background: rgb(196, 215, 235);
     border-radius: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    .modalRow {
+        flex-direction: column;
+    }
 }

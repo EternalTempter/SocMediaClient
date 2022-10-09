@@ -19,6 +19,7 @@
     p {
         font-size: calc(14px + (14 - 10) * (100vw - 200px) / (1920 - 200));
         @include fontStyles($textColor);
+        cursor: pointer;
     }
 }
 
@@ -30,6 +31,7 @@
     align-items: center;
     border-radius: 50%;
     justify-content: center;
+    cursor: pointer;
 }
 
 .chatUserImage {

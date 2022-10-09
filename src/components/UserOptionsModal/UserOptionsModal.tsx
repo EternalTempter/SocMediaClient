@@ -33,7 +33,7 @@ const UserOptionsModal = ({refetch}) => {
     return (
         <>
             <p className={styles.label}>Изменение даты рождения</p>
-            <div>
+            <div className={styles.dateBirth}>
                 <input 
                     type="number" 
                     placeholder='День' 

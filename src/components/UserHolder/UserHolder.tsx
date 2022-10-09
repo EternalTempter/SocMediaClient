@@ -10,6 +10,7 @@ import Comment from '../../assets/svg/Comment';
 import { useNavigate } from 'react-router-dom';
 import { useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
 import { baseUrl } from "../../envVariables/variables";
+import CheckMark from '../../assets/svg/CheckMark';
 
 interface UserHolderProps {
     user_id: string
@@ -57,7 +58,8 @@ const UserHolder:FC<UserHolderProps> = ({user_id, isFriend, refetch}) => {
         if(isFriend) {
             setButtonState('Написать сообщение')
         }
-        if(data && user && !isFriend) {          
+        if(data && user && !isFriend) {    
+            console.log(data);
             let asdf = data.filter(notification => (notification.profile_to === user.email || notification.profile_from === user.email));
             if(asdf.length === 0) 
                 setButtonState('Добавить в друзья')
@@ -78,23 +80,16 @@ const UserHolder:FC<UserHolderProps> = ({user_id, isFriend, refetch}) => {
             <div className={styles.userInfo}>
                 <p>{user && user.name} {user && user.surname}</p>
                 <div className={styles.userNotesWrap}>
-                    <div className={styles.userNote}>Unique case</div>
-                    <div className={styles.userNote}>Unique case</div>
+                    <div className={styles.userNote}>{user && 'Роль - ' + user.role}</div>
                 </div>
             </div>
             <div className={styles.addButton} onClick={user ? event => sendFrindRequestHandler(event, user.email) : undefined}>
                 <p>{buttonState}</p>
                 <div>
-                    {buttonState === 'Написать сообщение' 
-                        ? 
-                        <Comment className={styles.addButtonPlus}/>
-                        :
-                        buttonState === 'Запрос отправлен' 
-                        ? 
-                        <Angle className={styles.addButtonPlus}/> 
-                        :
-                        <Plus className={styles.addButtonPlus}/>
-                    }
+                    {buttonState === 'Написать сообщение' && <Comment className={styles.addButtonPlus}/>}
+                    {buttonState === 'Запрос отправлен' && <Angle className={styles.addButtonPlus}/>}
+                    {buttonState === 'Добавить в друзья' && <Plus className={styles.addButtonPlus}/>}
+                    {buttonState === 'Принять запрос' && <CheckMark className={styles.addButtonPlus}/>}
                 </div>
             </div>
         </div>        

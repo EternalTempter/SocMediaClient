@@ -33,9 +33,7 @@
 }
 
 .accountMore {
-    width: 1.5625vw;
-    height: 1.5625vw;
-    fill: #384859;
+    @include svgIconStyles(1.5625vw, 20px, $darkIconColor);
     margin-right: 0.7813vw;
 }
 
@@ -285,6 +283,11 @@
     .accountPageWrap {
         width: 100vw;
         margin-top: 0;
+        height: calc(100vh - calc(60px + (70 - 60) * (100vw - 300px) / (768 - 300)));
+        &::-webkit-scrollbar {
+            width: 1px;
+            height: 1px;
+        }
     }
     .panoramaImage {
         width: 100%;
@@ -307,6 +310,9 @@
     .userPostsOptions {
         width: 97vw;
         margin-top: calc(43px + (50 - 43) * (100vw - 200px) / (768 - 200));
+    }
+    .userPostsOptions.marginless {
+        margin-top: 5px;
     }
     .userDateBirth {
         margin-top: 12px;

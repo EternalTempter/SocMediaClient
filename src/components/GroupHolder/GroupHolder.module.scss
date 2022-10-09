@@ -6,13 +6,15 @@
     background: linear-gradient(91.3deg, rgba(255, 255, 255, 0.4) -4.25%, rgba(255, 255, 255, 0.1) 101.96%);
     border-radius: 3px;
     display: flex;
-    min-height: 61px;
     box-sizing: border-box;
     margin-top: 1.8519vh;
     padding: 0.7813vw 0;
     position: relative;
     align-items: center;
     cursor: pointer;
+    &:last-child {
+        margin-bottom: calc(5px + (30 - 5) * (100vw - 200px) / (1920 - 200));
+    }
 }
 
 .groupPhoto {
@@ -74,6 +76,7 @@
         white-space: nowrap;
         margin: 0;
         padding: 0;
+        @include fontStyles($textColor);
         font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
     }
 }
@@ -89,7 +92,6 @@
         min-width: 15px;
         min-height: 15px;
         border-radius: 50%;
-        background: gray;
     }
     &:first-child {
         margin-left: 0;
@@ -144,5 +146,8 @@
     }
     .groupUsers div {   
         display: none;
+    }
+    .groupInfo {
+        width: 60%;
     }
 }

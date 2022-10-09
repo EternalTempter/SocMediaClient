@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IUser } from '../../models';
 import { useGetAllNotificationsQuery } from '../../store/socmedia/friends/friends.api';
 import Notifications from '../Notifications/Notifications';
@@ -14,31 +14,48 @@ import NotificationsSvg from '../../assets/svg/NotificationsSvg';
 import Menu from '../Menu/Menu';
 import BurgerMenu from '../../assets/svg/BurgerMenu';
 
-const Layout = () => {
+interface LayoutProps {
+    setIsAuth: (state: boolean) => void
+}
+
+const Layout:FC<LayoutProps> = ({setIsAuth}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
+    const navigate = useNavigate();
+
     const [areNotificationsVisible, setAreNotificationsVisible] = useState(false);
     const [isMenuVisible, setIsMenuVisible] = useState(false);
 
-    const {isLoading, isError, data} = useGetAllNotificationsQuery(user.email, {
+    const {isLoading, isError, data, refetch} = useGetAllNotificationsQuery(user.email, {
         pollingInterval: 5000
     });
 
+    function close() {
+        setIsMenuVisible(false)
+        setAreNotificationsVisible(false)
+    }
+
+    function logoutHandler() {
+        setIsAuth(false);
+        localStorage.removeItem('token');
+        navigate('/auth');
+    }
+
     return (
         <>
-            <Notifications visible={areNotificationsVisible} setVisible={setAreNotificationsVisible}/>
-            <Menu visible={isMenuVisible} setVisible={setIsMenuVisible}/>
+            <Notifications visible={areNotificationsVisible} setVisible={setAreNotificationsVisible} refetch={refetch}/>
+            <Menu close={close} visible={isMenuVisible} setVisible={setIsMenuVisible} logoutHandler={logoutHandler}/>
             <div className={styles.mobileViewNavBar}>
-                <Link to='/news' onClick={() => setIsMenuVisible(false)}>
+                <Link to='/news' onClick={close}>
                     <News className={styles.news}/>
                 </Link>
-                <Link to='/friends' onClick={() => setIsMenuVisible(false)}>
+                <Link to='/friends' onClick={close}>
                     <Friends className={styles.friends}/>
                 </Link>
-                <Link to='/messages' onClick={() => setIsMenuVisible(false)}>
+                <Link to='/messages' onClick={close}>
                     <Chat className={styles.chat}/>
                 </Link>
                 <div onClick={() => setAreNotificationsVisible(true)}>
-                    {data && data.filter(elem => elem.profile_to === user.email).length > 0 ? 
+                    {data && data.filter(elem => elem.profile_to === user.email && elem.status !== 'REJECTED').length > 0 ? 
                         <NotificationsSvg className={styles.notifications} secondClassName={styles.active}/>
                         : 
                         <NotificationsSvg className={styles.notifications}/> 
@@ -68,7 +85,7 @@ const Layout = () => {
                     <Friends className={styles.friends}/>
                 </Link>
                 <div onClick={() => setAreNotificationsVisible(true)}>
-                    {data && data.filter(elem => elem.profile_to === user.email).length > 0 ? 
+                    {data && data.filter(elem => elem.profile_to === user.email && elem.status !== 'REJECTED').length > 0 ? 
                         <NotificationsSvg className={styles.notifications} secondClassName={styles.active}/>
                         : 
                         <NotificationsSvg className={styles.notifications}/> 

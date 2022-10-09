@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../envVariables/variables';
 import { IUser } from '../../models';
 import { useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
@@ -11,11 +12,12 @@ interface ChatUserProps {
 }
 
 const ChatUser:FC<ChatUserProps> = ({userId, type}) => {
+    const navigate = useNavigate();
     const {isError: isUserError, isLoading: isUserLoading, data: userData} = useGetUserByEmailQuery(userId);
     const {isError: isUserDataError, isLoading: isUserDataLoading, data: userAdditionalData} = useGetUserDataQuery(userId);
     return (
         <div className={type === 'LEFT_SIDE' ? styles.leftChatUser : styles.rightChatUser}>
-            <div className={styles.chatUserOutline}>
+            <div className={styles.chatUserOutline} onClick={() => navigate(`/account/${userId}`)}>
                 <div className={styles.chatUserImage}>
                     {
                         (userAdditionalData && userAdditionalData.image !== 'none') 
@@ -24,7 +26,7 @@ const ChatUser:FC<ChatUserProps> = ({userId, type}) => {
                     }
                 </div>
             </div>
-            <p>{userData && userData.name} {userData && userData.surname}</p>
+            <p onClick={() => navigate(`/account/${userId}`)}>{userData && userData.name} {userData && userData.surname}</p>
         </div>
     );
 };

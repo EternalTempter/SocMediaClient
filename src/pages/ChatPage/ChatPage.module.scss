@@ -20,6 +20,9 @@
     box-sizing: border-box;
     align-items: center;
     background: linear-gradient(90.61deg, rgba(255, 255, 255, 0.5) 13.27%, rgba(255, 255, 255, 0.15) 95.79%);
+    div {
+        cursor: pointer;
+    }
 }
 
 .chatHeaderUserData {
@@ -32,6 +35,7 @@
         min-width: 35px;
         border-radius: 50%;
         background: gray;
+        @include roundedImageStyles();
     }
     p {
         @include fontStyles($textColor);
@@ -75,24 +79,24 @@
 
 .chatUserInput {
     position: relative;
-    width: 83.5%;
+    width: 100%;
     display: flex;
     align-items: center;
-    textarea{
+    textarea {
         border: none;
-        height: 3.125vw;
-        min-height: 35px;
         width: 100%;   
         background: linear-gradient(90.33deg, rgba(255, 255, 255, 0.6) 3.11%, rgba(255, 255, 255, 0.15) 94.43%);
         backdrop-filter: blur(40px);
         border-radius: 10px;
-        padding: 0
-                calc(30px + (50 - 30) * ( (100vw - 0px) / ( 1920 - 0) ))             
-                0
+        padding: calc(3px + (20 - 3) * ( (100vw - 0px) / ( 1920 - 0) )) 
+                calc(30px + (60 - 30) * ( (100vw - 0px) / ( 1920 - 0) ))             
+                calc(3px + (20 - 3) * ( (100vw - 0px) / ( 1920 - 0) )) 
                 calc(10px + (20 - 10) * ( (100vw - 0px) / ( 1920 - 0) )) ;
         box-sizing: border-box;
         overflow-y: hidden;
-        line-height: 40px;
+        &::placeholder {
+            font-size: calc(12px + (18 - 12) * (100vw - 200) / (1920 - 200));
+        }
     }
 }
 
@@ -123,6 +127,7 @@
 
 .chatUserInputSend {
     @include svgIconStyles(2.6042vw, 20px, $darkIconColor);
+    cursor: pointer;
 }
 
 .chatButtonsSmile, .chatButtonsClip {
@@ -205,6 +210,17 @@
         border: none;
         background: #1F4868;
     }
+}
+
+.lastElement {
+    width: 20px;
+    min-height: 20px;
+    visibility: hidden;
+}
+
+.bottom {
+    width: 20px;
+    min-height: 20px;
 }
 
 @media screen and (max-width: 1023px){

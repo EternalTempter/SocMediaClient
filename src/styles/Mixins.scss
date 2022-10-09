@@ -8,6 +8,17 @@
         border-radius: 3px;
     }
 }
+@mixin darkScrollStyles($size) {
+    &::-webkit-scrollbar {
+        width: $size;
+        height: $size;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.55);
+        border-radius: 3px;
+    }
+}
+
 
 @mixin fontStyles($color){
     font-family: 'Roboto';

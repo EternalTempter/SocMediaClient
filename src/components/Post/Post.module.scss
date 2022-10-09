@@ -4,7 +4,7 @@
 .postWrap {
     width: 55.7292vw;
     background: gray;
-    margin-top: 3.7037vh;
+    margin-top: calc(5px + (20 - 5) * (100vw - 200px) / (1920 - 200));
     display: flex;
     flex-direction: column;
     background: linear-gradient(111.93deg, rgba(255, 255, 255, 0.4) 4.6%, rgba(255, 255, 255, 0) 100%, rgba(255, 255, 255, 0.1) 96.42%);
@@ -89,6 +89,8 @@
         object-fit: cover;
     }
     p {
+        @include fontStyles($textColor);
+        font-size: calc(10px + (16 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
         margin-top: 0;
     }
 }
@@ -192,72 +194,6 @@
     display: none;
 }
 
-.addComment {
-    margin: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200)) 
-            0 
-            calc(5px + (15 - 5) * (100vw - 200px) / (1920 - 200));
-    width: 62.6168%;
-    display: flex;
-    align-items: center;
-}
-
-.addCommentUserImage {
-    width: 2.7319vw;
-    height: 2.3438vw;
-    min-width: 25px;
-    min-height: 25px;
-    border-radius: 50%;
-    background: gray;
-}
-
-.addCommentHolder {
-    position: relative;
-    width: 100%;
-    margin-left: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200));
-    input {
-        border: none;
-        width: 100%;
-        background: linear-gradient(90.32deg, rgba(255, 255, 255, 0.4) -0.14%, rgba(255, 255, 255, 0.1) 104.55%);
-        border-radius: 10px;
-        padding: 
-        calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200))
-        calc(40px + (60 - 40) * (100vw - 200px) / (1920 - 200))
-        calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200))
-        calc(7px + (14 - 7) * (100vw - 200px) / (1920 - 200));
-        box-sizing: border-box;
-        &::placeholder {
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 400;
-            font-size: calc(8px + (12 - 8) * (100vw - 200px) / (1920 - 200));
-            color: #1F4868;
-        }
-    }
-    div {
-        position: absolute;
-        top: 33%;
-        right: 10px;
-        display: flex;
-    }
-}
-
-.addCommentClip, .addCommentSmile {
-    @include svgIconStyles(1.0417vw, 14px, $darkIconColor);
-}
-
-.addCommentSmile {
-    margin-left: calc(4px + (10 - 4) * (100vw - 200px) / (1920 - 200));    
-}
-
-.sendCommentIcon {
-    @include svgIconStyles(1.5625vw, 16px, $darkIconColor);
-}
-
-.sendComment {
-    margin-left: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200))
-}
-
-
 @media screen and (max-width: 1023px) {
     .postMostLikedComment {
         display: none;
@@ -284,6 +220,9 @@
     }
     .postBody {
         width: 100%;
+        p {
+            margin: 0 7px;
+        }
     }
     .postFooter {
         width: 100%;

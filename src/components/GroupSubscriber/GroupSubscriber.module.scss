@@ -1,0 +1,6 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.subPhoto {
+    @include roundedImageStyles();
+}

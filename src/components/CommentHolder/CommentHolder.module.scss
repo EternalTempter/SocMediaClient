@@ -23,6 +23,7 @@
     border-radius: 50%;
     background: gray;
     margin-right: calc(4px + (7 - 4) * (100vw - 200px) / (1920 - 200));
+    @include roundedImageStyles();
 }
 
 .commentInfo {

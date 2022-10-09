@@ -35,30 +35,17 @@
     padding: 0;
     margin-top: calc(2px + (16 - 2) * ( (100vw - 0px) / ( 1920 - 0) ));
 }
-  
-.lastMessage {
-    display: flex;
-    margin-left: 0.5729vw;
-    margin-top: calc(0px + (13 - 0) * ( (100vw - 0px) / ( 1920 - 0) ));
-    align-items: center;
-    div {
-        @include roundedImageStyles();
-        width: 2.0833vw;
-        height: 2.0833vw;
-        min-width: 20px;
-        min-height: 20px;
-        background: black;
-        border-radius: 50%;
-        color: white;
-    }
-    p {
-        @include fontStyles($textColor);
-        margin: 0;
-        padding: 0;
-        font-size: calc(10px + (16 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
-        line-height: 22px;
-        margin-left: 11px;
-    }
+
+.readIndicator {
+    position: absolute;
+    right: calc(10px + (30 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+    align-self: center;
+    width: 0.78vw;
+    min-width: 10px;
+    height: 0.78vw;
+    min-height: 10px;
+    border-radius: 50%;
+    background: linear-gradient(101.82deg, rgba(255, 255, 255, 0.4) 16.2%, rgba(255, 255, 255, 0.1) 294.57%);
 }
 
 @media screen and (max-width: 768px){

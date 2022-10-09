@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLazyGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
 import { useLazyGetGroupByIdQuery } from '../../store/socmedia/groups/groups.api';
 import { baseUrl } from "../../envVariables/variables";
+import SendComment from '../SendComment/SendComment';
 
 interface PostProps {
     post: IPost
@@ -214,24 +215,11 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
                     {commentsData && commentsData.map(comment => 
                         <CommentHolder comment={comment} type='REGULAR_COMMENT'/>
                     )}
-                    <div className={styles.addComment}>
-                        <div className={styles.addCommentUserImage}></div>
-                        <div className={styles.addCommentHolder}>
-                            <input 
-                                type="text" 
-                                placeholder='Напишите комментарий...'
-                                value={currentComment}
-                                onChange={e => setCurrentComment(e.target.value)}
-                            />
-                            <div className={styles.addCommentHolderIcons}>
-                                <Clip className={styles.addCommentClip}/>
-                                <Smile className={styles.addCommentSmile}/>
-                            </div>
-                        </div>
-                        <div className={styles.sendComment} onClick={pasteCommentHandler}>
-                            <Send className={styles.sendCommentIcon}/>
-                        </div>
-                    </div>
+                    <SendComment 
+                        currentComment={currentComment} 
+                        setCurrentComment={setCurrentComment} 
+                        pasteCommentHandler={pasteCommentHandler}
+                    />
                 </div>
             </div>
     );

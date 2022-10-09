@@ -1,0 +1,60 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.stats {
+    min-width: 300px;
+    width: 19.271vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(166.54deg, rgba(255, 255, 255, 0.4) 1.41%, rgba(255, 255, 255, 0.1) 98.64%);
+    border-radius: 5px;
+    h2 {
+        align-self: flex-start;
+        @include fontStyles($textColor);
+        font-size: calc(12px + (18 - 12) * (100vw - 200px) / (1920 - 200));
+        margin-bottom: calc(5px + (8 - 5) * (100vw - 200px) / (1920 - 200));
+        margin-left: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200));
+    }
+}
+
+.statsLabelUnderline {
+    align-self: flex-start;
+    background: $textColor;
+    height: calc(1px + (3 - 1) * (100vw - 200px) / (1920 - 200));
+    margin-left: calc(5px + (20 - 5) * (100vw - 200px) / (1920 - 200));
+    margin-bottom: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200));
+}
+
+.statsLabelUnderline {
+    width: calc(120px + (180 - 120) * (100vw - 200px) / (1920 - 200));
+}
+
+.statistic {
+    display: flex;
+    justify-content: space-between;
+    width: 83.784%;
+    p {
+        @include fontStyles($textColor);
+        font-size: calc(10px + (16 - 10) * (100vw - 200px) / (1920 - 200));
+        margin-bottom: calc(5px + (8 - 5) * (100vw - 200px) / (1920 - 200));
+        margin-top: calc(6px + (10 - 6) * (100vw - 200px) / (1920 - 200));
+    }
+}
+
+.statsUnderline {
+    width: 83.784%;
+    background: $textColor;
+    height: calc(.5px + (2 - .5) * (100vw - 200px) / (1920 - 200));
+}
+
+.stats  {
+    padding-bottom: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200));
+    min-width: 280px;
+}
+
+@media screen and(max-width: 1439px) {
+    .stats {
+        width: 100%;
+    }
+}

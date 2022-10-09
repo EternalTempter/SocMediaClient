@@ -14,6 +14,10 @@
     }
 }
 
+.imageHolder.fullsized {
+    width: 100%;
+}
+
 .imageOptions {
     display: flex;
     flex-direction: column;
@@ -24,9 +28,12 @@
         min-width: 130px;
         border: none;
         padding: 10px 30px;
-        background: linear-gradient(93.34deg, rgba(255, 255, 255, 0.4) -16.21%, rgba(255, 255, 255, 0.1) 101.16%);
+        background: linear-gradient(91.66deg, rgba(145, 180, 215, 0.4) 7.49%, rgba(145, 180, 215, 0.1) 103.24%);
+        box-shadow: -3.5px -3.5px 12px rgba(255, 255, 255, 0.27), 3px 3px 18px rgba(85, 85, 85, 0.2);
         border-radius: 5px;
-        font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));   
+        font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200)); 
+        margin-top: 10px; 
+        margin-left: 10px; 
     }
 }
 
@@ -35,8 +42,10 @@
     width: 10.42vw;
     min-width: 130px;
     border: none;
+    margin-left: 10px;
     padding: 10px 30px;
-    background: linear-gradient(93.34deg, rgba(255, 255, 255, 0.4) -16.21%, rgba(255, 255, 255, 0.1) 101.16%);
+    background: linear-gradient(91.66deg, rgba(145, 180, 215, 0.4) 7.49%, rgba(145, 180, 215, 0.1) 103.24%);
+    box-shadow: -3.5px -3.5px 12px rgba(255, 255, 255, 0.27), 3px 3px 18px rgba(85, 85, 85, 0.2);
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -53,5 +62,17 @@
         opacity: 0;
         width: 100%;
         height: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .imageHolder {
+        width: 100%;
+    }
+    .addImage {
+        margin: 10px 0 0 0;
+    }
+    .imageOptions button{
+        margin: 10px 0 0 0;
     }
 }

@@ -18,6 +18,7 @@ const AuthorizePage:FC<AuthorizePageProps> = ({setIsAuth}) => {
             sendAuthorizeQuery({email: authorizationData.email, password: authorizationData.password, role: 'USER'})
         }
     }
+
     useEffect(() => {
         if(data){
             setIsAuth(true);
@@ -25,31 +26,34 @@ const AuthorizePage:FC<AuthorizePageProps> = ({setIsAuth}) => {
             navigate('/')
         }
     }, [data]);
-    return (
-        <div className={styles.loginWrap}>
-            <div className={styles.loginImageHolder}>
 
-            </div>
-            <div className={styles.loginHolder}>
-                <div className={styles.logoHolder}></div>
-                {isLoading && <h1>Идет загрузка</h1>}           
-                {error && <h1>Произошла ошибка {(JSON.stringify(error)).slice(33, -3)}</h1>}
-                <p>Войти</p>
-                <input 
-                    placeholder='Введите email' 
-                    type='text' value={authorizationData.email} 
-                    onChange={e => setAuthorizationData({...authorizationData, email: e.target.value})}
-                /> <br/>
-                <input 
-                    placeholder='Введите пароль' 
-                    type='password' 
-                    value={authorizationData.password}
-                    onChange={e => setAuthorizationData({...authorizationData, password: e.target.value})}
-                /> <br/>
-                <button type="button" onClick={authorize}>Войти</button>
-                <div className={styles.userDontHaveAccount}>
-                    <span className={styles.userDontHaveAccountLabel}>Нет аккаунта?</span>
-                    <Link to='/registrate'>Зарегистрироваться</Link>
+    return (
+        <div className={styles.loginMainWrap}>
+            <div className={styles.loginWrap}>
+                <div className={styles.loginImageHolder}>
+
+                </div>
+                <div className={styles.loginHolder}>
+                    <div className={styles.logoHolder}></div>
+                    {isLoading && <h1>Идет загрузка</h1>}           
+                    {error && <h1>Произошла ошибка {(JSON.stringify(error)).slice(33, -3)}</h1>}
+                    <p>Войти</p>
+                    <input 
+                        placeholder='Введите email' 
+                        type='text' value={authorizationData.email} 
+                        onChange={e => setAuthorizationData({...authorizationData, email: e.target.value})}
+                    /> <br/>
+                    <input 
+                        placeholder='Введите пароль' 
+                        type='password' 
+                        value={authorizationData.password}
+                        onChange={e => setAuthorizationData({...authorizationData, password: e.target.value})}
+                    /> <br/>
+                    <button type="button" onClick={authorize}>Войти</button>
+                    <div className={styles.userDontHaveAccount}>
+                        <span className={styles.userDontHaveAccountLabel}>Нет аккаунта?</span>
+                        <Link to='/registrate'>Зарегистрироваться</Link>
+                    </div>
                 </div>
             </div>
         </div>

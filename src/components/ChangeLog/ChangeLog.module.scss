@@ -1,0 +1,57 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.changelog  {
+    min-width: 300px;
+    width: 19.271vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(166.54deg, rgba(255, 255, 255, 0.4) 1.41%, rgba(255, 255, 255, 0.1) 98.64%);
+    border-radius: 5px;
+    h2 {
+        align-self: flex-start;
+        @include fontStyles($textColor);
+        font-size: calc(12px + (18 - 12) * (100vw - 200px) / (1920 - 200));
+        margin-bottom: calc(5px + (8 - 5) * (100vw - 200px) / (1920 - 200));
+        margin-left: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200));
+    }
+}
+
+.changelogLabelUnderline {
+    align-self: flex-start;
+    background: $textColor;
+    height: calc(1px + (3 - 1) * (100vw - 200px) / (1920 - 200));
+    margin-left: calc(5px + (20 - 5) * (100vw - 200px) / (1920 - 200));
+    margin-bottom: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200));
+}
+
+.changelogLabelUnderline {
+    width: calc(200px + (320 - 200) * (100vw - 200px) / (1920 - 200));
+}
+
+.changelog {
+    width: 34.896vw;
+    height: 34.896vw;
+    min-width: 300px;
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin-left: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200));
+        margin-top: 5px;
+        align-self: flex-start;
+        li {
+            @include fontStyles($textColor);
+            margin-top: 5px;
+            font-size: calc(10px + (16 - 10) * (100vw - 200px) / (1920 - 200));
+        }
+    }
+}
+
+@media screen and(max-width: 1439px) {
+    .changelog {
+        width: 100%;
+        margin-top: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200));
+        height: 100%;
+    }
+}

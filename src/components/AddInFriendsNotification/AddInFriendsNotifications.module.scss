@@ -15,7 +15,7 @@
     p {
         margin: 0 0 0 10px;
         padding: 0;
-        font-size: calc(14px - (14 - 8) * (100vw - 200px) / (1920 - 200));
+        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
         @include fontStyles($textColor);
     }
     div {
@@ -41,4 +41,14 @@
 .declineWrap {
     transform: rotate(45deg);
     margin-left: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .notification {
+        padding: calc(5px + (10 - 5) * (100vw - 200px) / (768 - 200));   
+    }
+    .image {
+        min-width: calc(40px + (60 - 40) * (100vw - 200px) / (768 - 200));
+        min-height: calc(40px + (60 - 40) * (100vw - 200px) / (768 - 200));
+    }
 }

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './MessageBoxItem.module.scss';
 import { useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
 import { baseUrl } from "../../envVariables/variables";
+import InboxLastMessage from '../InboxLastMessage/InboxLastMessage';
 
 interface MessageBoxItemProps {
     inbox: IInbox
@@ -39,15 +40,15 @@ const MessageBoxItem:FC<MessageBoxItemProps> = ({inbox}) => {
                     <p className={styles.userMessageGetter}>
                         {data && data.name} {data && data.surname}
                     </p>
-                    <div className={styles.lastMessage}>
-                        <div>
-                            {(userData && userData.image !== 'none') &&
-                                <img src={baseUrl + userData.image}/>
-                            }
-                        </div>
-                        <p>{inbox.last_message}</p>
-                    </div>
+                    <InboxLastMessage 
+                        message={inbox.last_message} 
+                        last_message_sender={inbox.last_message_user_id}
+                    />
                 </div>
+                {
+                    inbox.viewed === false &&
+                        <div className={styles.readIndicator}></div>
+                }
             </div>
     );
 };

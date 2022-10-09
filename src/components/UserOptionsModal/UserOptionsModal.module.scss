@@ -5,17 +5,21 @@
     @include fontStyles($textColor);
     margin-top: 15px;
     font-size: calc(12px + (18 - 12) * ( (100vw - 200px) / ( 1920 - 200) ));
+    text-align: center;
+    &:first-child {
+        margin-top: calc(0px + (15 - 0) * ( (100vw - 200px) / ( 1920 - 200) ));;
+    }
 }
 
 .dateBirthInput, .cityInput {
     border: none;
     box-sizing: border-box;
     padding: calc(7px + (10 - 7) * ( (100vw - 200px) / ( 1920 - 200) ));
-    background: rgba(217, 217, 217, 0.7);
+    background: linear-gradient(91.66deg, rgba(125, 171, 216, 0.4) 7.49%, rgba(173, 199, 226, 0.4) 103.24%);
     border-radius: 5px;
     font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
     margin-left: 4px;
-    
+    margin-top: 4px;
     &::placeholder {
         color: #1F4868;
         margin-top: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
@@ -23,20 +27,39 @@
     }
 }
 .cityInput {
-    width: 10vw;
-    min-width: 270px;
+    width: 20vw;
+    margin-left: 0;
+}
+.dateBirthInput {
+    width: 5vw;
+    min-width: 120px;
 }
 
 .button {
-    margin-top: 1vw;
+    margin-top: calc(10px + (20 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
     align-self: flex-end;
     width: 15.42vw;
     min-width: 120px;
     padding: calc(6px + (10 - 6) * ( (100vw - 200px) / ( 1920 - 200) )) 0.5208vw;;
-    font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+    font-size: calc(8px + (14 - 8) * ( (100vw - 200px) / ( 1920 - 200) ));
     border: none;
     margin-left: 1.0417vw;
-    background: linear-gradient(94.12deg, rgba(255, 255, 255, 0.4) 7.77%, rgba(255, 255, 255, 0.1) 124.32%);
+    background: linear-gradient(91.66deg, rgba(145, 180, 215, 0.4) 7.49%, rgba(145, 180, 215, 0.1) 103.24%);
+    box-shadow: -3.5px -3.5px 12px rgba(255, 255, 255, 0.27), 3px 3px 18px rgba(85, 85, 85, 0.2);
     border-radius: 5px;
     color: #1F4868;
 } 
+
+@media screen and (max-width: 768px) {
+    .dateBirth {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .dateBirthInput {
+        margin-left: 0;
+    }
+    .cityInput {
+        width: 100%;
+    }
+}

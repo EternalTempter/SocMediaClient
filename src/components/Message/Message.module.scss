@@ -12,11 +12,13 @@
     font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
     color: #1F4868;
     font-family: 'Roboto';
+    display: flex;
+    align-items: center;
     p {
         @include fontStyles($textColor);
         margin: 0;
         position: absolute;
-        top: -22px;
+        top: calc(-17px + (-26 - -17) * ( (100vw - 1024px) / ( 1920 - 1024) ));
         font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
     }
 }
@@ -57,4 +59,15 @@
 .messageOptionsEdit, .messageOptionsTrashCan {
     @include svgIconStyles(1.0417vw, 14px, $darkIconColor);
     margin-left: 0.7813vw;
+}
+
+.readIndicator {
+    position: absolute;
+    left: calc(-10px + (-20 - -10) * ( (100vw - 200px) / ( 1920 - 200) ));
+    width: 0.78vw;
+    min-width: 7px;
+    height: 0.78vw;
+    min-height: 7px;
+    border-radius: 50%;
+    background: linear-gradient(101.82deg, rgba(255, 255, 255, 0.4) 16.2%, rgba(255, 255, 255, 0.1) 294.57%);
 }

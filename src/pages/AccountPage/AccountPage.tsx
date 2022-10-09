@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IPost, IUser } from '../../models';
 import jwt_decode from 'jwt-decode';
 import { useChangeUserStatusMutation, useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
@@ -7,14 +7,11 @@ import { useGetUserByEmailQuery } from '../../store/socmedia/users/users.api';
 import More from '../../assets/svg/More';
 import Plus from '../../assets/svg/Plus';
 import Angle from '../../assets/svg/Angle';
-import Clip from '../../assets/svg/Clip';
 import Comment from '../../assets/svg/Comment';
 import { useNavigate, useParams } from 'react-router-dom';
-import Send from '../../assets/svg/Send';
 import { useCreatePostMutation, useFindUserPostsByDescriptionQuery, useLazyGetAllUserPostsQuery } from '../../store/socmedia/posts/posts.api';
 import Post from '../../components/Post/Post';
 import { useAcceptFriendRequestMutation, useDeleteFriendRequestMutation, useGetAllFriendsQuery, useGetAllNotificationsQuery, useSendFriendRequestMutation } from '../../store/socmedia/friends/friends.api';
-import { useObserver } from '../../hooks/useObserver';
 import ImageOptionsModal from '../../components/ImageOptionsModal/ImageOptionsModal';
 import Options from '../../assets/svg/Options';
 import InputBar from '../../components/InputBar/InputBar';
@@ -26,13 +23,14 @@ import UserStats from '../../components/UserStats/UserStats';
 import AddPostPanel from '../../components/AddPostPanel/AddPostPanel';
 import ModalWrap from '../../components/ModalWrap/ModalWrap';
 import { baseUrl } from "../../envVariables/variables";
+import PostsWrap from '../../components/PostsWrap/PostsWrap';
+import CheckMark from '../../assets/svg/CheckMark';
 
 const AccountPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const navigate = useNavigate();
 
     const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState<number | null>(null); 
 
     const [userStatusClasses, setUserStatusClasses] = useState([styles.editStatus]);
     const [isEditing, setIsEditing] = useState(false);
@@ -51,8 +49,6 @@ const AccountPage = () => {
         skip: debounced.length < 1
     });
 
-    const lastElement = useRef<HTMLDivElement | null>(null);
-
     const [visible, setVisible] = useState(false);
     const [imageEditingType, setImageEditingType] = useState('');
 
@@ -61,6 +57,7 @@ const AccountPage = () => {
     const [optionsButton, setOptionsButton] = useState('Популярные');
 
     const {id} = useParams();
+    const [currentUserId, setCurrentUserId] = useState('');
     const {isError, isLoading, data} = useGetUserByEmailQuery(id || user.email);
     const [getPosts, {isError: isUserPostsError, isLoading: isUserPostsLoading, data: userPostsData}] = useLazyGetAllUserPostsQuery();
     const {isError: isUserDataError, isLoading: isUserDataLoading, data: userData, refetch} = useGetUserDataQuery(id || user.email);
@@ -114,9 +111,11 @@ const AccountPage = () => {
     }, [friendsData, data, notificationsData])
 
     function turnOnEditing() {
-        setIsEditing(true);
-        setEditingPartValue('Нажми чтобы сохранить');
-        setUserStatusClasses([...userStatusClasses, styles.editing]);
+        if(id === user.email) {
+            setIsEditing(true);
+            setEditingPartValue('Нажми чтобы сохранить');
+            setUserStatusClasses([...userStatusClasses, styles.editing]);
+        }
     }
 
     function finishEditing(key?: any) {
@@ -138,7 +137,6 @@ const AccountPage = () => {
             formData.append('post_handler_id', user.email);
             createUserPost(formData);
             setUserCurrentPostDescription('');
-            setTimeout(() => getPosts({id: id || user.email, limit: 5, page: page}), 1000);
         }
     }
 
@@ -165,23 +163,6 @@ const AccountPage = () => {
         setImageEditingType(type);
     }
 
-    useObserver(lastElement, isUserPostsLoading, totalPages, page, () => {
-        setPage((page) => page + 1)
-    });
-
-    useEffect(() => {
-        getPosts({id: id || user.email, limit: 5, page: page})
-    }, [page])
-
-    useEffect(() => {
-        if(userPostsData) {
-            setPosts([...posts, ...userPostsData.rows])
-            if(totalPages === null) {
-                setTotalPages(userPostsData.count);
-            }
-        }
-    }, [userPostsData])
-
     useEffect(() => {
         if(userData) {
             setUserCurrentStatus(userData.status !== '' ? userData.status : 'Статус не задан');
@@ -192,18 +173,40 @@ const AccountPage = () => {
         setIsSearch(debounced.length > 1 && findedPostsData?.length! > 0)
     }, [debounced]);
 
+    useEffect(() => {
+        if(id) {
+            setCurrentUserId(id);
+        }
+    }, [id])
+
     return (
         <div className={styles.accountPageWrap}>
             {
                 visibleUserOptionsModal &&
-                    <ModalWrap visible={visibleUserOptionsModal} setVisible={setVisibleUserOptionsModal} type='column'>
+                    <ModalWrap 
+                        visible={visibleUserOptionsModal} 
+                        setVisible={setVisibleUserOptionsModal} 
+                        type='column'
+                    >
                         <UserOptionsModal refetch={refetch}/>
                     </ModalWrap>
             }
             {
                 userData && visible && 
-                    <ModalWrap visible={visible} setVisible={setVisible} type='row'>
-                        <ImageOptionsModal id={id || user.email} mainImage={userData.image} panoramaImage={userData.panoramaImage} type={imageEditingType} refetch={refetch} setVisible={setVisible}/>
+                    <ModalWrap 
+                        visible={visible} 
+                        setVisible={setVisible} 
+                        type='row'
+                    >
+                        <ImageOptionsModal 
+                            id={id || user.email} 
+                            mainImage={userData.image}
+                            currentUserId={String(id)}
+                            panoramaImage={userData.panoramaImage} 
+                            type={imageEditingType} 
+                            refetch={refetch} 
+                            setVisible={setVisible}
+                        />
                     </ModalWrap>
             }
             <div className={styles.panoramaImage} onClick={() => showImageOptionsHandler('panoramaImage')}>
@@ -229,16 +232,10 @@ const AccountPage = () => {
                             <div className={styles.userAddInFriends} onClick={() => sendFrindRequestHandler(data && data.email)}>
                                 {buttonState}
                                 <div>
-                                    {buttonState === 'Написать сообщение' 
-                                        ? 
-                                        <Comment className={styles.userAddInFriendsPlus}/>
-                                        :
-                                        buttonState === 'Запрос отправлен' 
-                                        ? 
-                                        <Angle className={styles.userAddInFriendsPlus}/> 
-                                        :
-                                        <Plus className={styles.userAddInFriendsPlus}/>
-                                    }
+                                    {buttonState === 'Написать сообщение' && <Comment className={styles.userAddInFriendsPlus}/>}
+                                    {buttonState === 'Запрос отправлен' && <Angle className={styles.userAddInFriendsPlus}/>}
+                                    {buttonState === 'Добавить в друзья' && <Plus className={styles.userAddInFriendsPlus}/>}
+                                    {buttonState === 'Принять запрос' && <CheckMark className={styles.userAddInFriendsPlus}/>}
                                 </div>
                             </div>
                         :
@@ -248,16 +245,19 @@ const AccountPage = () => {
                     }
                     {
                         (id !== user.email) &&
-                        <div className={styles.hiddenUserAddInFriends}>
-                            <Plus className={styles.hiddenUserAddInFriendsPlus}/>
+                        <div className={styles.hiddenUserAddInFriends} onClick={() => sendFrindRequestHandler(data && data.email)}>
+                            {buttonState === 'Написать сообщение' && <Comment className={styles.hiddenUserAddInFriendsPlus}/>}
+                            {buttonState === 'Запрос отправлен' && <Angle className={styles.hiddenUserAddInFriendsPlus}/>}
+                            {buttonState === 'Добавить в друзья' && <Plus className={styles.hiddenUserAddInFriendsPlus}/>}
+                            {buttonState === 'Принять запрос' && <CheckMark className={styles.hiddenUserAddInFriendsPlus}/>}
                         </div>
                     }
                     <p className={styles.userName}>{data && data.name} {data && data.surname}</p>
                     <div className={styles.editablePart}>
                         {!isEditing ? 
                             <p className={styles.userStatus} 
-                                onMouseOut={() => setUserStatusClasses([styles.editStatus])} 
-                                onMouseOver={() => setUserStatusClasses([...userStatusClasses, styles.on])}
+                                onMouseOut={() => (id === user.email) && setUserStatusClasses([styles.editStatus])} 
+                                onMouseOver={() => (id === user.email) && setUserStatusClasses([...userStatusClasses, styles.on])}
                                 onClick={() => turnOnEditing()}
                             >
                                 {userCurrentStatus}
@@ -276,9 +276,9 @@ const AccountPage = () => {
                     </div>                  
                     <p className={styles.userDateBirth}>Date Birth: {userData && userData.date_birth}</p>
                     <p className={styles.userCity}>City: {userData && userData.city}</p>
-                    <div className={styles.moreButton}>
+                    {/* <div className={styles.moreButton}>
                         <Angle className={styles.moreButtonAngle}/>
-                    </div>
+                    </div> */}
                 </div>
                 <UserStats id={String(id)}/>
                 {(id === user.email) &&
@@ -291,7 +291,8 @@ const AccountPage = () => {
                     />
                 }
             </div>
-            <div className={styles.userPostsOptions}>
+            
+            <div className={(id === user.email) ? styles.userPostsOptions : [styles.userPostsOptions, styles.marginless].join(' ')}>
                 <InputBar>
                     <div className={styles.postFinder}>
                         <Input placeholder='Искать записи...' value={search} onChange={setSearch}/>
@@ -307,13 +308,12 @@ const AccountPage = () => {
                 </InputBar>
             </div>
             <div className={styles.userPosts}>
-                {!isSearch && posts.map(post => 
-                    <Post key={post.id} hidePost={hidePost} post={post}/>
-                )}
+                {!isSearch &&
+                    <PostsWrap getPosts={getPosts} isLoading={isUserPostsLoading} data={userPostsData} type="USER_POSTS" id={id} newPostData={userPostData}/>
+                }
                 {findedPostsData && isSearch && findedPostsData.map(post =>       
                     <Post key={post.id} hidePost={hidePost} post={post}/>
                 )}
-                <div className={styles.lastElement} ref={lastElement}></div>
             </div>
         </div>
     );

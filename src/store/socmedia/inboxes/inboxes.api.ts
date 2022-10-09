@@ -34,6 +34,13 @@ export const inboxesApi = createApi({
                 params: params
             })
         }),
+        updateLastMessageView: build.mutation<any, {}>({
+            query: (body: {}) => ({
+                url: 'updateLastMessageView',
+                method: 'put',
+                body: body
+            })
+        }),
     })
 })
 
@@ -42,5 +49,6 @@ export const {
     useGetUserInboxesQuery, 
     useUpdateLastInboxMessageMutation, 
     useCreateInboxMutation, 
-    useGetInboxQuery
+    useGetInboxQuery,
+    useUpdateLastMessageViewMutation
 } = inboxesApi;

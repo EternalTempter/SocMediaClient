@@ -15,6 +15,7 @@ export interface IMessage {
     outgoing_id: string;
     incoming_id: string;
     message: string;
+    viewed: boolean;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -22,6 +23,7 @@ export interface IMessage {
 export interface IInbox {
     id?: Number;
     last_message: string;
+    viewed: boolean;
     last_message_user_id: string;
     inbox_holder_user_id: string;
     inbox_sender_user_id: string;
@@ -68,6 +70,7 @@ export interface IGroup {
     group_name: string;
     image: string;
     panoramaImage: string;
+    type: string;
     owner_id: string;
     description: string;
     createdAt: Date;

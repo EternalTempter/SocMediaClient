@@ -5,6 +5,8 @@ import { useIsCommentLikedQuery, useLazyRemoveLikeFromCommentQuery, useSetLikeTo
 import { useGetUserByEmailQuery } from '../../store/socmedia/users/users.api';
 import styles from './CommentHolder.module.scss';
 import jwt_decode from 'jwt-decode';
+import { useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
+import { baseUrl } from '../../envVariables/variables';
 
 interface CommentHolderProps {
     comment: IComment
@@ -18,6 +20,7 @@ const CommentHolder:FC<CommentHolderProps> = ({comment, type}) => {
     const [commentLikes, setCommentLikes] = useState(comment.likes_amount)
 
     const {isError, isLoading, data} = useGetUserByEmailQuery(comment.user_id);
+    const {isError: isUserDataError, isLoading: isUserDataLoading, data: userData} = useGetUserDataQuery(comment.user_id)
     const {isError: isCommentLikeError, isLoading: isCommentLikeLoading, data: commentLikeData} = useIsCommentLikedQuery({comment_id: String(comment.id), user_id: user.email})
 
     const [setLike, {isError: isSetCommentLikeError, isLoading: isSetCommentLikeLoading, data: setCommentLikeData}] = useSetLikeToPostCommentMutation();
@@ -44,7 +47,12 @@ const CommentHolder:FC<CommentHolderProps> = ({comment, type}) => {
 
     return (
         <div className={type === 'REGULAR_COMMENT' ? styles.commentWrap : styles.bestCommentWrap}>
-            <div className={styles.imageHolder}></div>
+            <div className={styles.imageHolder}>
+                {
+                    (userData && userData.image !== 'none') &&
+                        <img src={baseUrl + userData.image}/>
+                }
+            </div>
             <div className={styles.commentInfo}>
                 <p className={styles.commenterName}>{data && data.name} {data && data.surname}</p>
                 <p className={styles.comment}>{comment.comment}</p>

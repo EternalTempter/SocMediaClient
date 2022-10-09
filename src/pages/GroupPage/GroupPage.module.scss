@@ -4,7 +4,7 @@
 .groupPageWrap {
     margin-top: 1.0417vw;
     z-index: 3;
-    width: 91.5vw;
+    width: 92.5vw;
     height: 100vh;
     position: relative;
     overflow-y: scroll;
@@ -31,7 +31,7 @@
 
 .groupBody {
     width: 55.7292vw; 
-    padding: 0 3.6458vw 0 calc(17px + (96 - 17) * (100vw - 768px) / (1920 - 768));
+    padding: 0 3.6458vw 0 calc(17px + (96 - 17) * (100vw - 200px) / (1920 - 200));
     box-sizing: border-box;  
     background: linear-gradient(93.12deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
     border-radius: 0px 0px 5px 5px;
@@ -73,8 +73,9 @@
 
 .groupName {
     @include fontStyles($textColor);
-    font-size: calc(16px + (22 - 16) * (100vw - 768px) / (1920 - 768));
+    font-size: calc(14px + (22 - 14) * (100vw - 768px) / (1920 - 768));
     margin: 0;
+    text-align: center;
 }
 
 .groupUsersAmount {
@@ -92,13 +93,14 @@
         width: 2.0833vw;
         height: 2.0833vw;
         border-radius: 50%;
-        background: gray;
+        background: #C4D7EB;
         margin-left: -0.4167vw;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: calc(8px + (14 - 8) * (100vw - 768px) / (1920 - 768));
         p {
+            @include fontStyles($textColor);
             margin: 0;
         }
     }
@@ -111,7 +113,7 @@
     width: 36.4583vw;
     display: flex;
     flex-direction: column;
-    margin-left: 2.3958vw;
+    margin-left: calc(10px + (46 - 10) * (100vw - 768px) / (1920 - 768));
     margin-top: 0.7813vw;
     box-sizing: border-box;
 }
@@ -168,7 +170,7 @@
 }
 
 .groupDescription {
-    width: 100%;
+    width: 36.458vw;
     background: rgba(217, 217, 217, 0.2);
     border-radius: 4px;
     margin-top: 1.0417vw;
@@ -202,15 +204,20 @@
 }
 
 @media screen and (max-width: 1023px) {
-    .groupBodyLeftSide {
-        margin-left: calc(15px + (10 - 15) * (100vw - 200px) / (1024 - 200));
-    }
+    // .groupBodyLeftSide {
+    //     margin-left: calc(15px + (10 - 15) * (100vw - 200px) / (1024 - 200));
+    // }
 }
 
 @media screen and (max-width: 768px) {
     .groupPageWrap {
         width: 100vw;
         margin-top: 0;
+        height: calc(100vh - calc(54px + (56 - 54) * (100vw - 300px) / (768 - 300)));
+        &::-webkit-scrollbar {
+            width: 1px;
+            height: 1px;
+        }
     }
     .groupWrap {
         width: 100%;
@@ -232,6 +239,7 @@
     }
     .groupName {
         font-size: 14px;
+        text-align: left;
     }
     .groupBody {
         flex-direction: column;
@@ -252,7 +260,7 @@
         align-items: flex-start;
         margin-left: 100px;
         width: 200px;
-        margin-top: 10px;
+        margin-top: 20px;
     }
     .groupBodyRightSide {
         width: 100%;    
@@ -262,15 +270,16 @@
     .groupDescription {
         background: none;
         margin-top: 0;
+        width: 90%;
         p {
             margin-top: 0;
-            font-size: 8px;
+            font-size: calc(8px + (10 - 8) * (100vw - 200px) / (768 - 200));
         }
     }
 }
 
 @media screen and (max-width: 425px) {
     .groupBodyLeftSide {
-        margin-bottom: 5vw;
+        margin-bottom: 2vw;
     }
 }

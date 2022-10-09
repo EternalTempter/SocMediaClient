@@ -9,9 +9,11 @@ import jwt_decode from 'jwt-decode';
 interface MenuProps {
     visible: boolean
     setVisible: (value: boolean) => void
+    close: () => void
+    logoutHandler: () => void
 }
 
-const Menu:FC<MenuProps> = ({visible, setVisible}) => {
+const Menu:FC<MenuProps> = ({visible, setVisible, close, logoutHandler}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
 
     const rootClasses = [styles.menuWrap];
@@ -20,7 +22,7 @@ const Menu:FC<MenuProps> = ({visible, setVisible}) => {
     } 
 
     function redirect() {
-        setVisible(false);
+        close();
     }
 
     return (
@@ -41,6 +43,7 @@ const Menu:FC<MenuProps> = ({visible, setVisible}) => {
                 <img src=""/>
                 <p>О проекте</p>
             </Link>
+            <button className={styles.logoutButton} onClick={logoutHandler}>Выйти</button>
         </div>
     );
 };

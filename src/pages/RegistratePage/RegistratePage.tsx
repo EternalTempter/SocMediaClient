@@ -35,9 +35,10 @@ const RegistratePage:FC<RegistratePageProps> = ({setIsAuth}) => {
         }
     }, [data]);
     return (
-                <div className={styles.loginWrap}>
-                <div className={styles.loginImageHolder}>
-    
+        <div className={styles.loginMainWrap}>
+            <div className={styles.loginWrap}>
+                <div className={styles.loginImageHolder}>   
+
                 </div>
                 <div className={styles.loginHolder}>
                     <div className={styles.logoHolder}></div>
@@ -74,6 +75,7 @@ const RegistratePage:FC<RegistratePageProps> = ({setIsAuth}) => {
                     </div>
                 </div>
             </div>
+        </div>
     );
 };
 

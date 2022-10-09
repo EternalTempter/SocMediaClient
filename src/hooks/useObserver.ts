@@ -10,7 +10,8 @@ export const useObserver = (ref, isLoading, totalPages, page, callback) => {
             root: document.querySelector('.newsPageWrap'),
         }
         var cb = function(entries, observer) {
-            if(entries[0].isIntersecting && (totalPages !== null) && (page < totalPages)) {
+            if(entries[0].isIntersecting && (totalPages !== null) && (page <= totalPages) && (page > 0)) {
+                console.log('Колбак вызвался');
                 callback();
             }
         };
