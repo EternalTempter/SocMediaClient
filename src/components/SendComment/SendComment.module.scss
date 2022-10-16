@@ -31,7 +31,7 @@
         border-radius: 10px;
         padding: 
         calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200))
-        calc(40px + (60 - 40) * (100vw - 200px) / (1920 - 200))
+        calc(7px + (14 - 7) * (100vw - 200px) / (1920 - 200))
         calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200))
         calc(7px + (14 - 7) * (100vw - 200px) / (1920 - 200));
         box-sizing: border-box;
@@ -65,4 +65,10 @@
 
 .sendComment {
     margin-left: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200))
+}
+
+@media screen and (max-width: 768px) {
+    .addComment {
+        width: 90%;
+    }
 }

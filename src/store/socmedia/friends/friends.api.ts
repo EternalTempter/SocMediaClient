@@ -8,12 +8,10 @@ export const friendsApi = createApi({
         baseUrl: baseUrl + 'api/friendship/'
     }),
     endpoints: build => ({
-        getAllFriends: build.query<IFriend[], string>({
-            query: (id: string) => ({
+        getAllFriends: build.query<any, {}>({
+            query: (params: {}) => ({
                 url: 'getAllFriends',
-                params: {
-                    id: id
-                }
+                params: params
             })
         }),
         getAllNotifications: build.query<IAddInFriendsNotification[], string>({
@@ -96,5 +94,6 @@ export const {
     useDeleteFriendMutation,
     useDeleteFriendRequestMutation,
     useGetUserFriendsCountQuery,
-    useGetUserSubscribersCountQuery
+    useGetUserSubscribersCountQuery,
+    useLazyGetAllFriendsQuery
 } = friendsApi;

@@ -1,12 +1,15 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../../assets/svg/Logo';
 import styles from './WelcomeWindow.module.scss';
 
 const WelcomeWindow = () => {
     const navigate = useNavigate();
     return (
         <div className={styles.homePageContentHello}>
-            <div className={styles.logo}></div>
+            <div className={styles.logo}>
+                <Logo className={styles.logoIcon}/>
+            </div>
             <p className={styles.label}>Начните изучать возможности Сети уже сейчас!</p>
             <div className={styles.findFriends}>
                 <div>

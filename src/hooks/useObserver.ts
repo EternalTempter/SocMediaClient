@@ -11,7 +11,6 @@ export const useObserver = (ref, isLoading, totalPages, page, callback) => {
         }
         var cb = function(entries, observer) {
             if(entries[0].isIntersecting && (totalPages !== null) && (page <= totalPages) && (page > 0)) {
-                console.log('Колбак вызвался');
                 callback();
             }
         };

@@ -32,6 +32,7 @@
     min-width: 45px;
     min-height: 45px;
     border-radius: 50%;
+    cursor: pointer;
     background: #000000;
 }
 
@@ -192,6 +193,21 @@
 
 .allPostComments.off {
     display: none;
+}
+
+.hiddenPostOptions {
+    position: absolute;
+    top: calc(20px + (30 - 20) * (100vw - 200px) / (768 - 200));
+    right: calc(-5px + (-70 - -90) * (100vw - 200px) / (768 - 200));
+    a {
+        background: rgba(196, 215, 235, 0.75);
+        display: block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        @include fontStyles($textColor);
+        font-size: calc(10px + (16 - 10) * (100vw - 200px) / (1920 - 200));
+        width: 80px;
+    }
 }
 
 @media screen and (max-width: 1023px) {

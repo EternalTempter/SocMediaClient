@@ -62,6 +62,14 @@ export const messagesApi = createApi({
                 }
             })
         }),
+        checkForNewMessages: build.query<any, string>({
+            query: (user_id: string) => ({
+                url: 'checkForNewMessages',
+                params: {
+                    user_id: user_id
+                }
+            })
+        }),
     })
 })
 
@@ -74,5 +82,6 @@ export const {
     useUpdateViewMutation,
     useLazyGetMessagesQuery,
     useGetMessagesCountQuery,
-    useGetAllUserMessagesCountQuery
+    useGetAllUserMessagesCountQuery,
+    useCheckForNewMessagesQuery
 } = messagesApi;

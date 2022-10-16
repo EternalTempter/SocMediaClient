@@ -14,8 +14,8 @@
 .addPostWrap, .addPostWrapExtended {
     width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: center;   
+    flex-direction: column;
     padding: 0.625vw 0;
     div {
         input {
@@ -24,7 +24,7 @@
             border: none;
             padding: 
                     calc(9px + (15 - 9) * ( (100vw - 200px) / ( 1920 - 200) ))
-                    calc(30px + (40 - 30) * ( (100vw - 200px) / ( 1920 - 200) ))
+                    calc(65px + (90 - 65) * ( (100vw - 200px) / ( 1920 - 200) ))
                     calc(9px + (15 - 9) * ( (100vw - 200px) / ( 1920 - 200) ))
                     calc(10px + (20 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
             box-sizing: border-box;
@@ -49,6 +49,11 @@
             &:nth-child(2) {
                 right: 5px;
             }
+            &:nth-child(3) {
+                display: none;
+                height: 100%;
+                width: 2%;
+            }
         }
     }
 }
@@ -65,6 +70,35 @@
     opacity: 0;
 }
 
+.error {
+    background: rgba(207, 58, 58, 0.4) !important;
+}
+
+.imagePreview {
+    position: relative;
+    max-width: 70%;
+    height: 10.417vw;
+    min-width: 75px;
+    min-height: 75px;
+    background: gray;
+    margin-top: 10px;   
+    @include imageStyles();
+    background: linear-gradient(91.66deg, rgba(125, 171, 216, 0.4) 7.49%, rgba(173, 199, 226, 0.4) 103.24%);
+    border: 1px solid #5F95C5;
+    border-radius: 5px;
+}
+
+.closePreview {
+    transform: rotate(45deg);
+    position: absolute;
+    top: 0; 
+    right: -40px;
+}
+
+.close {
+    @include svgIconStyles(1.7vw, 18px, $darkIconColor);
+}
+
 @media screen and (max-width: 768px) {
     .addPostWrap {
         position: absolute;
@@ -74,6 +108,26 @@
         margin-top: 2px;
         div {
             width: 100%;
+        }
+    }
+    .imagePreview {
+        display: none;
+    }
+    .addPostWrap, .addPostWrapExtended {
+        div {
+            div {
+                &:nth-child(1) {
+                    position: relative;
+                }
+                &:nth-child(2) {
+                    right: 5px;
+                }
+                &:nth-child(3) {
+                    right: 70px;
+                    display: block;
+                    @include imageStyles();
+                }
+            }
         }
     }
 }

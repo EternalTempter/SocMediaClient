@@ -24,17 +24,16 @@ export const groupsApi = createApi({
                 }
             })
         }),
-        getAllGroups: build.query<IGroup[], void>({
-            query: () => ({
+        getAllGroups: build.query<any, {}>({
+            query: (params: {}) => ({
                 url: 'getAll',
+                params: params
             })
         }),
-        getAllUserGroupSubscriptions: build.query<IGroupUsers[], string>({
-            query: (id: string) => ({
+        getAllUserGroupSubscriptions: build.query<any, {}>({
+            query: (params: {}) => ({
                 url: 'getAllUserSubscriptions',
-                params: {
-                    id
-                }
+                params: params
             })
         }),
         createGroup: build.mutation<any, {}>({
@@ -43,7 +42,35 @@ export const groupsApi = createApi({
                 method: 'post',
                 body: body
             })
-        })
+        }),
+        updateDescription: build.mutation<any, {}>({
+            query: (body: {}) => ({
+                url: 'updateDescription',
+                method: 'put',
+                body: body
+            })
+        }),
+        updateImage: build.mutation<any, {}>({
+            query: (body: {}) => ({
+                url: 'updateImage',
+                method: 'put',
+                body: body
+            })
+        }),
+        updatePanoramaImage: build.mutation<any, {}>({
+            query: (body: {}) => ({
+                url: 'updatePanoramaImage',
+                method: 'put',
+                body: body
+            })
+        }),
+        deleteGroup: build.mutation<any, {}>({
+            query: (body: {}) => ({
+                url: 'deleteGroup',
+                method: 'delete',
+                body: body
+            })
+        }),
     })
 })
 
@@ -53,5 +80,10 @@ export const {
     useCreateGroupMutation,
     useGetGroupByIdQuery, 
     useLazyGetAllGroupsQuery,
-    useLazyGetGroupByIdQuery
+    useLazyGetGroupByIdQuery,
+    useUpdateDescriptionMutation,
+    useUpdateImageMutation,
+    useUpdatePanoramaImageMutation,
+    useLazyGetAllUserGroupSubscriptionsQuery,
+    useDeleteGroupMutation,
 } = groupsApi;

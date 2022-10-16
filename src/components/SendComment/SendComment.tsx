@@ -32,10 +32,10 @@ const SendComment:FC<SendCommentProps> = ({currentComment, setCurrentComment, pa
                     value={currentComment}
                     onChange={e => setCurrentComment(e.target.value)}
                 />
-                <div className={styles.addCommentHolderIcons}>
+                {/* <div className={styles.addCommentHolderIcons}>
                     <Clip className={styles.addCommentClip}/>
                     <Smile className={styles.addCommentSmile}/>
-                </div>
+                </div> */}
             </div>
             <div className={styles.sendComment} onClick={() => pasteCommentHandler()}>
                 <Send className={styles.sendCommentIcon}/>

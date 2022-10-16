@@ -38,9 +38,10 @@ export const usersApi = createApi({
                 }
             })
         }),
-        getAllUsers: build.query<IUser[], void>({
-            query: () => ({
+        getAllUsers: build.query<any, {}>({
+            query: (params: {}) => ({
                 url: 'getAll',
+                params: params
             })
         }),
     })

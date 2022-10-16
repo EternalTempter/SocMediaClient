@@ -30,10 +30,6 @@ const UserStats:FC<UserStatsProps> = ({id}) => {
                 <p className={styles.userStatsType}>подписчиков</p>
             </div>
             <div>
-                <p className={styles.userStatsCount}>1</p>
-                <p className={styles.userStatsType}>фото</p>
-            </div>
-            <div>
                 <p className={styles.userStatsCount}>{data && data}</p>
                 <p className={styles.userStatsType}>записи</p>
             </div>

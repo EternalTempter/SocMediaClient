@@ -161,6 +161,14 @@ export const postsApi = createApi({
                 }
             })
         }),
+        getPostCommentsAmount: build.query<any, string>({
+            query: (id: string) => ({
+                url: 'getPostCommentsAmount',
+                params: {
+                    id: id
+                }
+            })
+        }),
     })
 });
 
@@ -186,5 +194,6 @@ export const {
     useLazyGetAllGroupPostsQuery,
     useGetAllUserCommentsCountQuery,
     useGetAllLikedPostsCountQuery,
-    useGetUserMostLikedPostCountQuery
+    useGetUserMostLikedPostCountQuery,
+    useLazyGetPostCommentsAmountQuery
 } = postsApi;

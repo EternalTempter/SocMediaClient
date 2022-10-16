@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import Like from '../../assets/svg/Like';
 import Comment from '../../assets/svg/Comment';
 import { IPost, IUser } from '../../models';
-import { useGetBestPostCommentQuery, useIsPostLikedQuery, useLazyGetAllPostCommentsQuery, useLazyRemoveLikeQuery, usePasteCommentToPostMutation, useSetLikeMutation, useUpdateViewsCountMutation } from '../../store/socmedia/posts/posts.api';
+import { useGetBestPostCommentQuery, useIsPostLikedQuery, useLazyGetAllPostCommentsQuery, useLazyGetPostCommentsAmountQuery, useLazyRemoveLikeQuery, usePasteCommentToPostMutation, useSetLikeMutation, useUpdateViewsCountMutation } from '../../store/socmedia/posts/posts.api';
 import { useLazyGetUserByEmailQuery } from '../../store/socmedia/users/users.api';
 import styles from './Post.module.scss'
 import Share from '../../assets/svg/Share';
@@ -42,6 +42,7 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
     const [pasteComment, {isError: isCommentError, isLoading: isCommentLoading, data: commentData}] = usePasteCommentToPostMutation();
 
     const {isError: isBestCommentError, isLoading: isBestCommentLoading, data: bestCommentData} = useGetBestPostCommentQuery(String(post.id))
+    const [getCommentsAmount, {isError: isCommentsAmountError, isLoading: isCommentsAmountLoading, data: commentsAmountData}] = useLazyGetPostCommentsAmountQuery();
 
     const {isError: isPostLikeError, isLoading: isPostLikeLoading, data: postLikeData} = useIsPostLikedQuery({user_id: user.email, post_id: String(post.id)});
 
@@ -51,6 +52,8 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
     const [state, setState] = useState(post.likes_amount);
 
     const [isViewed, setIsViewed] = useState(false)
+
+    const [hiddenPostOptionsVisible, setHiddenPostOptions] = useState(false);
 
     const [currentComment, setCurrentComment] = useState('');
     const [commentClasses, setCommentClasses] = useState([styles.allPostComments, styles.off]);
@@ -72,9 +75,8 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
     }
 
     function pasteCommentHandler() {
-        if(currentComment. length > 0) {
+        if(currentComment.length > 0) {
             pasteComment({post_id: post.id, user_id: user.email , comment: currentComment});
-            setInterval(() => getComments(String(post.id)), 500)
             setCurrentComment('');
         }
     }
@@ -86,11 +88,16 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
     function toggleCommentClasses() {
         if(commentClasses.includes(styles.off)) {
             showCommentsHandler();
+            getCommentsAmount(String(post.id));
             setCommentClasses([styles.allPostComments]);
         }
         else
             setCommentClasses([styles.allPostComments, styles.off]);
     }
+
+    useEffect(() => {
+        if(commentData) getComments(String(post.id))
+    }, [commentData])
 
     useEffect(() => {
         if(post) {
@@ -129,7 +136,10 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
         <div className={styles.postWrap} ref={lastElement}>
                 <div className={styles.postHeader}>
                     <div className={styles.postInfoWrap}>
-                        <div className={styles.postImage}>
+                        <div 
+                            className={styles.postImage}
+                            onClick={() => post.post_handler_type === 'USER' ? navigate(`/account/${post.post_handler_id}`) : navigate(`/groups/${post.post_handler_id}`)}
+                        >
                         {
                             (userData && userData.image !== 'none') &&
                                 <img src={baseUrl + userData.image}/>
@@ -159,9 +169,14 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
                         <div className={styles.postButton} onClick={() => hidePost(post.id)}>
                             <Dislike className={styles.postDislike}/>
                         </div>
-                        <div className={styles.postButton}>
+                        <div className={styles.postButton} onClick={() => hiddenPostOptionsVisible ? setHiddenPostOptions(false) : setHiddenPostOptions(true)}>
                             <More className={styles.postMore}/>
                         </div>
+                        {hiddenPostOptionsVisible &&
+                            <div className={styles.hiddenPostOptions}>
+                                <a onClick={() => hidePost(post.id)}>Скрыть пост</a>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className={styles.postBody}>
@@ -189,7 +204,7 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
                             <div onClick={toggleCommentClasses}>
                                 <Comment className={styles.postComment}/>
                             </div>
-                            <p>{post.comments_amount}</p>
+                            <p>{!commentsAmountData ? post.comments_amount : commentsAmountData}</p>
                         </div>
                         <div className={styles.postShares}>
                             <div>
@@ -213,7 +228,7 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
                 <div className={commentClasses.join(' ')}>
                     <div className={styles.commentLine}></div>
                     {commentsData && commentsData.map(comment => 
-                        <CommentHolder comment={comment} type='REGULAR_COMMENT'/>
+                        <CommentHolder key={comment.id} comment={comment} type='REGULAR_COMMENT'/>
                     )}
                     <SendComment 
                         currentComment={currentComment} 

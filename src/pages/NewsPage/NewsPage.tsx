@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Options from '../../assets/svg/Options';
 import { IUser } from '../../models';
 import { useGetAllFriendsQuery } from '../../store/socmedia/friends/friends.api';
 import { useGetAllLikesQuery, useLazyGetAllPostsQuery, useLazyGetAllFriendsPostsQuery, useLazyGetAllLikedPostsQuery } from '../../store/socmedia/posts/posts.api';
@@ -17,7 +16,7 @@ const NewsPage = () => {
     const [getPosts, {isLoading, isError, data}] = useLazyGetAllPostsQuery();
 
     const [friendsIds, setFriendsIds] = useState<string[]>([])
-    const {isLoading: isFriendsLoading, isError: isFriendsError, data: friendsData} = useGetAllFriendsQuery(user.email)
+    const {isLoading: isFriendsLoading, isError: isFriendsError, data: friendsData} = useGetAllFriendsQuery({id: user.email, limit: 400, page: 1})
     const [getAllFriendsPosts, {isLoading: isFriendsPostsLoading, isError: isFriendsPostsError, data: friendsPostsData}] = useLazyGetAllFriendsPostsQuery()
 
     const [likesIds, setLikesIds] = useState<string[]>([])
@@ -32,7 +31,7 @@ const NewsPage = () => {
         setButtonState('Новости друзей');
         if(friendsData) {
             let ids:string[] = [];
-            friendsData.forEach(friend => ids.push(friend.profile_from !== user.email ? friend.profile_from : friend.profile_to))
+            friendsData.rows.forEach(friend => ids.push(friend.profile_from !== user.email ? friend.profile_from : friend.profile_to))
             setFriendsIds(ids);
         }
     }
@@ -65,16 +64,13 @@ const NewsPage = () => {
             <Button onClick={showLikedPostsHandler} isActive={(buttonState === 'Понравившееся')}>
                 Понравившееся
             </Button>
-            <div>
-                <Options className={styles.togglerOption}/>
-            </div>
         </ButtonBar>
 
         {(buttonState === 'Интересное' || buttonState === 'Только новое') &&
             <PostsWrap getPosts={getPosts} isLoading={isLoading} data={data} type="NEW_POSTS"/>
         }
 
-        {(buttonState === 'Новости друзей') &&
+        {(buttonState === 'Новости друзей') && 
             <PostsWrap getPosts={getAllFriendsPosts} isLoading={isFriendsPostsLoading} data={friendsPostsData} type="FRIENDS_POSTS" friendsIds={friendsIds}/>
         }
 

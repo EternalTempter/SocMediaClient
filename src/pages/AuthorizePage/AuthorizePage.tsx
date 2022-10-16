@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import LoginWrap from '../../components/LoginWrap/LoginWrap';
 import { useAuthorizeMutation } from '../../store/socmedia/users/users.api';
 import styles from './AuthorizePage.module.scss';
 
@@ -28,35 +29,27 @@ const AuthorizePage:FC<AuthorizePageProps> = ({setIsAuth}) => {
     }, [data]);
 
     return (
-        <div className={styles.loginMainWrap}>
-            <div className={styles.loginWrap}>
-                <div className={styles.loginImageHolder}>
-
-                </div>
-                <div className={styles.loginHolder}>
-                    <div className={styles.logoHolder}></div>
-                    {isLoading && <h1>Идет загрузка</h1>}           
-                    {error && <h1>Произошла ошибка {(JSON.stringify(error)).slice(33, -3)}</h1>}
-                    <p>Войти</p>
-                    <input 
-                        placeholder='Введите email' 
-                        type='text' value={authorizationData.email} 
-                        onChange={e => setAuthorizationData({...authorizationData, email: e.target.value})}
-                    /> <br/>
-                    <input 
-                        placeholder='Введите пароль' 
-                        type='password' 
-                        value={authorizationData.password}
-                        onChange={e => setAuthorizationData({...authorizationData, password: e.target.value})}
-                    /> <br/>
-                    <button type="button" onClick={authorize}>Войти</button>
-                    <div className={styles.userDontHaveAccount}>
-                        <span className={styles.userDontHaveAccountLabel}>Нет аккаунта?</span>
-                        <Link to='/registrate'>Зарегистрироваться</Link>
-                    </div>
-                </div>
+        <LoginWrap>
+            {isLoading && <h1 className={styles.info}>Идет загрузка</h1>}           
+            {error && <h1 className={styles.info}>Произошла ошибка {(JSON.stringify(error)).slice(33, -3)}</h1>}
+            <p>Войти</p>
+            <input 
+                placeholder='Введите email' 
+                type='text' value={authorizationData.email} 
+                onChange={e => setAuthorizationData({...authorizationData, email: e.target.value})}
+            /> <br/>
+            <input 
+                placeholder='Введите пароль' 
+                type='password' 
+                value={authorizationData.password}
+                onChange={e => setAuthorizationData({...authorizationData, password: e.target.value})}
+            /> <br/>
+            <button type="button" onClick={authorize}>Войти</button>
+            <div className={styles.userDontHaveAccount}>
+                <span className={styles.userDontHaveAccountLabel}>Нет аккаунта?</span>
+                <Link to='/registrate'>Зарегистрироваться</Link>
             </div>
-        </div>
+        </LoginWrap>
     );
 };
 

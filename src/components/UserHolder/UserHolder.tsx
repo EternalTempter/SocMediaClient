@@ -15,10 +15,9 @@ import CheckMark from '../../assets/svg/CheckMark';
 interface UserHolderProps {
     user_id: string
     isFriend: boolean
-    refetch: () => void
 }
 
-const UserHolder:FC<UserHolderProps> = ({user_id, isFriend, refetch}) => {
+const UserHolder:FC<UserHolderProps> = ({user_id, isFriend}) => {
     const navigate = useNavigate();
 
     const [buttonState, setButtonState] = useState('none');
@@ -48,10 +47,15 @@ const UserHolder:FC<UserHolderProps> = ({user_id, isFriend, refetch}) => {
         }
         else {
             sendAcceptFriendRequest({profile_from: email, profile_to: mainUser.email})
-            refetch();
             setButtonState('Написать сообщение');
 
         }
+    }
+
+    function getRole(role) {
+        if(role === 'USER') return 'Пользователь' 
+        else if(role === 'OWNER') return 'Владелец' 
+        else return 'VIP пользователь' 
     }
 
     useEffect(() => {
@@ -59,7 +63,6 @@ const UserHolder:FC<UserHolderProps> = ({user_id, isFriend, refetch}) => {
             setButtonState('Написать сообщение')
         }
         if(data && user && !isFriend) {    
-            console.log(data);
             let asdf = data.filter(notification => (notification.profile_to === user.email || notification.profile_from === user.email));
             if(asdf.length === 0) 
                 setButtonState('Добавить в друзья')
@@ -80,7 +83,7 @@ const UserHolder:FC<UserHolderProps> = ({user_id, isFriend, refetch}) => {
             <div className={styles.userInfo}>
                 <p>{user && user.name} {user && user.surname}</p>
                 <div className={styles.userNotesWrap}>
-                    <div className={styles.userNote}>{user && 'Роль - ' + user.role}</div>
+                    <div className={styles.userNote}>{user && getRole(user.role)}</div>
                 </div>
             </div>
             <div className={styles.addButton} onClick={user ? event => sendFrindRequestHandler(event, user.email) : undefined}>

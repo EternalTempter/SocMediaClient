@@ -1,19 +1,21 @@
 import React, { FC, useEffect, useState } from 'react';
-import { IUser } from '../../models';
+import { IGroupUsers, IUser } from '../../models';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useCreateGroupMutation } from '../../store/socmedia/groups/groups.api';
 import jwt_decode from 'jwt-decode';
 import styles from './CreateGroupModal.module.scss';
-import { useLazySubscribeOnGroupQuery } from '../../store/socmedia/groupUsers/groupUsers.api';
+import { useLazyGetGroupUserQuery, useLazySubscribeOnGroupQuery } from '../../store/socmedia/groupUsers/groupUsers.api';
+import { isValidFileUploaded } from '../../helpers/helpers';
+import { useNavigate } from 'react-router-dom';
 
 interface CreateGroupModalProps {
     setVisible: (value: boolean) => void
-    refetch: () => void
 }
 
-const CreateGroupModal:FC<CreateGroupModalProps> = ({setVisible, refetch}) => {
+const CreateGroupModal:FC<CreateGroupModalProps> = ({setVisible}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
+    const navigate = useNavigate();
 
     const [groupInfo, setGroupInfo] = useState({name: '', type: '', description: ''});
     const [isGroupNameError, setIsGroupNameError] = useState(false);
@@ -27,13 +29,9 @@ const CreateGroupModal:FC<CreateGroupModalProps> = ({setVisible, refetch}) => {
 
     const [createGroup, {isError, isLoading, data}] = useCreateGroupMutation();
 
-    const [subscribe, {isError: isSubError, isLoading: isSubLoading, data: subData}] = useLazySubscribeOnGroupQuery()
+    const [getGroupUser, {isError: isGroupUserError, isLoading: isGroupUserLoading, data: groupUserData}] = useLazyGetGroupUserQuery();
 
-    const isValidFileUploaded=(file)=>{
-        const validExtensions = ['png','jpeg','jpg']
-        const fileExtension = file.type.split('/')[1]
-        return validExtensions.includes(fileExtension)
-    }
+    const [subscribe, {isError: isSubError, isLoading: isSubLoading, data: subData}] = useLazySubscribeOnGroupQuery()
 
     const showGroupImageUpload = e => {
         if(isValidFileUploaded(e.target.files[0])) setGroupImage(e.target.files[0]);
@@ -68,8 +66,6 @@ const CreateGroupModal:FC<CreateGroupModalProps> = ({setVisible, refetch}) => {
             setGroupInfo({name: '', type: '', description: ''});
             setGroupImage(undefined);
             setGroupPanoramaImage(undefined);
-            setTimeout(() => refetch(), 750);
-            setVisible(false);
         }
         else notify();
     }
@@ -93,7 +89,10 @@ const CreateGroupModal:FC<CreateGroupModalProps> = ({setVisible, refetch}) => {
     }
 
     useEffect(() => {
-        if(data) refetch();
+        if(data) {
+            navigate(`${data.id}`);
+            setVisible(false);
+        }
     }, [data])
 
     useEffect(() => {

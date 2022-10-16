@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IUser } from '../../models';
 import { useGetAllNotificationsQuery } from '../../store/socmedia/friends/friends.api';
@@ -13,6 +13,9 @@ import Group from '../../assets/svg/Group';
 import NotificationsSvg from '../../assets/svg/NotificationsSvg';
 import Menu from '../Menu/Menu';
 import BurgerMenu from '../../assets/svg/BurgerMenu';
+import Question from '../../assets/svg/Question';
+import { useCheckForNewMessagesQuery } from '../../store/socmedia/messages/messages.api';
+import Logo from '../../assets/svg/Logo';
 
 interface LayoutProps {
     setIsAuth: (state: boolean) => void
@@ -28,6 +31,10 @@ const Layout:FC<LayoutProps> = ({setIsAuth}) => {
     const {isLoading, isError, data, refetch} = useGetAllNotificationsQuery(user.email, {
         pollingInterval: 5000
     });
+
+    const {isLoading: isNewMessagesLoading, isError: isNewMessagesError, data: newMessagesData} = useCheckForNewMessagesQuery(user.email, {
+        pollingInterval: 750
+    })
 
     function close() {
         setIsMenuVisible(false)
@@ -54,24 +61,24 @@ const Layout:FC<LayoutProps> = ({setIsAuth}) => {
                 <Link to='/messages' onClick={close}>
                     <Chat className={styles.chat}/>
                 </Link>
-                <div onClick={() => setAreNotificationsVisible(true)}>
+                <div onClick={() => areNotificationsVisible ? setAreNotificationsVisible(false) : setAreNotificationsVisible(true)}>
                     {data && data.filter(elem => elem.profile_to === user.email && elem.status !== 'REJECTED').length > 0 ? 
                         <NotificationsSvg className={styles.notifications} secondClassName={styles.active}/>
                         : 
                         <NotificationsSvg className={styles.notifications}/> 
                     }
                 </div>
-                <div onClick={() => setIsMenuVisible(true)} className={styles.burgerMenu}>
+                <div onClick={() => isMenuVisible ? setIsMenuVisible(false) : setIsMenuVisible(true)} className={styles.burgerMenu}>
                     <BurgerMenu className={styles.burgerMenu}/>
                 </div>
             </div>
             <nav className={[styles.leftNavbar, styles.navbar].join(' ')}>
                 <Link to='/'>
-                    <img src=""/>
-                    Лого
+                    <Logo className={styles.logo}/>
                 </Link>
-                <Link to='/messages'>
+                <Link to='/messages' className={styles.chatWrap}>
                     <Chat className={styles.chat}/>
+                    {newMessagesData && newMessagesData && <div className={styles.newMessages}></div>}
                 </Link>
                 <Link to='/news'>
                     <News className={styles.news}/>
@@ -84,7 +91,7 @@ const Layout:FC<LayoutProps> = ({setIsAuth}) => {
                 <Link to='/friends'>
                     <Friends className={styles.friends}/>
                 </Link>
-                <div onClick={() => setAreNotificationsVisible(true)}>
+                <div onClick={() => areNotificationsVisible ? setAreNotificationsVisible(false) : setAreNotificationsVisible(true)}>
                     {data && data.filter(elem => elem.profile_to === user.email && elem.status !== 'REJECTED').length > 0 ? 
                         <NotificationsSvg className={styles.notifications} secondClassName={styles.active}/>
                         : 
@@ -95,8 +102,7 @@ const Layout:FC<LayoutProps> = ({setIsAuth}) => {
                     <Group className={styles.group}/>
                 </Link>
                 <Link to='/about'>
-                    <img src=""/>
-                    О проекте
+                    <Question className={styles.about}/>
                 </Link>
             </nav>
         </>

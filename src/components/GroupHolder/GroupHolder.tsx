@@ -3,7 +3,7 @@ import styles from './GroupHolder.module.scss';
 import { IGroup, IGroupUsers, IUser } from '../../models';
 import BrokenHeart from '../../assets/svg/BrokenHeart';
 import { useGetGroupByIdQuery } from '../../store/socmedia/groups/groups.api';
-import { useGetAllGroupSubscribersQuery, useGetFirstGroupSubsQuery, useGetGroupSubsCountQuery, useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation } from '../../store/socmedia/groupUsers/groupUsers.api';
+import { useGetAllGroupSubscribersQuery, useGetFirstGroupSubsQuery, useGetGroupSubsCountQuery, useGetGroupUserQuery, useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation } from '../../store/socmedia/groupUsers/groupUsers.api';
 import jwt_decode from 'jwt-decode';
 import Like from '../../assets/svg/Like';
 import { useNavigate } from 'react-router-dom';
@@ -14,16 +14,17 @@ import { useRejectFriendRequestMutation } from '../../store/socmedia/friends/fri
 interface GroupHolderProps {
     group_id: string
     user_subscriptions?: string[]
-    refetch: () => void
-    // refetchArgs: {}
+    // refetch: (type: string, group: IGroupUsers) => void
 }
 
-const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions, refetch}) => {  
+const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions}) => {  
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
 
     const navigate = useNavigate();
     
     const {isError: isGroupSubsError, isLoading: isGroupSubsLoading, data: groupSubsData, refetch: refetchFirstGroupSubs} = useGetFirstGroupSubsQuery({group_id: group_id, amount: 3});
+
+    const {isError: isGroupUserError, isLoading: isGroupUserLoading, data: groupUserData} = useGetGroupUserQuery({group_id: group_id, user_id: user.email});
 
     const {isError, isLoading, data} = useGetGroupByIdQuery(group_id);
     const {isError: isGroupSubsCountError, isLoading: isGroupSubsCountLoading, data: groupSubsCountData, refetch: refetchGroupSubs} = useGetGroupSubsCountQuery(group_id);
@@ -45,10 +46,17 @@ const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions, refetch
     }
 
     useEffect(() => {
-        if(subscribeData || unsubscribeData) {
+        if(subscribeData) {
+            console.log('Подписались и обновили данные');
             refetchGroupSubs()
             refetchFirstGroupSubs()
-            refetch()
+            setButtonValue('Отписаться')
+        }
+        if(unsubscribeData) {
+            console.log('Отписались и обновили данные');
+            refetchGroupSubs()
+            refetchFirstGroupSubs()
+            setButtonValue('Подписаться')
         }
     }, [subscribeData, unsubscribeData])
 

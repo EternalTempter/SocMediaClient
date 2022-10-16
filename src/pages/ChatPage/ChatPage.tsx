@@ -64,6 +64,7 @@ const ChatPage = () => {
         }
     }, [currentInboxData])
 
+    // Закоментированный код для динамической пагинации (сделано лишь на половину)
     // useEffect(() => {
     //     if(messagesData) {
     //         setMessages([...messagesData])
@@ -95,6 +96,7 @@ const ChatPage = () => {
         }
     }
 
+    // Закоментированный код для динамической пагинации (сделано лишь на половину)
     // function checkIfValueNotExistInPostsArray(value: number) {
     //     if(messages.length === 0) return true;
     //     return messages.filter(message => message.id === value).length === 0;
@@ -105,7 +107,7 @@ const ChatPage = () => {
             if(!isEditing) {
                 postMessage({outgoing_id: user.email, incoming_id: searchParams.get('id'), message: currentMessage});
     
-                setCurrentMessage(''); 
+                setTimeout(() => setCurrentMessage(''), 50); 
     
                 if(currentInboxId === '') {
                     createInbox({
@@ -130,16 +132,16 @@ const ChatPage = () => {
             else {
                 updateMessage({id: editingMessageId, message: currentMessage})
                 setIsEditing(false);
-                setCurrentMessage('');
+                setTimeout(() => setCurrentMessage(''), 50); 
             }
         }
     }
 
+    // Закоментированный код для динамической пагинации (сделано лишь на половину)
     // useObserver(lastElement, isMessagesLoading, totalPages, page, () => {
     //     if(messages && page > 0)
     //         setPage((page) => page - 1);
     // });
-
     // useEffect(() => {
     //     if(messagesData) {
     //         console.log(messagesData, Math.floor(messagesData.count / 15));
@@ -152,13 +154,13 @@ const ChatPage = () => {
         scrollToBottom();
     }, [messages])
     
+    // Закоментированный код для динамической пагинации (сделано лишь на половину)
     // useEffect(() => {
     //     if(page !== 0 && page !== NaN) {
     //         console.log(`Запрос по странице ${page} отправлен`);
     //         getMessages({firstUserId: user.email, secondUserId: searchParams.get('id'), limit: 15, page: page});
     //     }
     // }, [page])
-
     // useEffect(() => {
     //     if(messagesCountData) {
     //         console.log(`Количество страниц $`);
@@ -166,8 +168,6 @@ const ChatPage = () => {
     //         setPage(Math.ceil(messagesCountData / 15) + 1);
     //     }
     // }, [messagesCountData])
-
-
     // useEffect(() => {
     //     if(updatedMessagesData) {
     //         console.log(updatedMessagesData.rows.filter(message => check(message.id)));
@@ -176,7 +176,6 @@ const ChatPage = () => {
     //             setMessages([...messages, ...newMessages])
     //     }
     // }, [updatedMessagesData])
-
     // function check(id) {
     //     return messages.filter(message => message.id === id).length === 0
     // }

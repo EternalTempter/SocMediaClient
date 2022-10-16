@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -50,8 +50,8 @@ const HomePage:FC<HomePageProps> = ({setIsAuth}) => {
                         pagination={{ clickable: true }}
                         className={styles.swiper}
                     >
-                        {sliderComponents.map(elem => 
-                            <SwiperSlide>{elem}</SwiperSlide>    
+                        {sliderComponents.map((elem, index) => 
+                            <SwiperSlide  key={index}>{elem}</SwiperSlide>    
                         )}
                     </Swiper>
                 </div>

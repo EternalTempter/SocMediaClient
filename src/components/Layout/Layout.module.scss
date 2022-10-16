@@ -30,12 +30,35 @@
     top: 0;
 }
 
-.chat, .news, .account, .friends, .group, .notifications, .burgerMenu {
+.chat, .news, .account, .friends, .group, .notifications, .burgerMenu, .about {
     @include svgIconStyles(2.6042vw, 25px, $darkIconColor);
+}
+
+.logo {
+    fill: $darkIconColor;
+    width: 4vw;
+    height: 4vw;
+    min-width: 30px;
+    min-height: 30px;
 }
 
 .notifications.active {
     fill: rgb(184, 27, 27);
+}
+
+.chatWrap {
+    position: relative;
+    display: flex;
+}
+
+.newMessages {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: calc(7px + (17 - 7) * (100vw - 768px) / (1920 - 768));
+    height: calc(7px + (17 - 7) * (100vw - 768px) / (1920 - 768));  
+    border-radius: 50%;
+    background: rgb(184, 27, 27);
 }
 
 .mobileViewNavBar {

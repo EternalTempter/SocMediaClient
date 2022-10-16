@@ -35,7 +35,6 @@ const MessagesPage = () => {
     useEffect(() => {
         if(data) {
             setInboxes([...inboxes, ...data.rows])
-            console.log([...data.rows].length);
             if(totalPages === null) {
                 setTotalPages(data.count);
             }
@@ -88,8 +87,8 @@ const MessagesPage = () => {
                     <Search className={styles.messagesSearchIcon}/>
                 </div>
             </div>
-            {!isSearch && data && [...inboxes].reverse().map(elem => 
-                <MessageBoxItem inbox={elem}/>
+            {!isSearch && data && [...inboxes].reverse().map((elem, index) => 
+                <MessageBoxItem key={index} inbox={elem}/>
             )}
             {messagesData && isSearch && messagesData.map(elem => 
                 <MessageBoxItem key={messagesData.id} inbox={{

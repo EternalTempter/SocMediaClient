@@ -20,6 +20,8 @@
 .imageHolder {
     width: 2.3438vw;
     height: 2.3438vw;
+    min-width: 25px;
+    min-height: 25px;
     border-radius: 50%;
     background: gray;
     margin-right: calc(4px + (7 - 4) * (100vw - 200px) / (1920 - 200));
@@ -74,4 +76,10 @@
 
 .commentLike.liked {
     fill: red;
+}
+
+@media screen and(max-width: 768px) {
+    .commentWrap {
+        width: 90%;
+    }
 }

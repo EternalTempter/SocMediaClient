@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { IPost, IUser } from '../../models';
 import jwt_decode from 'jwt-decode';
-import { useChangeUserStatusMutation, useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
+import { useChangeUserStatusMutation, useGetUserDataQuery, useUpdateImageMutation, useUpdatePanoramaImageMutation } from '../../store/socmedia/userData/userData.api';
 import styles from './AccountPage.module.scss';
 import { useGetUserByEmailQuery } from '../../store/socmedia/users/users.api';
 import More from '../../assets/svg/More';
 import Plus from '../../assets/svg/Plus';
 import Angle from '../../assets/svg/Angle';
 import Comment from '../../assets/svg/Comment';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCreatePostMutation, useFindUserPostsByDescriptionQuery, useLazyGetAllUserPostsQuery } from '../../store/socmedia/posts/posts.api';
 import Post from '../../components/Post/Post';
-import { useAcceptFriendRequestMutation, useDeleteFriendRequestMutation, useGetAllFriendsQuery, useGetAllNotificationsQuery, useSendFriendRequestMutation } from '../../store/socmedia/friends/friends.api';
+import { useAcceptFriendRequestMutation, useDeleteFriendMutation, useDeleteFriendRequestMutation, useGetAllFriendsQuery, useGetAllNotificationsQuery, useSendFriendRequestMutation } from '../../store/socmedia/friends/friends.api';
 import ImageOptionsModal from '../../components/ImageOptionsModal/ImageOptionsModal';
 import Options from '../../assets/svg/Options';
 import InputBar from '../../components/InputBar/InputBar';
@@ -26,6 +28,9 @@ import { baseUrl } from "../../envVariables/variables";
 import PostsWrap from '../../components/PostsWrap/PostsWrap';
 import CheckMark from '../../assets/svg/CheckMark';
 
+import { isValidFileUploaded } from '../../helpers/helpers';
+import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
+
 const AccountPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const navigate = useNavigate();
@@ -36,9 +41,12 @@ const AccountPage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [editingPartValue, setEditingPartValue] = useState('Нажми для редактирования');
     const [userCurrentStatus, setUserCurrentStatus] = useState('');
+    const [isUserCurrentStatusError, setIsUserCurrentStatusError] = useState(false);
     const [userCurrentPostDescription, setUserCurrentPostDescription] = useState('');
+    const [isPostDescriptionError, setIsPostDescriptionError] = useState(false);
     const [userCurrentFile, setUserCurrentFile] = useState();
     const [buttonState, setButtonState] = useState('');
+    const [postImagePreview, setPostImagePreview] = useState('');
 
     const [posts, setPosts] = useState<IPost[]>([]);
 
@@ -51,10 +59,15 @@ const AccountPage = () => {
 
     const [visible, setVisible] = useState(false);
     const [imageEditingType, setImageEditingType] = useState('');
+    const [updateUserImage, {isLoading: isRegularImageLoading, isError: isRegularImageError, data: regularImageData}] = useUpdateImageMutation();
+    const [updatePanoramaImage, {isLoading: isPanoramaImageLoading, isError: isPanoramaImageError, data: panoramaImageData}] = useUpdatePanoramaImageMutation();
 
     const [visibleUserOptionsModal, setVisibleUserOptionsModal] = useState(false);
 
     const [optionsButton, setOptionsButton] = useState('Популярные');
+
+    const [isShowHiddenOptions, setIsShowHiddenOptions] = useState(false);
+    const [isDeleteFriendConfirmationVisible, setIsDeleteFriendConfirmationVisible] = useState(false);
 
     const {id} = useParams();
     const [currentUserId, setCurrentUserId] = useState('');
@@ -65,15 +78,17 @@ const AccountPage = () => {
     const [changeStatus, {isError: isStatusError, isLoading: isStatusLoading, data: statusData}] = useChangeUserStatusMutation();
     const [createUserPost, {isError: isUserPostError, isLoading: isUserPostLoading, data: userPostData}] = useCreatePostMutation();
 
+    const [deleteFromFriends, {isLoading: isDeleteFromFriendsLoading, error: isDeleteFromFriendsError, data: deleteFromFriendsData}] = useDeleteFriendMutation();
     const [sendFriendRequest, {isLoading: isFriendRequestLoading, isError: isFriendRequestError, data: friendRequestData}] = useSendFriendRequestMutation()
     const [sendDeleteFriendRequest, {isLoading: isFriendDeleteRequestLoading, isError: isFriendDeleteRequestError, data: friendDeleteRequestData}] = useDeleteFriendRequestMutation();
     const [sendAcceptFriendRequest, {isLoading: isFriendAcceptRequestLoading, isError: isFriendAcceptRequestError, data: friendAcceptRequestData}] = useAcceptFriendRequestMutation();
     const {isLoading: isNotificationsLoading, isError: isNotificationsError, data: notificationsData} = useGetAllNotificationsQuery(user.email);
 
-    const {isError: isFriendsError, isLoading: isFriendsLoading, data: friendsData} = useGetAllFriendsQuery(user.email);
+    const {isError: isFriendsError, isLoading: isFriendsLoading, data: friendsData} = useGetAllFriendsQuery({id: user.email, limit: 400, page: 1});
 
     function checkIsNotFriend(user) {
-        return (friendsData?.filter(friend => (friend.profile_from === (data && data.email) || friend.profile_to === (data && data.email))))?.length == 0
+        if(friendsData)
+            return (friendsData.rows.filter(friend => (friend.profile_from === (data && data.email) || friend.profile_to === (data && data.email))))?.length == 0
     }
 
     function hidePost(id: number) {
@@ -89,7 +104,7 @@ const AccountPage = () => {
     }
 
     const showFileUpload = e => {
-        setUserCurrentFile(e.target.files[0]);
+        if(isValidFileUploaded(e.target.files[0])) setUserCurrentFile(e.target.files[0]);
     }
 
     useEffect(() => {
@@ -119,7 +134,7 @@ const AccountPage = () => {
     }
 
     function finishEditing(key?: any) {
-        if(key === 'Enter' || key === 'click') {
+        if((key === 'Enter' || key === 'click') && !isUserCurrentStatusError && userCurrentStatus !== '') {
             setIsEditing(false);
             setEditingPartValue('Нажми для редактирования');
             setUserStatusClasses([styles.editStatus])
@@ -129,7 +144,7 @@ const AccountPage = () => {
     }
 
     function createPost(key?: any) {
-        if(userCurrentPostDescription.length > 0 && (key === 'Enter' || key === 'click')) {
+        if(!isPostDescriptionError && userCurrentPostDescription.length > 0 && (key === 'Enter' || key === 'click')) {
             const formData = new FormData()
             formData.append('description', userCurrentPostDescription);
             formData.append('img', userCurrentFile ? userCurrentFile : 'none');
@@ -137,7 +152,10 @@ const AccountPage = () => {
             formData.append('post_handler_id', user.email);
             createUserPost(formData);
             setUserCurrentPostDescription('');
+            setPostImagePreview('');
+            setUserCurrentFile(undefined);
         }
+        else notify();
     }
 
     function sendFrindRequestHandler(email) {
@@ -158,10 +176,59 @@ const AccountPage = () => {
         }
     }
 
+    function handleOpenConfirmationModal(event: any) {
+        event.stopPropagation();
+        setIsDeleteFriendConfirmationVisible(true);
+    }
+
+    function handleDeleteFromFriends() {
+        deleteFromFriends({profile_from: user.email, profile_to: id});
+        setIsDeleteFriendConfirmationVisible(false);
+    }
+
     function showImageOptionsHandler(type: string) {
         setVisible(true);
         setImageEditingType(type);
     }
+
+    function notify() {
+        toast.warn('Нельзя отправить пост без описания', {
+            position: "top-right",
+            autoClose: 3500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
+
+    function validatePostDescription() {
+        setIsPostDescriptionError(userCurrentPostDescription.length > 200 || userCurrentPostDescription.length < 0);
+    }
+
+    function handlePostDescriptionChange(e: any) {
+        setUserCurrentPostDescription(e.target.value);
+        validatePostDescription()
+    }
+
+    function validateUserStatus() {
+        setIsUserCurrentStatusError(userCurrentStatus.length > 100 || userCurrentStatus.length < 0);
+    }
+
+    function handleUserStatusChange(e: any) {
+        setUserCurrentStatus(e.target.value);
+        validateUserStatus()
+    }
+
+    function showHiddenOptions(event: any) {
+        event.stopPropagation();
+        isShowHiddenOptions ? setIsShowHiddenOptions(false) : setIsShowHiddenOptions(true);
+    }
+
+    useEffect(() => {
+        if(deleteFromFriendsData) setButtonState('Добавить в друзья');
+    }, [deleteFromFriendsData])
 
     useEffect(() => {
         if(userData) {
@@ -179,8 +246,45 @@ const AccountPage = () => {
         }
     }, [id])
 
+    useEffect(() => {
+        if(userCurrentFile) {
+            let src = URL.createObjectURL(userCurrentFile);
+            setPostImagePreview(src);
+        }
+    }, [userCurrentFile])
+
+    useEffect(() => {
+        if(panoramaImageData || regularImageData) refetch();
+    }, [panoramaImageData, regularImageData])
+
     return (
+        <>
+        <ToastContainer
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            className={styles.toast}
+        />
         <div className={styles.accountPageWrap}>
+            {isDeleteFriendConfirmationVisible &&
+                <ModalWrap
+                    visible={isDeleteFriendConfirmationVisible} 
+                    setVisible={setIsDeleteFriendConfirmationVisible} 
+                    type='column'
+                >
+                    <ConfirmationModal
+                        setVisible={setIsDeleteFriendConfirmationVisible} 
+                        executeAfterConfirm={handleDeleteFromFriends}
+                        label="Вы точно хотите удалить?"
+                    />
+                </ModalWrap>
+            }
             {
                 visibleUserOptionsModal &&
                     <ModalWrap 
@@ -206,6 +310,8 @@ const AccountPage = () => {
                             type={imageEditingType} 
                             refetch={refetch} 
                             setVisible={setVisible}
+                            updateRegularImage={updateUserImage}
+                            updatePanoramaImage={updatePanoramaImage}
                         />
                     </ModalWrap>
             }
@@ -213,8 +319,22 @@ const AccountPage = () => {
                 {(userData && userData.panoramaImage !== 'none') &&
                     <img src={baseUrl + userData.panoramaImage}/>
                 }
-                <div>
+                <div 
+                    className={styles.userAdditionalOptions}
+                    onMouseOver={() => setIsShowHiddenOptions(true)}
+                    onMouseOut={() => setIsShowHiddenOptions(false)}
+                    onClick={event => showHiddenOptions(event)}
+                >
                     <More className={styles.accountMore}/>
+                </div>
+                <div 
+                    className={isShowHiddenOptions ? [styles.hiddenOptions, styles.visible].join(' ') : styles.hiddenOptions}
+                    onMouseOver={() => setIsShowHiddenOptions(true)}
+                    onMouseOut={() => setIsShowHiddenOptions(false)}
+                >
+                    {!checkIsNotFriend(id) && (id !== user.email) &&
+                        <a onClick={event => handleOpenConfirmationModal(event)}>Удалить из друзей</a>
+                    }
                 </div>
             </div>
             <div className={styles.accountPage}>
@@ -266,16 +386,16 @@ const AccountPage = () => {
                             <input autoFocus 
                                     onKeyDown={e => finishEditing(e.key)}
                                     onClick={e => finishEditing('click')} 
-                                    onChange={e => setUserCurrentStatus(e.target.value)}
+                                    onChange={e => handleUserStatusChange(e)}
                                     type="text" 
                                     value={userCurrentStatus}
-                                    className={styles.userEditStatus} 
+                                    className={isUserCurrentStatusError ? [styles.userEditStatus, styles.error].join(' ') : styles.userEditStatus} 
                             />     
                         }
                         <p className={userStatusClasses.join(' ')}>{editingPartValue}</p>
                     </div>                  
-                    <p className={styles.userDateBirth}>Date Birth: {userData && userData.date_birth}</p>
-                    <p className={styles.userCity}>City: {userData && userData.city}</p>
+                    <p className={styles.userDateBirth}>Дата рождения: {userData && userData.date_birth}</p>
+                    <p className={styles.userCity}>Город: {userData && userData.city}</p>
                     {/* <div className={styles.moreButton}>
                         <Angle className={styles.moreButtonAngle}/>
                     </div> */}
@@ -284,10 +404,14 @@ const AccountPage = () => {
                 {(id === user.email) &&
                     <AddPostPanel 
                         currentPostDescription={userCurrentPostDescription} 
-                        setCurrentPostDescription={setUserCurrentPostDescription} 
+                        handlePostDescriptionChange={handlePostDescriptionChange} 
                         showFileUpload={showFileUpload} 
                         createPost={createPost}
+                        postImagePreview={postImagePreview}
                         type='regular'
+                        setPostImagePreview={setPostImagePreview}
+                        setUserCurrentFile={setUserCurrentFile}
+                        isPostDescriptionError={isPostDescriptionError}
                     />
                 }
             </div>
@@ -309,13 +433,21 @@ const AccountPage = () => {
             </div>
             <div className={styles.userPosts}>
                 {!isSearch &&
-                    <PostsWrap getPosts={getPosts} isLoading={isUserPostsLoading} data={userPostsData} type="USER_POSTS" id={id} newPostData={userPostData}/>
+                    <PostsWrap 
+                        getPosts={getPosts} 
+                        isLoading={isUserPostsLoading} 
+                        data={userPostsData} 
+                        type="USER_POSTS" 
+                        id={id} 
+                        newPostData={userPostData}
+                    />
                 }
                 {findedPostsData && isSearch && findedPostsData.map(post =>       
                     <Post key={post.id} hidePost={hidePost} post={post}/>
                 )}
             </div>
         </div>
+        </>
     );
 };
 

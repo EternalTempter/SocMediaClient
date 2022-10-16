@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { baseUrl } from "../../../envVariables/variables";
+import { IGroupUsers } from "../../../models";
 
 export const groupUsersApi = createApi({
     reducerPath: 'groupUsers/api',
@@ -49,7 +50,13 @@ export const groupUsersApi = createApi({
                 url: 'getFirstGroupSubs',
                 params: params
             }),
-        })
+        }),
+        getGroupUser: build.query<IGroupUsers, {}>({
+            query: (params: {}) => ({
+                url: 'getGroupUser',
+                params: params
+            }),
+        }),
     })
 })
 
@@ -59,5 +66,7 @@ export const {
     useUnsubscribeOnGroupMutation, 
     useGetUserGroupSubsCountQuery,
     useGetGroupSubsCountQuery,
-    useGetFirstGroupSubsQuery
+    useGetFirstGroupSubsQuery,
+    useGetGroupUserQuery,
+    useLazyGetGroupUserQuery
 } = groupUsersApi;

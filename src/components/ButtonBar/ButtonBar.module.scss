@@ -16,15 +16,12 @@
 .buttonBar {
     display: flex;
     width: 100%;
+    overflow-x: scroll;
+    @include scrollStyles(0.25em);
+    padding-bottom: 4px;
     div {
         margin-left: auto;
         align-self: center;
-    }
-}
-
-@media screen and (max-width: 1024px){ 
-    .buttonBarWrap button:nth-child(4){
-        display: none;
     }
 }
 
@@ -34,8 +31,3 @@
     }
 }
 
-@media screen and (max-width: 425px){
-    .buttonBarWrap button:nth-child(3){
-        display: none;
-    }
-}
