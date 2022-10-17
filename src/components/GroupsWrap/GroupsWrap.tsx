@@ -4,6 +4,7 @@ import { IGroupUsers, IUser } from '../../models';
 import jwt_decode from 'jwt-decode';
 import styles from './GroupsWrap.module.scss';
 import GroupHolder from '../GroupHolder/GroupHolder';
+import { useGetAllUserGroupSubscriptionsQuery } from '../../store/socmedia/groups/groups.api';
 
 interface GroupsWrapProps {
     getGroups: (obj: {}) => void
@@ -12,16 +13,17 @@ interface GroupsWrapProps {
     type: string
     id?: string
     newGroupData?: IGroupUsers
-    subscriptions?: string[]
 }
 
-const GroupsWrap:FC<GroupsWrapProps> = ({getGroups, isLoading, data, type, id, newGroupData, subscriptions}) => {
+const GroupsWrap:FC<GroupsWrapProps> = ({getGroups, isLoading, data, type, id, newGroupData}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const [groups, setGroups] = useState<IGroupUsers[]>([]);
 
     const lastElement = useRef<HTMLDivElement>(null)
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState<number | null>(null);
+
+    const {isError: isSubsError, isLoading: isSubsLoading, data: subsData} = useGetAllUserGroupSubscriptionsQuery({id: user.email, limit: 400});
 
     function checkIfValueNotExistInPostsArray(value: number) {
         if(groups.length === 0) return true;
@@ -31,6 +33,11 @@ const GroupsWrap:FC<GroupsWrapProps> = ({getGroups, isLoading, data, type, id, n
     function hidePost(id: number) {
         setGroups(groups.filter(group => group.id !== id))
     }
+
+    // function check(id: string) {
+    //     console.log(subscriptions?.includes(id), subscriptions, id);
+    //     return subscriptions?.includes(id);
+    // }
     
     useObserver(lastElement, isLoading, totalPages, page, () => {
         setPage((page) => page + 1);
@@ -48,9 +55,9 @@ const GroupsWrap:FC<GroupsWrapProps> = ({getGroups, isLoading, data, type, id, n
     
     useEffect(() => {
         if(type === 'SUBSCRIBED_GROUPS')
-            getGroups({id: user.email, limit: 5, page: page});
+            getGroups({id: user.email, limit: 20, page: page});
         else {
-            getGroups({ids: JSON.stringify(subscriptions), limit: 5, page: page});
+            getGroups({ids: JSON.stringify(subsData.rows.map(sub => sub.group_id)), limit: 20, page: page});
         }
     }, [page])
 
@@ -67,8 +74,8 @@ const GroupsWrap:FC<GroupsWrapProps> = ({getGroups, isLoading, data, type, id, n
 
     return (
         <div className={styles.wrap}>
-            {groups.map(group => 
-                <GroupHolder key={group.id} group_id={group.group_id || String(group.id)} user_subscriptions={subscriptions}></GroupHolder>
+            {subsData && groups.map(group => 
+                <GroupHolder key={group.id} group_id={group.group_id || String(group.id)} user_subscriptions={subsData.rows.map(sub => sub.group_id)}></GroupHolder>
             )}
             <div ref={lastElement} className={styles.lastElement}></div>
         </div>

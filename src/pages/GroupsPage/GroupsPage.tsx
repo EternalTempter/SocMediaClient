@@ -132,7 +132,7 @@ const GroupsPage = () => {
 
             {!isSearch && data && subscriptions && subscriptions.length === data.rows.length && buttonState === 'Рекомендации' && 
                 <GroupsWrap 
-                    subscriptions={subscriptions}
+                    // subscriptions={subscriptions}
                     getGroups={getAllGroups} 
                     isLoading={isAllGroupsLoading} 
                     type="UNSUBSCRIBED_GROUPS" 
