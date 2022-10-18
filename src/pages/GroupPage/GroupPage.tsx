@@ -243,16 +243,18 @@ const GroupPage = () => {
                                     {buttonValue === 'Подписаться' && <Like className={styles.subscribeMobileViewButtonHeart}/>}
                                     {buttonValue === 'Отписаться' && <BrokenHeart className={styles.subscribeMobileViewButtonHeart}/>}   
                                 </div>
-                                <div onClick={() => setGroupOptionsVisible(true)}>
-                                    <More className={styles.moreMobileViewButtonHeart}/>
-                                </div>
+                                {data && data.owner_id === user.email &&
+                                    <div onClick={() => setGroupOptionsVisible(true)}>
+                                        <More className={styles.moreMobileViewButtonHeart}/>
+                                    </div>
+                                }
                             </div>
                             <div className={styles.subscribeButton} onClick={event => groupOptionHandler(event)}>
                                 <p>{buttonValue}</p>
                                 <div>
                                     {buttonValue === 'Подписаться' && <Like className={styles.subscribeButtonHeart}/>}
                                     {buttonValue === 'Отписаться' && <BrokenHeart className={styles.subscribeButtonHeart}/>}                       
-                                </div>
+                                </div>  
                             </div>
                             {data && data.owner_id === user.email &&
                                 <div onClick={() => setGroupOptionsVisible(true)}>

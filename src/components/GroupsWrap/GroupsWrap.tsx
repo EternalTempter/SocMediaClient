@@ -48,7 +48,7 @@ const GroupsWrap:FC<GroupsWrapProps> = ({getGroups, isLoading, data, type, id, n
             let groupsToImplement = data.rows.filter(post => checkIfValueNotExistInPostsArray(post.id));
             setGroups([...groups, ...groupsToImplement])
             if(totalPages === null) {
-                setTotalPages(data.count);
+                setTotalPages(Math.floor(data.count / 20));
             }
         }
     }, [data])

@@ -52,16 +52,16 @@ const UsersWrap:FC<UsersWrapProps> = ({getUsers, isLoading, data, type, id, newU
                 setUsersFriends([...usersFriends, ...usersToImplement]);
             
             if(totalPages === null) {
-                setTotalPages(data.count);
+                setTotalPages(Math.floor(data.count / 20));
             }
         }
     }, [data])
     
     useEffect(() => {
         if(type === 'FRIENDS')
-            getUsers({id: mainUser.email, limit: 5, page: page});
+            getUsers({id: mainUser.email, limit: 20, page: page});
         else
-            getUsers({ids: JSON.stringify(friends), limit: 5, page: page});
+            getUsers({ids: JSON.stringify(friends), limit: 20, page: page});
     }, [page])
 
     // useEffect(() => {
@@ -81,7 +81,7 @@ const UsersWrap:FC<UsersWrapProps> = ({getUsers, isLoading, data, type, id, newU
                 <UserHolder key={user.id} user_id={user.profile_from !== mainUser.email ? user.profile_from : user.profile_to} isFriend={user.status === 'ACCEPTED'}></UserHolder>
             )}
             {type === 'USERS' && usersFriends.map(user => 
-                <UserHolder key={user.id} user_id={String(user.email)} isFriend={false}></UserHolder>
+                user.email !== mainUser.email && <UserHolder key={user.id} user_id={String(user.email)} isFriend={false}></UserHolder>
             )}
             <div ref={lastElement} className={styles.lastElement}></div>
         </div>

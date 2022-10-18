@@ -58,8 +58,9 @@ const Layout:FC<LayoutProps> = ({setIsAuth}) => {
                 <Link to='/friends' onClick={close}>
                     <Friends className={styles.friends}/>
                 </Link>
-                <Link to='/messages' onClick={close}>
+                <Link to='/messages' onClick={close} className={styles.chatWrap}>
                     <Chat className={styles.chat}/>
+                    {newMessagesData && newMessagesData && <div className={styles.newMessages}></div>}
                 </Link>
                 <div onClick={() => areNotificationsVisible ? setAreNotificationsVisible(false) : setAreNotificationsVisible(true)}>
                     {data && data.filter(elem => elem.profile_to === user.email && elem.status !== 'REJECTED').length > 0 ? 

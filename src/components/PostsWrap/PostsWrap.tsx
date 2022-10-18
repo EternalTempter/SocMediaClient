@@ -42,20 +42,20 @@ const PostsWrap:FC<PostsWrapProps> = ({getPosts, isLoading, data, type, friendsI
             let postsToImplement = data.rows.filter(post => checkIfValueNotExistInPostsArray(post.id));
             setPosts([...posts, ...postsToImplement])
             if(totalPages === null) {
-                setTotalPages(data.count);
+                setTotalPages(Math.floor(data.count / 5));
             }
         }
     }, [data])
     
     useEffect(() => {
         if(type === 'FRIENDS_POSTS' && (friendsIds && friendsIds.length > 0))
-            getPosts({id: user.email, friendsArray: JSON.stringify(friendsIds || []), limit: 4, page: page})
+            getPosts({id: user.email, friendsArray: JSON.stringify(friendsIds || []), limit: 5, page: page})
         else if(type === 'LIKED_POSTS' && (likesIds && likesIds.length > 0))
-            getPosts({id: user.email, likesArray: JSON.stringify(likesIds || []), limit: 4, page: page})
+            getPosts({id: user.email, likesArray: JSON.stringify(likesIds || []), limit: 5, page: page})
         else if(type === 'USER_POSTS' && id)
             getPosts({id: id || user.email, limit: 5, page: page})
         else
-            getPosts({limit: 4, page: page})
+            getPosts({limit: 5, page: page})
     }, [page])
 
     useEffect(() => {
