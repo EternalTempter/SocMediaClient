@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { FC, useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
 import { IUser } from '../../models';
 import { useGetAllNotificationsQuery } from '../../store/socmedia/friends/friends.api';
 import Notifications from '../Notifications/Notifications';
@@ -24,9 +24,11 @@ interface LayoutProps {
 const Layout:FC<LayoutProps> = ({setIsAuth}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [areNotificationsVisible, setAreNotificationsVisible] = useState(false);
     const [isMenuVisible, setIsMenuVisible] = useState(false);
+    const [isHiddenMobileViewNavBar, setIsHiddenMobileViewNavBar] = useState(false);
 
     const {isLoading, isError, data, refetch} = useGetAllNotificationsQuery(user.email, {
         pollingInterval: 5000
@@ -47,11 +49,16 @@ const Layout:FC<LayoutProps> = ({setIsAuth}) => {
         navigate('/auth');
     }
 
+    useEffect(() => {
+        if(location && location.pathname === '/chat') setIsHiddenMobileViewNavBar(true)
+        else setIsHiddenMobileViewNavBar(false)
+    }, [location])
+
     return (
         <>
             <Notifications visible={areNotificationsVisible} setVisible={setAreNotificationsVisible} refetch={refetch}/>
             <Menu close={close} visible={isMenuVisible} setVisible={setIsMenuVisible} logoutHandler={logoutHandler}/>
-            <div className={styles.mobileViewNavBar}>
+            <div className={isHiddenMobileViewNavBar ? [styles.mobileViewNavBar, styles.off].join(' ') : styles.mobileViewNavBar}>
                 <Link to='/news' onClick={close}>
                     <News className={styles.news}/>
                 </Link>

@@ -335,6 +335,9 @@ const AccountPage = () => {
                     {!checkIsNotFriend(id) && (id !== user.email) &&
                         <a onClick={event => handleOpenConfirmationModal(event)}>Удалить из друзей</a>
                     }
+                    {(id === user.email) &&
+                        <a onClick={() => showImageOptionsHandler('panoramaImage')}>Заменить панорамную фотографию</a>
+                    }
                 </div>
             </div>
             <div className={styles.accountPage}>
