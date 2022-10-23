@@ -239,8 +239,12 @@
 }
 
 @media screen and (max-width: 768px){
+    .chatHeader {
+        margin-top: 42px;
+    }
     .chatWrap {
         width: 100vw;
+        justify-content: space-between;
     }
     .chatUserInput {
         width: 100%;
