@@ -100,10 +100,10 @@
     }
 }
 
-.lastElement {
-    height: 10px;
-    visibility: hidden;
-}
+// .lastElement {
+//     height: 10px;
+//     visibility: hidden;
+// }
 
 .chatUserInputButtons{
     position: absolute;
@@ -212,16 +212,16 @@
     }
 }
 
-.lastElement {
-    width: 20px;
-    min-height: 20px;
-    visibility: hidden;
+.bottom {
+    min-height: 10px;
+    width: 10px;
 }
 
-.bottom {
-    width: 20px;
-    min-height: 20px;
-}
+// .lastElement {
+//     width: 20px;
+//     min-height: 20px;
+//     visibility: hidden;
+// }
 
 @media screen and (max-width: 1023px){
     .chatWrap {
@@ -239,8 +239,8 @@
 }
 
 @media screen and (max-width: 768px){
-    .chatHeader {
-        margin-top: 42px;
+    .chatInteractive {
+        margin-bottom: 55px;
     }
     .chatWrap {
         width: 100vw;

@@ -84,11 +84,12 @@ const ChatPage = () => {
         setCurrentMessage('');
     }
 
-    function scrollToBottom() {
-        if(bottom.current) {
-            bottom.current.scrollIntoView({behavior: 'auto'})
-        }
-    }
+    // Баг на мобильных устройствах
+    // function scrollToBottom() {
+    //     if(bottom.current) {
+    //         bottom.current.scrollIntoView({block: "center", behavior: 'auto'})
+    //     }
+    // }
 
     function sendMessageByKeyHandler(code) {
         if(code === 'Enter') {
@@ -125,9 +126,11 @@ const ChatPage = () => {
                         id: currentInboxId
                     });
                 }
-                if(bottom.current) {
-                    bottom.current.scrollIntoView({behavior: 'auto'})
-                }   
+
+                // Баг на мобильных устройствах
+                // if(bottom.current) {
+                //     bottom.current.scrollToBottom()
+                // }   
             }
             else {
                 updateMessage({id: editingMessageId, message: currentMessage})
@@ -150,9 +153,11 @@ const ChatPage = () => {
     //     }
     // }, [messagesData])
 
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages])
+
+    // Баг на мобильных устройствах
+    // useEffect(() => {
+    //     scrollToBottom();
+    // }, [messages])
     
     // Закоментированный код для динамической пагинации (сделано лишь на половину)
     // useEffect(() => {
@@ -208,15 +213,16 @@ const ChatPage = () => {
                     </div>
                 </div>
                 <div className={styles.chatArea}>
-                <div className={styles.lastElement} ref={lastElement}></div>
-                    {messages.map(message => 
+                    {messages.map((message, index) => 
                         (message.outgoing_id !== user.email) 
                         ? 
                             <Message key={message.id} type='otherUserMessage' message={message} editMessageHandler={editMessageHandler} inboxId={currentInboxId}/>
                         : 
                             <Message key={message.id} type='ourMessage' message={message} editMessageHandler={editMessageHandler} inboxId={currentInboxId}/>
                     )}
-                    <div ref={bottom} className={styles.bottom}></div>
+                    <div>
+                        <div ref={bottom} className={styles.bottom}/>
+                    </div>
                 </div>
                 <div className={styles.chatInteractive}>
                     {isEditing && 
@@ -234,18 +240,29 @@ const ChatPage = () => {
                             onKeyPress={sendMessageByKeyHandler}
                         />
                         <div className={styles.chatUserInputButtons}>
+
+
+
                             {/* <div>
                                 <Smile className={styles.chatButtonsSmile}/>
-                            </div> */}
-                            {/* <div>
+                            </div>
+                            <div>
                                 <Clip className={styles.chatButtonsClip}/>
                             </div> */}
+
+
+
+
                             <div onClick={messagePasteHandler}>
                                 <Send className={styles.chatUserInputSend}/>
                             </div>
                         </div>
                     </div>
-                    {/* <div className={styles.chatButtons}>
+
+
+
+{/* 
+                    <div className={styles.chatButtons}>
                         <div>
                             <Smile className={styles.chatButtonsSmile}/>
                         </div>
@@ -256,6 +273,9 @@ const ChatPage = () => {
                             <Microphone className={styles.chatButtonsMicrophone}/>
                         </div>
                     </div> */}
+
+
+
                 </div>
             </div>
         </>
