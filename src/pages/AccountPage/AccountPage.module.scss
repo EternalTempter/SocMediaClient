@@ -3,7 +3,7 @@
 
 .accountPageWrap {
     @include scrollStyles(0.45em);
-    margin-top: 1.0417vw;
+    padding-top: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
     z-index: 3;
     width: 92.5vw;
     height: 100vh;
@@ -15,6 +15,7 @@
 }
 
 .panoramaImage {
+    border-radius: 5px 5px 0px 0px;
     @include imageStyles();
     position: relative;
     width: 55.7292vw;
@@ -23,7 +24,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
-    background: #8A8A8A;
+    background: $thirdLayerColor;
     cursor: pointer;
     div {
         position: absolute;
@@ -31,19 +32,18 @@
         right: 0;
         z-index: 100;
         &:last-child {
-            top: calc(20px + (30 - 20) * (100vw - 200px) / (1920 - 200));
+            top: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200));
         }
     }
 }
 
 .accountMore {
     @include svgIconStyles(1.5625vw, 20px, $darkIconColor);
-    margin-right: 0.7813vw;
 }
 
 .accountPage {
     width: 55.7292vw;
-    background: linear-gradient(97.59deg, rgba(255, 255, 255, 0.4) 2.56%, rgba(255, 255, 255, 0.1) 93.91%);
+    background: $firstLayerColor;
     border-radius: 0px 0px 5px 5px;
 }
 
@@ -66,11 +66,19 @@
     min-height: 90px;
     border-radius: 50%;
     background: transparent;
-    border: 3px solid #2A323C;
+    border: calc(1.5px + (3 - 1.5) * (100vw - 200px) / (1920 - 200)) solid $lightIconColor;
     display: flex;
     align-items: center;
+    transition: .5s;
     justify-content: center;
+    z-index: 996;
 }
+
+.userImageHolder:hover {
+    border: calc(2px + (3.5 - 2) * (100vw - 200px) / (1920 - 200)) solid white;
+    transition: .5s;
+}
+
 
 .userImage {
     @include roundedImageStyles();
@@ -81,7 +89,7 @@
     object-fit: contain;
     border-radius: 50%;
     background: transparent;
-    background: gray;   
+    background: $thirdLayerColor;   
     cursor: pointer;
 }
 
@@ -96,9 +104,22 @@
     padding-top: 0.7813vw;
     font-size: calc(12px + (22 - 12) * (100vw - 200px) / (1920 - 200));
 }
+.userName.skeleton {
+    display: block;
+    width: calc(160px + (340 - 160) * (100vw - 300px) / (1920 - 300));
+    height: calc(15px + (30 - 15) * (100vw - 300px) / (1920 - 300));
+}
+
 .userStatus {
     margin-top: calc(5px + (30 - 5) * (100vw - 900px) / (1920 - 900));
     font-size: calc(8px + (18 - 8) * (100vw - 200px) / (1920 - 200));
+}
+
+.userStatus.skeleton {
+    display: block;
+    width: calc(190px + (460 - 190) * (100vw - 300px) / (1920 - 300));
+    height: calc(15px + (25 - 15) * (100vw - 300px) / (1920 - 300));
+    margin-top: -2.5px;
 }
 
 .userEditStatus {
@@ -119,6 +140,14 @@
 
 .userDateBirth {
     margin-top: 0.8854vw;
+}
+
+.userDateBirth.skeleton {
+    display: block;
+    width: calc(130px + (320 - 130) * (100vw - 300px) / (1920 - 300));
+    height: calc(20px + (35 - 20) * (100vw - 300px) / (1920 - 300));
+    margin-bottom: calc(5px + (10 - 5) * (100vw - 300px) / (1920 - 300));
+    margin-top: -5px;
 }
 
 .userCity {
@@ -146,24 +175,43 @@
     width: calc(110px + (210 - 110) * (100vw - 500px) / (1920 - 500));
     min-width: 110px;
     padding: 0.1vw 0;
-    background: linear-gradient(93.06deg, rgba(255, 255, 255, 0.4) -7.77%, rgba(255, 255, 255, 0.1) 121.7%);
+    background: $secondLayerColor;
     border-radius: 3px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #1F4868;
+    color: $textColor;
     padding-left: 0.7813vw;
     font-size: calc(8px + (16 - 8) * (100vw - 200px) / (1920 - 200));
     white-space: nowrap;
+    transition: .5s;
     div {
         margin-top: 5px;
+    }
+    &:hover {
+        background: $thirdLayerColor;
+        transition: .5s;
     }
 }
 
 .userAdditionalOptions {
-    background: rgba(196, 215, 235, 0.35); 
+    background: $firstLayerColor; 
+    border-radius: 0 0 0 3px;
     box-sizing: border-box;
-    padding-left: 10px; 
+    transition: 0.1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+}
+.userAdditionalOptions:hover .accountMore {
+    fill: white;
+    transition: 0.1s;
+}
+
+.userOptionsWrap:hover .userOptions {
+    stroke: white;
+    transition: 0.1s;
 }
 
 .userAddInFriendsPlus {
@@ -189,7 +237,8 @@
     top: 5px; 
 }
 .userOptions {
-    @include svgIconStyles(1.7021vw, 18px, $darkIconColor)
+    transition: 0.1s;
+    @include svgIconStylesStroke(1.7021vw, 18px, $darkIconColor)
 }
 
 .postFinderSearch {
@@ -204,13 +253,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
+}       
 
 .editablePart {
     position: relative;
     input {
         border: none;
         background: rgba(217, 217, 217, 0.3);
+        color: $textColor;
         margin-top: 10px;
         &:focus {
             outline: none;
@@ -219,10 +269,16 @@
     }
 }
 
+.loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .editStatus {
     font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));
     white-space: nowrap;
-    color: #1F4868;
+    color: $textColor;
     margin: 0;
     padding: 0;
     display: none;
@@ -258,7 +314,7 @@
     display: none;
     a {
         display: block;
-        background: rgba(196, 215, 235, 0.75);
+        background: $firstLayerColor;
         border-radius: 3px;
         display: flex;
         align-items: center;
@@ -274,7 +330,9 @@
     display: block;
 }
 
-
+.addPostWrap {
+    margin-bottom: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+}
 
 @media screen and (max-width: 1023px) {
     .panoramaImage {
@@ -292,6 +350,7 @@
     }
     .postFinder div div {
         position: static;
+        margin-left: auto;
     }
     .postOptions button {
         &:last-child {

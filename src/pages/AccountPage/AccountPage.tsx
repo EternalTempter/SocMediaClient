@@ -1,35 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { IPost, IUser } from '../../models';
 import jwt_decode from 'jwt-decode';
-import { useChangeUserStatusMutation, useGetUserDataQuery, useUpdateImageMutation, useUpdatePanoramaImageMutation } from '../../store/socmedia/userData/userData.api';
+import { useChangeUserStatusMutation, useGetUserDataQuery} from '../../store/socmedia/userData/userData.api';
 import styles from './AccountPage.module.scss';
 import { useGetUserByEmailQuery } from '../../store/socmedia/users/users.api';
 import More from '../../assets/svg/More';
 import Plus from '../../assets/svg/Plus';
 import Angle from '../../assets/svg/Angle';
 import Comment from '../../assets/svg/Comment';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCreatePostMutation, useFindUserPostsByDescriptionQuery, useLazyGetAllUserPostsQuery } from '../../store/socmedia/posts/posts.api';
 import Post from '../../components/Post/Post';
 import { useAcceptFriendRequestMutation, useDeleteFriendMutation, useDeleteFriendRequestMutation, useGetAllFriendsQuery, useGetAllNotificationsQuery, useSendFriendRequestMutation } from '../../store/socmedia/friends/friends.api';
-import ImageOptionsModal from '../../components/ImageOptionsModal/ImageOptionsModal';
+import ImageOptionsModal from '../../components/ImageModal/ImageModal';
 import Options from '../../assets/svg/Options';
 import InputBar from '../../components/InputBar/InputBar';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import { useDebounce } from '../../hooks/useDebounce';
-import UserOptionsModal from '../../components/UserOptionsModal/UserOptionsModal';
 import UserStats from '../../components/UserStats/UserStats';
 import AddPostPanel from '../../components/AddPostPanel/AddPostPanel';
 import ModalWrap from '../../components/ModalWrap/ModalWrap';
 import { baseUrl } from "../../envVariables/variables";
 import PostsWrap from '../../components/PostsWrap/PostsWrap';
 import CheckMark from '../../assets/svg/CheckMark';
-
-import { isValidFileUploaded } from '../../helpers/helpers';
+import { isValidFileUploaded, notifyAlert, notifyError } from '../../helpers/helpers';
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
+import EditModal from '../../components/EditModal/EditModal';
+import EditAccount from '../../components/EditAccount/EditAccount';
+import SkeletonLoader from '../../components/UI/SkeletonLoader/SkeletonLoader';
+import AlertHolder from '../../components/UI/AlertHolder/AlertHolder';
+import Loader from '../../components/UI/Loader/Loader';
+import SearchError from '../../assets/svg/SearchError';
 
 const AccountPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -59,8 +63,6 @@ const AccountPage = () => {
 
     const [visible, setVisible] = useState(false);
     const [imageEditingType, setImageEditingType] = useState('');
-    const [updateUserImage, {isLoading: isRegularImageLoading, isError: isRegularImageError, data: regularImageData}] = useUpdateImageMutation();
-    const [updatePanoramaImage, {isLoading: isPanoramaImageLoading, isError: isPanoramaImageError, data: panoramaImageData}] = useUpdatePanoramaImageMutation();
 
     const [visibleUserOptionsModal, setVisibleUserOptionsModal] = useState(false);
 
@@ -71,20 +73,20 @@ const AccountPage = () => {
 
     const {id} = useParams();
     const [currentUserId, setCurrentUserId] = useState('');
-    const {isError, isLoading, data} = useGetUserByEmailQuery(id || user.email);
+    const {isLoading, data, refetch: refetchUser} = useGetUserByEmailQuery(id || user.email);
     const [getPosts, {isError: isUserPostsError, isLoading: isUserPostsLoading, data: userPostsData}] = useLazyGetAllUserPostsQuery();
-    const {isError: isUserDataError, isLoading: isUserDataLoading, data: userData, refetch} = useGetUserDataQuery(id || user.email);
+    const {isLoading: isUserDataLoading, data: userData, refetch} = useGetUserDataQuery(id || user.email);
 
-    const [changeStatus, {isError: isStatusError, isLoading: isStatusLoading, data: statusData}] = useChangeUserStatusMutation();
-    const [createUserPost, {isError: isUserPostError, isLoading: isUserPostLoading, data: userPostData}] = useCreatePostMutation();
+    const [changeStatus, {isError: isStatusError}] = useChangeUserStatusMutation();
+    const [createUserPost, {isError: isUserPostError, data: userPostData}] = useCreatePostMutation();
 
-    const [deleteFromFriends, {isLoading: isDeleteFromFriendsLoading, error: isDeleteFromFriendsError, data: deleteFromFriendsData}] = useDeleteFriendMutation();
-    const [sendFriendRequest, {isLoading: isFriendRequestLoading, isError: isFriendRequestError, data: friendRequestData}] = useSendFriendRequestMutation()
-    const [sendDeleteFriendRequest, {isLoading: isFriendDeleteRequestLoading, isError: isFriendDeleteRequestError, data: friendDeleteRequestData}] = useDeleteFriendRequestMutation();
-    const [sendAcceptFriendRequest, {isLoading: isFriendAcceptRequestLoading, isError: isFriendAcceptRequestError, data: friendAcceptRequestData}] = useAcceptFriendRequestMutation();
-    const {isLoading: isNotificationsLoading, isError: isNotificationsError, data: notificationsData} = useGetAllNotificationsQuery(user.email);
+    const [deleteFromFriends, {error: isDeleteFromFriendsError, data: deleteFromFriendsData}] = useDeleteFriendMutation();
+    const [sendFriendRequest, {isError: isFriendRequestError}] = useSendFriendRequestMutation()
+    const [sendDeleteFriendRequest, {isError: isFriendDeleteRequestError}] = useDeleteFriendRequestMutation();
+    const [sendAcceptFriendRequest, {isError: isFriendAcceptRequestError}] = useAcceptFriendRequestMutation();
+    const {data: notificationsData} = useGetAllNotificationsQuery(user.email);
 
-    const {isError: isFriendsError, isLoading: isFriendsLoading, data: friendsData} = useGetAllFriendsQuery({id: user.email, limit: 400, page: 1});
+    const {data: friendsData} = useGetAllFriendsQuery({id: user.email, limit: 400, page: 1});
 
     function checkIsNotFriend(user) {
         if(friendsData)
@@ -93,6 +95,12 @@ const AccountPage = () => {
 
     function hidePost(id: number) {
         setPosts(posts.filter(post => post.id !== id))
+        notifyAlert("Подобные посты больше не будут отображаться")
+    }
+
+    function reportPost(id: number) {
+        setPosts(posts.filter(post => post.id !== id))
+        notifyError("Ваша жалоба на пост отправлена")
     }
 
     function showPopularPostsHandler() {
@@ -155,7 +163,7 @@ const AccountPage = () => {
             setPostImagePreview('');
             setUserCurrentFile(undefined);
         }
-        else notify();
+        else notifyAlert('Нельзя отправить пост без описания');
     }
 
     function sendFrindRequestHandler(email) {
@@ -191,18 +199,6 @@ const AccountPage = () => {
         setImageEditingType(type);
     }
 
-    function notify() {
-        toast.warn('Нельзя отправить пост без описания', {
-            position: "top-right",
-            autoClose: 3500,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-    }
-
     function validatePostDescription() {
         setIsPostDescriptionError(userCurrentPostDescription.length > 200 || userCurrentPostDescription.length < 0);
     }
@@ -225,6 +221,34 @@ const AccountPage = () => {
         event.stopPropagation();
         isShowHiddenOptions ? setIsShowHiddenOptions(false) : setIsShowHiddenOptions(true);
     }
+
+    function filterPostsAfterDeletion(postId) {
+        setPosts(posts.filter(post => post.id !== postId))
+    }
+
+    useEffect(() => {
+        if(isUserPostError) notifyError('Произошла ошибка при создании поста');
+    }, [isUserPostError])
+
+    useEffect(() => {
+        if(isStatusError) notifyError('Произошла ошибка при изменении статуса');
+    }, [isStatusError])
+
+    useEffect(() => {
+        if(isDeleteFromFriendsError) notifyError('Произошла ошибка при удалении пользователя из друзей');
+    }, [isDeleteFromFriendsError])
+
+    useEffect(() => {
+        if(isFriendRequestError) notifyError('Произошла ошибка при отправке запроса в друзья');
+    }, [isFriendRequestError])
+
+    useEffect(() => {
+        if(isFriendAcceptRequestError) notifyError('Произошла ошибка при принятии запроса в друзья');
+    }, [isFriendAcceptRequestError])
+
+    useEffect(() => {
+        if(isFriendDeleteRequestError) notifyError('Произошла ошибка при удалении пользователя из друзей');
+    }, [isFriendDeleteRequestError])
 
     useEffect(() => {
         if(deleteFromFriendsData) setButtonState('Добавить в друзья');
@@ -253,10 +277,6 @@ const AccountPage = () => {
         }
     }, [userCurrentFile])
 
-    useEffect(() => {
-        if(panoramaImageData || regularImageData) refetch();
-    }, [panoramaImageData, regularImageData])
-
     return (
         <>
         <ToastContainer
@@ -276,7 +296,6 @@ const AccountPage = () => {
                 <ModalWrap
                     visible={isDeleteFriendConfirmationVisible} 
                     setVisible={setIsDeleteFriendConfirmationVisible} 
-                    type='column'
                 >
                     <ConfirmationModal
                         setVisible={setIsDeleteFriendConfirmationVisible} 
@@ -290,9 +309,18 @@ const AccountPage = () => {
                     <ModalWrap 
                         visible={visibleUserOptionsModal} 
                         setVisible={setVisibleUserOptionsModal} 
-                        type='column'
                     >
-                        <UserOptionsModal refetch={refetch}/>
+                        <EditModal 
+                            header='Форма редактирования профиля'
+                            setVisible={setVisibleUserOptionsModal} 
+                        >
+                            <EditAccount
+                                visible={visibleUserOptionsModal} 
+                                setVisible={setVisibleUserOptionsModal} 
+                                refetch={refetch}
+                                refetchUser={refetchUser}
+                            />
+                        </EditModal>
                     </ModalWrap>
             }
             {
@@ -300,33 +328,36 @@ const AccountPage = () => {
                     <ModalWrap 
                         visible={visible} 
                         setVisible={setVisible} 
-                        type='row'
                     >
                         <ImageOptionsModal 
-                            id={id || user.email} 
                             mainImage={userData.image}
-                            currentUserId={String(id)}
                             panoramaImage={userData.panoramaImage} 
-                            type={imageEditingType} 
-                            refetch={refetch} 
-                            setVisible={setVisible}
-                            updateRegularImage={updateUserImage}
-                            updatePanoramaImage={updatePanoramaImage}
+                            type={imageEditingType}
+                            visible={visible} 
+                            setVisible={setVisible}  
                         />
                     </ModalWrap>
             }
-            <div className={styles.panoramaImage} onClick={() => showImageOptionsHandler('panoramaImage')}>
+            <div 
+                className={styles.panoramaImage} 
+                onClick={() => showImageOptionsHandler('panoramaImage')}
+            >
+                {isUserDataLoading &&
+                    <SkeletonLoader borderRadius={0}/>
+                }
                 {(userData && userData.panoramaImage !== 'none') &&
                     <img src={baseUrl + userData.panoramaImage}/>
                 }
-                <div 
-                    className={styles.userAdditionalOptions}
-                    onMouseOver={() => setIsShowHiddenOptions(true)}
-                    onMouseOut={() => setIsShowHiddenOptions(false)}
-                    onClick={event => showHiddenOptions(event)}
-                >
-                    <More className={styles.accountMore}/>
-                </div>
+                {id !== user.email &&
+                    <div 
+                        className={styles.userAdditionalOptions}
+                        onMouseOver={() => setIsShowHiddenOptions(true)}
+                        onMouseOut={() => setIsShowHiddenOptions(false)}
+                        onClick={event => showHiddenOptions(event)}
+                    >
+                        <More className={styles.accountMore}/>
+                    </div>
+                }
                 <div 
                     className={isShowHiddenOptions ? [styles.hiddenOptions, styles.visible].join(' ') : styles.hiddenOptions}
                     onMouseOver={() => setIsShowHiddenOptions(true)}
@@ -335,15 +366,18 @@ const AccountPage = () => {
                     {!checkIsNotFriend(id) && (id !== user.email) &&
                         <a onClick={event => handleOpenConfirmationModal(event)}>Удалить из друзей</a>
                     }
-                    {(id === user.email) &&
-                        <a onClick={() => showImageOptionsHandler('panoramaImage')}>Заменить панорамную фотографию</a>
-                    }
                 </div>
             </div>
             <div className={styles.accountPage}>
                 <div className={styles.userInfo}>
                     <div className={styles.userImageHolder}>
-                        <div className={styles.userImage} onClick={() => showImageOptionsHandler('regularImage')}>
+                        <div 
+                            className={styles.userImage} 
+                            onClick={() => showImageOptionsHandler('regularImage')}
+                        >
+                            {isUserDataLoading &&
+                                <SkeletonLoader borderRadius={999}/>
+                            }
                             {(userData && userData.image !== 'none') &&
                                <img src={baseUrl + userData.image}/>
                             }
@@ -362,7 +396,10 @@ const AccountPage = () => {
                                 </div>
                             </div>
                         :
-                            <div className={styles.userOptionsWrap} onClick={() => setVisibleUserOptionsModal(true)}>
+                            <div 
+                                className={styles.userOptionsWrap} 
+                                onClick={() => setVisibleUserOptionsModal(true)}
+                            >
                                 <Options className={styles.userOptions}/>
                             </div>
                     }
@@ -375,8 +412,18 @@ const AccountPage = () => {
                             {buttonState === 'Принять запрос' && <CheckMark className={styles.hiddenUserAddInFriendsPlus}/>}
                         </div>
                     }
+                    {isLoading &&
+                        <p className={[styles.userName, styles.skeleton].join(' ')}>
+                            <SkeletonLoader borderRadius={3}/>
+                        </p>
+                    }
                     <p className={styles.userName}>{data && data.name} {data && data.surname}</p>
                     <div className={styles.editablePart}>
+                        {isUserDataLoading &&
+                            <p className={[styles.userStatus, styles.skeleton].join(' ')}>
+                                <SkeletonLoader borderRadius={3}/>
+                            </p>
+                        }
                         {!isEditing ? 
                             <p className={styles.userStatus} 
                                 onMouseOut={() => (id === user.email) && setUserStatusClasses([styles.editStatus])} 
@@ -396,9 +443,19 @@ const AccountPage = () => {
                             />     
                         }
                         <p className={userStatusClasses.join(' ')}>{editingPartValue}</p>
-                    </div>                  
-                    <p className={styles.userDateBirth}>Дата рождения: {userData && userData.date_birth}</p>
-                    <p className={styles.userCity}>Город: {userData && userData.city}</p>
+                    </div>  
+                    {isUserDataLoading &&
+                        <p className={[styles.userDateBirth, styles.skeleton].join(' ')}>
+                            <SkeletonLoader borderRadius={3}/>
+                        </p>
+                    }
+                    {!isUserDataLoading &&
+                        <>
+                            <p className={styles.userDateBirth}>Дата рождения: {userData && userData.date_birth}</p>
+                            <p className={styles.userCity}>Город: {userData && userData.city}</p>
+                        </>
+                    }
+
                     {/* <div className={styles.moreButton}>
                         <Angle className={styles.moreButtonAngle}/>
                     </div> */}
@@ -420,9 +477,14 @@ const AccountPage = () => {
             </div>
             
             <div className={(id === user.email) ? styles.userPostsOptions : [styles.userPostsOptions, styles.marginless].join(' ')}>
-                <InputBar>
+                <InputBar type='shortened'>
                     <div className={styles.postFinder}>
-                        <Input placeholder='Искать записи...' value={search} onChange={setSearch}/>
+                        <Input 
+                            type="shortened"
+                            placeholder='Искать записи...' 
+                            value={search} 
+                            onChange={setSearch}
+                        />
                     </div>
                     <div className={styles.postOptions}>
                         <Button onClick={showPopularPostsHandler} isActive={(optionsButton === 'Популярные')}>
@@ -435,10 +497,22 @@ const AccountPage = () => {
                 </InputBar>
             </div>
             <div className={styles.userPosts}>
+                {isFindedPostsLoading &&
+                    <div className={styles.loader}>
+                        <Loader type="regular"/>
+                    </div> 
+                }
+                {findedPostsData && (findedPostsData && findedPostsData[0] === undefined) && !isFindedPostsError && !isFindedPostsLoading && isSearch &&
+                    <AlertHolder 
+                        icon={<SearchError className={styles.alertIconDefault}/>}
+                        label="Подобных постов не найдено"
+                    />
+                }
                 {!isSearch &&
                     <PostsWrap 
                         getPosts={getPosts} 
                         isLoading={isUserPostsLoading} 
+                        isError={isUserPostsError}
                         data={userPostsData} 
                         type="USER_POSTS" 
                         id={id} 
@@ -446,7 +520,13 @@ const AccountPage = () => {
                     />
                 }
                 {findedPostsData && isSearch && findedPostsData.map(post =>       
-                    <Post key={post.id} hidePost={hidePost} post={post}/>
+                    <Post 
+                        key={post.id} 
+                        hidePost={hidePost} 
+                        reportPost={reportPost}
+                        post={post}
+                        filterPostsAfterDeletion={filterPostsAfterDeletion}
+                    />
                 )}
             </div>
         </div>

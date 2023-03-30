@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;   
     flex-direction: column;
-    padding: 0.625vw 0;
+    margin-top: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
     div {
         input {
             width: 100%;
@@ -28,12 +28,24 @@
                     calc(9px + (15 - 9) * ( (100vw - 200px) / ( 1920 - 200) ))
                     calc(10px + (20 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
             box-sizing: border-box;
-            background: rgba(217, 217, 217, 0.25);
+            background: $firstLayerColor;
+            color: $textColor;
             border-radius: 5px;
+            &:focus {
+                outline: 1px solid $inputTextColor;
+            }
+            &:hover::placeholder {
+                color: $textColor;
+                transition: .5s;
+            }
+            &:focus::placeholder {
+                color: $inputTextColor;
+            }
         }
         input::placeholder {
-            color: #1F4868;
+            color: $inputTextColor;
             font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+            transition: .5s;
         }
         div {           
             min-width: 18px;
@@ -41,7 +53,7 @@
             position: absolute;
             box-sizing: border-box;
             display: flex;
-            top: calc(4px + (6 - 4) * ( (100vw - 200px) / ( 1920 - 200) ));
+            top: calc(4px + (7 - 4) * ( (100vw - 200px) / ( 1920 - 200) ));
             &:nth-child(1) {
                 right: 35px;
                 position: relative;
@@ -58,9 +70,24 @@
     }
 }
 
+.addPostWrap {
+    margin-top: calc(5px + (12 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+    margin-bottom: calc(5px + (12 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+    div input {
+        background: $inputColor;
+        border: 1px solid #2A2A2A;
+    }
+}
+
 .addPostClip, .addPostSend {
     @include svgIconStyles(1.3021vw, 18px, $darkIconColor);
+    transition: 0.1s;
 }
+
+.addPostSendWrap:hover .addPostSend, .addPostClipWrap:hover .addPostClip {
+    transition: 0.1s;
+    fill: white;
+} 
 
 .fileUploadInput {
     padding: 0 !important;
@@ -80,11 +107,10 @@
     height: 10.417vw;
     min-width: 75px;
     min-height: 75px;
-    background: gray;
     margin-top: 10px;   
     @include imageStyles();
-    background: linear-gradient(91.66deg, rgba(125, 171, 216, 0.4) 7.49%, rgba(173, 199, 226, 0.4) 103.24%);
-    border: 1px solid #5F95C5;
+    background: $secondLayerColor;
+    border: 1px solid $thirdLayerColor;
     border-radius: 5px;
 }
 
@@ -105,7 +131,6 @@
     }
     .addPostWrapExtended, .addPostWrap {
         width: 97vw;
-        margin-top: 2px;
         div {
             width: 100%;
         }

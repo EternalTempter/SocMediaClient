@@ -6,27 +6,22 @@ interface FriendsProps {
 
 const Friends:FC<FriendsProps> = ({className}) => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" xmlSpace="preserve" className={className}>
+       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 682.667 682.667" xmlSpace="preserve" className={className}>
             <g>
-                <g xmlns="http://www.w3.org/2000/svg">
-                    <g>
-                        <path d="M155.327,57.142c-51.531,0-93.454,44.45-93.454,99.086c0,54.636,41.923,99.086,93.454,99.086s93.455-44.45,93.455-99.086    C248.782,101.592,206.859,57.142,155.327,57.142z" fill="#000000" data-original="#000000" className={className}></path>
-                    </g>
-                </g>
-                <g xmlns="http://www.w3.org/2000/svg">
-                    <g>
-                        <path d="M367.798,71.321c-0.211,0-0.425,0.001-0.636,0.002c-21.626,0.179-41.826,9.31-56.878,25.713    c-14.788,16.113-22.829,37.37-22.644,59.854c0.186,22.484,8.577,43.605,23.628,59.473c15.17,15.991,35.265,24.773,56.651,24.773    c0.215,0,0.43-0.001,0.646-0.002c21.626-0.179,41.826-9.311,56.878-25.713c14.788-16.113,22.829-37.37,22.644-59.855    C447.702,108.972,411.747,71.321,367.798,71.321z" fill="#000000" data-original="#000000" className={className}></path>
-                    </g>
-                </g>
-                <g xmlns="http://www.w3.org/2000/svg">
-                    <g>
-                        <path d="M371.74,257.358h-7.76c-36.14,0-69.12,13.74-94.02,36.26c6.23,4.78,12.16,9.99,17.78,15.61    c16.58,16.58,29.6,35.9,38.7,57.42c8.2,19.38,12.88,39.8,13.97,60.83H512v-29.87C512,320.278,449.08,257.358,371.74,257.358z" fill="#000000" data-original="#000000" className={className}></path>
-                    </g>
-                </g>
-                <g xmlns="http://www.w3.org/2000/svg">
-                    <g>
-                        <path d="M310.35,427.478c-2.83-45.59-25.94-85.69-60.43-111.39c-25.09-18.7-56.21-29.77-89.92-29.77h-9.34    C67.45,286.319,0,353.768,0,436.978v17.88h310.65v-17.88C310.65,433.788,310.55,430.618,310.35,427.478z" fill="#000000" data-original="#000000" className={className}></path>
-                    </g>
+                <defs>
+                    <clipPath id="a" clipPathUnits="userSpaceOnUse">
+                        <path d="M0 512h512V0H0Z" fill="#000000" data-original="#000000"></path>
+                    </clipPath>
+                </defs>
+                <g clipPath="url(#a)" transform="matrix(1.33333 0 0 -1.33333 0 682.667)">
+                    <path d="M0 0c0-49.71-40.3-90-90-90-49.71 0-90 40.29-90 90s40.29 90 90 90C-40.3 90 0 49.71 0 0Z" transform="translate(502 401)" fill="none" stroke="#E3E3E3" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeDasharray="none" strokeOpacity="" data-original="#000000" className={className}></path>
+                    <path d="M0 0v60" transform="translate(412 371)" fill="none" stroke="#E3E3E3" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeDasharray="none" strokeOpacity="" data-original="#000000" className={className}></path>
+                    <path d="M0 0h-60" transform="translate(442 401)" fill="none" stroke="#E3E3E3" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeDasharray="none" strokeOpacity="" data-original="#000000" className={className}></path>
+                    <path d="M0 0c-38.65 0-69.98 31.33-69.98 69.98 0 38.651 31.33 69.981 69.98 69.981 38.65 0 69.98-31.33 69.98-69.981C69.98 31.33 38.65 0 0 0Z" transform="translate(110 201.02)" fill="none" stroke="#E3E3E3" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeDasharray="none" strokeOpacity="" data-original="#000000" className={className}></path>
+                    <path d="M0 0c15.8 25.97 44.371 43.34 76.93 43.34 49.63 0 90-40.37 90-90v-30h-160" transform="translate(203.07 97.66)" fill="none" stroke="#E3E3E3" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeDasharray="none" strokeOpacity="" data-original="#000000" className={className}></path>
+                    <path d="M0 0c-33.13 0-59.99 26.851-59.99 59.98 0 33.13 26.86 59.981 59.99 59.981S59.98 93.11 59.98 59.98C59.98 26.851 33.13 0 0 0Z" transform="translate(280 181.02)" fill="none" stroke="#E3E3E3" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeDasharray="none" strokeOpacity="" data-original="#000000" className={className}></path>
+                    <path d="M0 0c0-5.522-4.477-10-10-10S-20-5.522-20 0s4.477 10 10 10S0 5.522 0 0" transform="translate(120 21)" className={className} data-original="#000000"></path>
+                    <path d="M0 0h-55v40c0 55.23 44.77 100 100 100 27.62 0 52.62-11.19 70.71-29.29a99.948 99.948 0 0 0 22.36-34.05C142.54 65.31 145 52.94 145 40V0H90" transform="translate(65 21)" fill="none" stroke="#E3E3E3" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeDasharray="none" strokeOpacity="" data-original="#000000" className={className}></path>
                 </g>
             </g>
         </svg>

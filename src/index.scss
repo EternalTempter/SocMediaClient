@@ -11,7 +11,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url(./assets/images/background.jpg);
+  background: $backgroundColor;
   background-size: cover;
   width: 100vw;
   height: 100vh;
@@ -38,17 +38,24 @@ code {
   cursor: pointer;
   transition: 0.5s;
   position: absolute;
-  width: 2.604vw !important; 
-  height: 2.604vw !important;
+  width: 2.083vw !important; 
+  height: 2.083vw !important;
   border-radius: 50%;
   min-width: 25px;
   min-height: 25px;
-  background: linear-gradient(141.34deg, rgba(255, 255, 255, 0.4) 8.89%, rgba(255, 255, 255, 0.1) 100%);
+  background: $secondLayerColor;
+  transition: .5s;
+  box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
+}
+
+.swiper-button-next:hover, .swiper-button-prev:hover {
+  background: $thirdLayerColor;
+  transition: .5s;
 }
 
 .swiper-button-next:after, .swiper-button-prev:after {
   color: $darkIconColor;
-  font-size: calc(8px + (24 - 8) * (100vw - 300px) / (1920 - 300)) !important;
+  font-size: calc(8px + (20 - 8) * (100vw - 300px) / (1920 - 300)) !important;
 }
 
 .swiper-button-next:hover, .swiper-button-prev:hover {
@@ -65,10 +72,35 @@ code {
 .swiper-pagination-bullet {
   width: calc(40px + (70 - 40) * (100vw - 300px) / (1920 - 300)) !important;
   height: calc(3px + (5 - 3) * (100vw - 300px) / (1920 - 300)) !important;
+  border-radius: 2px !important;
   cursor: pointer;
-  background: linear-gradient(90.32deg, rgba(255, 255, 255, 0.4) 4.97%, rgba(255, 255, 255, 0.1) 95.03%) !important;
+  transition: .5s;
+  background: #505050 !important;
+  opacity: 1 !important;
 }
+.swiper-pagination-bullet:hover {
+  background: $darkIconColor !important;
+  opacity: 1 !important;
+  transition: .5s;
+}
+
 .swiper-pagination-bullet-active {
-  transition: 0.5s;
-  background: #C4D7EB;
+  background: $darkIconColor !important;
+  transition: .5s;
+}
+.swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+  bottom: calc(20px + (30 - 20) * (100vw - 300px) / (1920 - 300)) !important;
+}
+
+@font-face {
+  font-family: "AdventPro";
+  src: local("AdventPro"), local("AdventPro"),
+    url("./assets/fonts/AdventPro-Regular.ttf");
+  font-weight: 400;
+}
+
+@media screen and (max-width: 768px) {
+  .swiper-button-prev, .swiper-button-next, .swiper-pagination-bullet {
+    display: none !important;
+  }
 }

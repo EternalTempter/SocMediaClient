@@ -24,7 +24,7 @@
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-    color: #1F4868;
+    color: $color;
 }
 
 @mixin svgIconStyles($widthAndHeight, $minWidthAndHeight, $color) {
@@ -33,6 +33,14 @@
     min-width: $minWidthAndHeight;
     min-height: $minWidthAndHeight;
     fill: $color;
+}
+
+@mixin svgIconStylesStroke($widthAndHeight, $minWidthAndHeight, $color) {
+    width: $widthAndHeight;
+    height: $widthAndHeight;
+    min-width: $minWidthAndHeight;
+    min-height: $minWidthAndHeight;
+    stroke: $color;
 }
 
 @mixin roundedImageStyles {

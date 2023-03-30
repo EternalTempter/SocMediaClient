@@ -1,36 +1,32 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Angle from '../../assets/svg/Angle';
-import Clip from '../../assets/svg/Clip';
 import Like from '../../assets/svg/Like';
 import More from '../../assets/svg/More';
-import Send from '../../assets/svg/Send';
-import Share from '../../assets/svg/Share';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddPostPanel from '../../components/AddPostPanel/AddPostPanel';
-import { useObserver } from '../../hooks/useObserver';
 import { IPost, IUser } from '../../models';
 import { useGetAllUserGroupSubscriptionsQuery, useGetGroupByIdQuery, useUpdateImageMutation, useUpdatePanoramaImageMutation } from '../../store/socmedia/groups/groups.api';
 import jwt_decode from 'jwt-decode';
 import { useCreatePostMutation, useLazyGetAllGroupPostsQuery } from '../../store/socmedia/posts/posts.api';
 import styles from './GroupPage.module.scss';
-import Post from '../../components/Post/Post';
 import { useGetFirstGroupSubsQuery, useGetGroupSubsCountQuery, useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation } from '../../store/socmedia/groupUsers/groupUsers.api';
 import { baseUrl } from "../../envVariables/variables";
 import BrokenHeart from '../../assets/svg/BrokenHeart';
 import GroupSubscriber from '../../components/GroupSubscriber/GroupSubscriber';
 import { isValidFileUploaded } from '../../helpers/helpers';
 import ModalWrap from '../../components/ModalWrap/ModalWrap';
-import ImageOptionsModal from '../../components/ImageOptionsModal/ImageOptionsModal';
+import ImageOptionsModal from '../../components/ImageModal/ImageModal';
 import Options from '../../assets/svg/Options';
-import GroupOptionsModal from '../../components/GroupOptionsModal/GroupOptionsModal';
 import PostsWrap from '../../components/PostsWrap/PostsWrap';
+import EditGroup from '../../components/EditGroup/EditGroup';
+import EditModal from '../../components/EditModal/EditModal';
+import SkeletonLoader from '../../components/UI/SkeletonLoader/SkeletonLoader';
 
 const GroupPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const {id} = useParams();
-    const {isError, isLoading, data, refetch: groupRefetch} = useGetGroupByIdQuery(String(id));
+    const {isLoading, data, refetch: groupRefetch} = useGetGroupByIdQuery(String(id));
     const [groupCurrentPostDescription, setGroupCurrentPostDescription] = useState('');
     const [isPostDescriptionError, setIsPostDescriptionError] = useState(false);
     const [userCurrentFile, setUserCurrentFile] = useState();
@@ -42,17 +38,14 @@ const GroupPage = () => {
     const [imageEditingType, setImageEditingType] = useState('');
 
     const [groupOptionsVisible, setGroupOptionsVisible] = useState(false);
-
-    const [updateGroupImage, {isLoading: isRegularImageLoading, isError: isRegularImageError, data: regularImageData}] = useUpdateImageMutation();
-    const [updatePanoramaImage, {isLoading: isPanoramaImageLoading, isError: isPanoramaImageError, data: panoramaImageData}] = useUpdatePanoramaImageMutation();
     
-    const {isError: isGroupSubsError, isLoading: isGroupSubsLoading, data: groupSubsData, refetch: refetchFirstGroupSubs} = useGetFirstGroupSubsQuery({group_id: String(id), amount: 3});
+    const {data: groupSubsData, refetch: refetchFirstGroupSubs} = useGetFirstGroupSubsQuery({group_id: String(id), amount: 3});
 
-    const {isError: isGroupSubsCountError, isLoading: isGroupSubsCountLoading, data: groupSubsCountData, refetch: refetchGroupSubs} = useGetGroupSubsCountQuery(String(id));
-    const {isError: isUserGroupSubscriptionsError, isLoading: isUserGroupSubscriptionsLoading, data: userGroupSubscriptionsData, refetch} = useGetAllUserGroupSubscriptionsQuery({id: user.email, limit: 400});
+    const {isLoading: isGroupSubsCountLoading, data: groupSubsCountData, refetch: refetchGroupSubs} = useGetGroupSubsCountQuery(String(id));
+    const {isLoading: isSubsLoading, data: userGroupSubscriptionsData, refetch: refetchUserSubs} = useGetAllUserGroupSubscriptionsQuery({id: user.email, limit: 400});
 
-    const [unsubscribe, {isError: isUnsubscribeError, isLoading: isUnsubscribeLoading, data: unsubscribeData}] = useUnsubscribeOnGroupMutation();
-    const [subscribe, {isError: isSubscribeError, isLoading: isSubscribeLoading, data: subscribeData}] = useLazySubscribeOnGroupQuery();
+    const [unsubscribe, {isLoading: isUnsubscribeLoading, data: unsubscribeData}] = useUnsubscribeOnGroupMutation();
+    const [subscribe, {isLoading: isSubscribeLoading, data: subscribeData}] = useLazySubscribeOnGroupQuery();
 
     const [createGroupPost, {isError: isGroupPostError, isLoading: isGroupPostLoading, data: groupPostData}] = useCreatePostMutation();
     const [getPosts, {isError: isPostsError, isLoading: isPostsLoading, data: postsData}] = useLazyGetAllGroupPostsQuery();
@@ -90,8 +83,15 @@ const GroupPage = () => {
 
     function groupOptionHandler(event) {
         event.stopPropagation();
-        if(buttonValue === 'Отписаться') unsubscribe({group_id: id, id: user.email})
-        else subscribe({group_id: id, id: user.email});
+        if(!isUnsubscribeLoading && !isSubscribeLoading && !isSubsLoading) {
+            if(buttonValue === 'Отписаться') {
+                unsubscribe({group_id: id, id: user.email})
+            } 
+            else {
+                subscribe({group_id: id, id: user.email});
+            } 
+            
+        }
 
     }
 
@@ -110,10 +110,15 @@ const GroupPage = () => {
     }
 
     useEffect(() => {
-        if(subscribeData || unsubscribeData) {
+        if(subscribeData) {
             refetchGroupSubs()
             refetchFirstGroupSubs()
-            refetch()
+            refetchUserSubs()
+        }
+        if(unsubscribeData) {
+            refetchGroupSubs()
+            refetchFirstGroupSubs()
+            refetchUserSubs()
         }
     }, [subscribeData, unsubscribeData])
 
@@ -154,10 +159,6 @@ const GroupPage = () => {
         }
     }, [userCurrentFile]);
 
-    useEffect(() => {
-        if(panoramaImageData || regularImageData) groupRefetch();
-    }, [panoramaImageData, regularImageData])
-
     const showFileUpload = e => {
         if(isValidFileUploaded(e.target.files[0])) setUserCurrentFile(e.target.files[0]);
     }
@@ -181,51 +182,68 @@ const GroupPage = () => {
                 <ModalWrap 
                     visible={groupOptionsVisible}
                     setVisible={setGroupOptionsVisible}
-                    type='column'
                 >
-                    <GroupOptionsModal 
-                        group_id={String(id)} 
-                        refetch={groupRefetch}
-                        setGroupVisible={setGroupOptionsVisible}
-                    />
+                    <EditModal  
+                        header='Форма редактирования сообщества' 
+                        setVisible={setGroupOptionsVisible}
+                    >
+                        <EditGroup 
+                            refetch={groupRefetch}
+                            visible={groupOptionsVisible}
+                            setVisible={setGroupOptionsVisible}
+                        />
+                    </EditModal>
                 </ModalWrap>
             }
             {data && visible && 
                 <ModalWrap 
                     visible={visible} 
                     setVisible={setVisible} 
-                    type='row'
                 >
                     <ImageOptionsModal 
-                        id={String(id)} 
                         mainImage={data.image}
-                        currentUserId={String(id)}
                         panoramaImage={data.panoramaImage} 
                         type={imageEditingType} 
-                        refetch={refetch} 
-                        setVisible={setVisible}
-                        groupAdminId={data.owner_id}
-                        updatePanoramaImage={updatePanoramaImage}
-                        updateRegularImage={updateGroupImage}
+                        visible={visible} 
+                        setVisible={setVisible} 
                     />
                 </ModalWrap>
             }
             <div className={styles.groupWrap}>
                 <div className={styles.groupImageHolder}>
                     <div onClick={() => showImageOptionsHandler('regularImage')}>
+                        {isLoading && isGroupSubsCountLoading && 
+                            <SkeletonLoader borderRadius={999}/>
+                        }
                         {(data && data.image !== 'none') &&
                             <img src={baseUrl + data.image}/>
                         }
                     </div>
                 </div>
-                <div className={styles.groupHeader} onClick={() => showImageOptionsHandler('panoramaImage')}>
+                <div 
+                    className={styles.groupHeader} 
+                    onClick={() => showImageOptionsHandler('panoramaImage')}
+                >
+                    {isLoading && isGroupSubsCountLoading && 
+                        <SkeletonLoader borderRadius={0}/>
+                    }
                     {(data && data.panoramaImage !== 'none') &&
                         <img src={baseUrl + data.panoramaImage}/>
                     }
                 </div>
                 <div className={styles.groupBody}>
                     <div className={styles.groupBodyLeftSide}>
+                        {isLoading && isGroupSubsCountLoading && 
+                            <p className={[styles.groupName, styles.skeleton].join(' ')}>
+                                <SkeletonLoader borderRadius={5}/>
+                            </p>
+                        }
                         <p className={styles.groupName}>{data && data.group_name}</p>
+                        {isLoading && isGroupSubsCountLoading && 
+                            <p className={[styles.groupUsersAmount, styles.skeleton].join(' ')}>
+                                <SkeletonLoader borderRadius={5}/>
+                            </p>
+                        }
                         <p className={styles.groupUsersAmount}>{groupSubsCountData && groupSubsCountData} участника</p>
                         <div className={styles.groupUsers}>
                             {groupSubsData && groupSubsData.map(sub => 
@@ -239,17 +257,18 @@ const GroupPage = () => {
                     <div className={styles.groupBodyRightSide}>
                         <div className={styles.groupButtons}>
                             <div className={styles.groupMobileViewButtons}>
-                                <div onClick={event => groupOptionHandler(event)}>
+                                <div 
+                                    onClick={event => groupOptionHandler(event)}
+                                    className={styles.subscribeMobileViewButtonHeartWrap}
+                                >
                                     {buttonValue === 'Подписаться' && <Like className={styles.subscribeMobileViewButtonHeart}/>}
                                     {buttonValue === 'Отписаться' && <BrokenHeart className={styles.subscribeMobileViewButtonHeart}/>}   
                                 </div>
-                                {data && data.owner_id === user.email &&
-                                    <div onClick={() => setGroupOptionsVisible(true)}>
-                                        <More className={styles.moreMobileViewButtonHeart}/>
-                                    </div>
-                                }
                             </div>
-                            <div className={styles.subscribeButton} onClick={event => groupOptionHandler(event)}>
+                            <div 
+                                className={styles.subscribeButton}
+                                onClick={event => groupOptionHandler(event)}
+                            >
                                 <p>{buttonValue}</p>
                                 <div>
                                     {buttonValue === 'Подписаться' && <Like className={styles.subscribeButtonHeart}/>}
@@ -257,12 +276,20 @@ const GroupPage = () => {
                                 </div>  
                             </div>
                             {data && data.owner_id === user.email &&
-                                <div onClick={() => setGroupOptionsVisible(true)}>
-                                    <Options className={styles.shareButton}/>
+                                <div 
+                                    onClick={() => setGroupOptionsVisible(true)}
+                                    className={styles.optionsButtonWrap}
+                                >
+                                    <Options className={styles.optionsButton}/>
                                 </div>
                             }
                         </div>
                         <div className={styles.groupDescription}>
+                            {isLoading && isGroupSubsCountLoading && 
+                                <p className={[styles.description, styles.skeleton].join(' ')}>
+                                    <SkeletonLoader borderRadius={5}/>
+                                </p>
+                            }
                             <p>{data && data.description}</p>
                         </div>
                     </div>
@@ -284,7 +311,14 @@ const GroupPage = () => {
                 }
 
                 <div className={styles.groupPosts}>
-                    <PostsWrap getPosts={getPosts} isLoading={isPostsLoading} data={postsData} type="USER_POSTS" id={String(id)}/>
+                    <PostsWrap 
+                        getPosts={getPosts} 
+                        isLoading={isPostsLoading} 
+                        isError={isPostsError}
+                        data={postsData} 
+                        type="USER_POSTS" 
+                        id={String(id)}
+                    />
                 </div>
                 
                 {/* <div className={styles.moreButton}>

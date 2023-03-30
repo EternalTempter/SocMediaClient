@@ -2,17 +2,14 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import Like from '../../assets/svg/Like';
 import Comment from '../../assets/svg/Comment';
 import { IPost, IUser } from '../../models';
-import { useGetBestPostCommentQuery, useIsPostLikedQuery, useLazyGetAllPostCommentsQuery, useLazyGetPostCommentsAmountQuery, useLazyRemoveLikeQuery, usePasteCommentToPostMutation, useSetLikeMutation, useUpdateViewsCountMutation } from '../../store/socmedia/posts/posts.api';
+import { useDeletePostMutation, useGetBestPostCommentQuery, useIsPostLikedQuery, useLazyGetAllPostCommentsQuery, useLazyGetPostCommentsAmountQuery, useLazyRemoveLikeQuery, usePasteCommentToPostMutation, useSetLikeMutation, useUpdateViewsCountMutation } from '../../store/socmedia/posts/posts.api';
 import { useLazyGetUserByEmailQuery } from '../../store/socmedia/users/users.api';
 import styles from './Post.module.scss'
-import Share from '../../assets/svg/Share';
 import View from '../../assets/svg/View';
 import Report from '../../assets/svg/Report';
 import Dislike from '../../assets/svg/Dislike';
 import CommentHolder from '../CommentHolder/CommentHolder';
 import More from '../../assets/svg/More';
-import Clip from '../../assets/svg/Clip';
-import Smile from '../../assets/svg/Smile';
 import Send from '../../assets/svg/Send';
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
@@ -20,33 +17,42 @@ import { useLazyGetUserDataQuery } from '../../store/socmedia/userData/userData.
 import { useLazyGetGroupByIdQuery } from '../../store/socmedia/groups/groups.api';
 import { baseUrl } from "../../envVariables/variables";
 import SendComment from '../SendComment/SendComment';
+import { getFormattedDateAndTimeForPost } from '../../helpers/helpers';
+import TrashCan from '../../assets/svg/TrashCan';
+import Loader from '../UI/Loader/Loader';
+import { toast, ToastContainer } from 'react-toastify';
+import SkeletonLoader from '../UI/SkeletonLoader/SkeletonLoader';
 
 interface PostProps {
     post: IPost
     hidePost: (id: number) => void
+    reportPost: (id: number) => void
+    filterPostsAfterDeletion: (id: number) => void
 }
 
-const Post:FC<PostProps> = ({post, hidePost}) => {
+const Post:FC<PostProps> = ({post, hidePost, filterPostsAfterDeletion, reportPost}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
+
+    let [deletePost, {isError: isDeletePostError, isLoading: isDeletePostLoading, data: deletePostData}] = useDeletePostMutation();
 
     const navigate = useNavigate();
 
-    const [getGroupData, {isError: isGroupDataError, isLoading: isGroupDataLoading, data: groupData}] = useLazyGetGroupByIdQuery();
-    const [getUserData, {isError: isUserDataError, isLoading: isUserDataLoading, data: userData}] = useLazyGetUserDataQuery();
+    const [getGroupData, {isLoading: isGroupDataLoading, data: groupData}] = useLazyGetGroupByIdQuery();
+    const [getUserData, {isLoading: isUserDataLoading, data: userData}] = useLazyGetUserDataQuery();
 
-    const [getUser, {isError, isLoading, data}] = useLazyGetUserByEmailQuery();
-    const [setLike, {isError: isLikeError, isLoading: isLikeLoading, data: isLikeData}] = useSetLikeMutation();
-    const [removeLike, {isError: isRemoveLikeError, isLoading: isRemoveLikeLoading, data: removeLikeData}] = useLazyRemoveLikeQuery();
+    const [getUser, {isLoading, data}] = useLazyGetUserByEmailQuery();
+    const [setLike, {isError: isLikeError, isLoading: isLikeLoading}] = useSetLikeMutation();
+    const [removeLike, {isError: isRemoveLikeError, isLoading: isRemoveLikeLoading}] = useLazyRemoveLikeQuery();
 
     const [getComments, {isError: isCommentsError, isLoading: isCommentsLoading, data: commentsData}] = useLazyGetAllPostCommentsQuery()
-    const [pasteComment, {isError: isCommentError, isLoading: isCommentLoading, data: commentData}] = usePasteCommentToPostMutation();
+    const [pasteComment, {isError: isCommentError, data: commentData}] = usePasteCommentToPostMutation();
 
-    const {isError: isBestCommentError, isLoading: isBestCommentLoading, data: bestCommentData} = useGetBestPostCommentQuery(String(post.id))
-    const [getCommentsAmount, {isError: isCommentsAmountError, isLoading: isCommentsAmountLoading, data: commentsAmountData}] = useLazyGetPostCommentsAmountQuery();
+    const {isLoading: isBestCommentLoading, data: bestCommentData, refetch: refetchBestComment} = useGetBestPostCommentQuery(String(post.id))
+    const [getCommentsAmount, {data: commentsAmountData}] = useLazyGetPostCommentsAmountQuery();
 
-    const {isError: isPostLikeError, isLoading: isPostLikeLoading, data: postLikeData} = useIsPostLikedQuery({user_id: user.email, post_id: String(post.id)});
+    const {data: postLikeData} = useIsPostLikedQuery({user_id: user.email, post_id: String(post.id)});
 
-    const [updateViewsAmount, {isError: isViewsError, isLoading: isViewsLoading, data: viewsData}] = useUpdateViewsCountMutation();
+    const [updateViewsAmount] = useUpdateViewsCountMutation();
 
     const [isLiked, setIsLiked] = useState(false);
     const [state, setState] = useState(post.likes_amount);
@@ -63,20 +69,26 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
 
     function toggleLikeHandler(id: number) {
         if(isLiked) {
-            removeLike({id: String(post.id), user_id: user.email, type: 'POST_LIKE'});
-            setIsLiked(false);
-            setState(state - 1);
+            if(!isRemoveLikeLoading) {
+                removeLike({id: String(post.id), user_id: user.email, type: 'POST_LIKE'});
+                setIsLiked(false);
+                setState(state - 1);
+            }
         }
         else {
-            setLike({id, user_id: user.email});
-            setIsLiked(true);
-            setState(state + 1);
+            if(!isLikeLoading) {
+                setLike({id, user_id: user.email});
+                setIsLiked(true);
+                setState(state + 1);
+            }
         }
     }
 
     function pasteCommentHandler() {
         if(currentComment.length > 0) {
             pasteComment({post_id: post.id, user_id: user.email , comment: currentComment});
+            getCommentsAmount(String(post.id));
+            refetchBestComment();
             setCurrentComment('');
         }
     }
@@ -94,6 +106,56 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
         else
             setCommentClasses([styles.allPostComments, styles.off]);
     }
+
+    function deletePostHandler(id: number) {
+        deletePost({id: id});
+    }
+
+    function notify(errorMessage: string) {
+        toast.error(errorMessage, {
+            position: "top-right",
+            autoClose: 3500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
+
+    useEffect(() => {
+        if(isDeletePostError && isDeletePostError === true) {
+            notify('Произошла ошибка при удалении поста');
+        }
+    }, [isDeletePostError])
+
+    useEffect(() => {
+        if(isLikeError && isLikeError === true) {
+            notify('Произошла ошибка при добавлении лайка на пост');
+        }
+    }, [isLikeError])
+
+    useEffect(() => {
+        if(isRemoveLikeError && isRemoveLikeError === true) {
+            notify('Произошла ошибка при удалении лайка с поста');
+        }
+    }, [isRemoveLikeError])
+
+    useEffect(() => {
+        if(isCommentsError && isCommentsError === true) {
+            notify('Произошла ошибка при загрузке комментариев к посту');
+        }
+    }, [isCommentsError])
+
+    useEffect(() => {
+        if(isCommentError && isCommentError === true) {
+            notify('Произошла ошибка при отправке комментария');
+        }
+    }, [isCommentError])
+
+    useEffect(() => {
+        if(deletePostData) filterPostsAfterDeletion(post.id);
+    }, [deletePostData])
 
     useEffect(() => {
         if(commentData) getComments(String(post.id))
@@ -133,7 +195,25 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
     }, [])
 
     return (
+        <>
+        <ToastContainer
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            className={styles.toast}
+        />
         <div className={styles.postWrap} ref={lastElement}>
+            {isDeletePostLoading &&
+                <div className={styles.postDeleteLoading}>
+                    <Loader type="regular"/>
+                </div>
+            }
                 <div className={styles.postHeader}>
                     <div className={styles.postInfoWrap}>
                         <div 
@@ -147,29 +227,56 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
                             (groupData && groupData.image !== 'none') && 
                                 <img src={baseUrl + groupData.image}/>
                         }
+                        {(isUserDataLoading || isGroupDataLoading) &&
+                            <SkeletonLoader borderRadius={999}/>
+                        }
                         </div>
-                        <div className={styles.postInfo}>
-                            <p 
-                                className={styles.postGroupName} 
-                                onClick={() => post.post_handler_type === 'USER' ? navigate(`/account/${post.post_handler_id}`) : navigate(`/groups/${post.post_handler_id}`)}
-                            >
-                                {
-                                    data && [data.name, data.surname].join(' ')
-                                        ||
-                                    groupData && groupData.group_name
-                                }
-                            </p>
-                            <p className={styles.postPublicationDate}>{String(post.createdAt).replace('T', ' ').slice(0, -5)}</p>
-                        </div>
+                        {(isUserDataLoading || isGroupDataLoading) &&
+                            <div className={styles.postInfoLoader}>
+                                <SkeletonLoader borderRadius={5}/>
+                            </div>
+                        }
+                        {!(isUserDataLoading || isGroupDataLoading || isLoading) &&
+                            <div className={styles.postInfo}>
+                                <p 
+                                    className={styles.postGroupName} 
+                                    onClick={() => post.post_handler_type === 'USER' ? navigate(`/account/${post.post_handler_id}`) : navigate(`/groups/${post.post_handler_id}`)}
+                                >
+                                    {
+                                        data && [data.name, data.surname].join(' ')
+                                            ||
+                                        groupData && groupData.group_name
+                                    }
+                                </p>
+                                <p className={styles.postPublicationDate}>{getFormattedDateAndTimeForPost(post.createdAt)}</p>
+                            </div>
+                        }
                     </div>
                     <div className={styles.postButtons}>
-                        <div className={styles.postButton}>
+                        {post.post_handler_id === user.email &&
+                            <div 
+                                className={[styles.postButton, styles.postButtonDelete].join(' ')}
+                                onClick={() => deletePostHandler(post.id)}
+                            >
+                                <TrashCan className={styles.postDelete}/>
+                            </div>
+                        }
+                        <div 
+                            className={[styles.postButton, styles.postButtonReport].join(' ')}
+                            onClick={() => reportPost(post.id)}
+                        >
                             <Report className={styles.postReport}/>
                         </div>
-                        <div className={styles.postButton} onClick={() => hidePost(post.id)}>
+                        <div 
+                            className={[styles.postButton, styles.postButtonDislike].join(' ')} 
+                            onClick={() => hidePost(post.id)}
+                        >
                             <Dislike className={styles.postDislike}/>
                         </div>
-                        <div className={styles.postButton} onClick={() => hiddenPostOptionsVisible ? setHiddenPostOptions(false) : setHiddenPostOptions(true)}>
+                        <div 
+                            className={[styles.postButton, styles.postButtonMore].join(' ')} 
+                            onClick={() => hiddenPostOptionsVisible ? setHiddenPostOptions(false) : setHiddenPostOptions(true)}
+                        >
                             <More className={styles.postMore}/>
                         </div>
                         {hiddenPostOptionsVisible &&
@@ -208,9 +315,9 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
                         </div>
                         <div className={styles.postShares}>
                             <div>
-                                <Share className={styles.postShare}/>
+                                <View className={styles.postView}/>
                             </div>
-                            <p>{post.shares_amount}</p>
+                            <p>{post.views_amount}</p>
                         </div>
                     </div>
                     <div className={styles.postViews}>
@@ -220,13 +327,22 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
                         <p>{post.views_amount}</p>
                     </div>
                     <div className={styles.postMostLikedComment}>
-                        {
-                            bestCommentData && <CommentHolder comment={bestCommentData} type='BEST_COMMENT'/>
+                        {bestCommentData && 
+                            <CommentHolder comment={bestCommentData} type='BEST_COMMENT'/>
+                        }
+                        {isBestCommentLoading && 
+                            <SkeletonLoader borderRadius={5}/>
+                        }
+                        {!bestCommentData && !isBestCommentLoading &&
+                            <p className={styles.emptyBestComment}>Место для лучшего комментария пустует. Напишите свой!</p>
                         }
                     </div>
                 </div>
                 <div className={commentClasses.join(' ')}>
                     <div className={styles.commentLine}></div>
+                    {isCommentsLoading && 
+                        <Loader type="mini"/>
+                    }
                     {commentsData && commentsData.map(comment => 
                         <CommentHolder key={comment.id} comment={comment} type='REGULAR_COMMENT'/>
                     )}
@@ -237,6 +353,7 @@ const Post:FC<PostProps> = ({post, hidePost}) => {
                     />
                 </div>
             </div>
+        </>
     );
 };
 

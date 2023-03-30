@@ -4,16 +4,17 @@
 .ourMessage, .otherUserMessage {
     position: relative;
     padding: calc(7px + (16 - 7) * ( (100vw - 0px) / ( 1920 - 0) ));
-    min-width: 180px;
+    min-width: calc(100px + (320 - 100) * ( (100vw - 0px) / ( 1920 - 0) ));
     max-width: 270px;
-    background: linear-gradient(92.05deg, rgba(255, 255, 255, 0.45) 7.46%, rgba(255, 255, 255, 0.125) 100%);
+    background: $firstLayerColor;
     border-radius: 3px;
     margin-top: calc(20px + (45 - 20) * ( (100vw - 0px) / ( 1920 - 0) ));
     font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
-    color: #1F4868;
+    color: $textColor;
     font-family: 'Roboto';
     display: flex;
     align-items: center;
+    box-shadow: 4px 4px 4px rgba(13, 13, 13, 0.4);
     p {
         @include fontStyles($textColor);
         margin: 0;
@@ -59,6 +60,7 @@
 .messageOptionsEdit, .messageOptionsTrashCan {
     @include svgIconStyles(1.0417vw, 14px, $darkIconColor);
     margin-left: 0.7813vw;
+    transition: .5s;
 }
 
 .readIndicator {

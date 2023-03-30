@@ -5,7 +5,7 @@
     margin: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200)) 
             0 
             calc(5px + (15 - 5) * (100vw - 200px) / (1920 - 200));
-    width: 62.6168%;
+    width: 81.308%;
     display: flex;
     align-items: center;
 }
@@ -13,8 +13,8 @@
 .addCommentUserImage {
     width: 2.7319vw;
     height: 2.3438vw;
-    min-width: 25px;
-    min-height: 25px;
+    min-width: 35px;
+    min-height: 35px;
     border-radius: 50%;
     background: gray;
     @include roundedImageStyles();
@@ -27,8 +27,10 @@
     input {
         border: none;
         width: 100%;
-        background: linear-gradient(90.32deg, rgba(255, 255, 255, 0.4) -0.14%, rgba(255, 255, 255, 0.1) 104.55%);
+        background: $inputColor;
+        border: 1px solid #2A2A2A;
         border-radius: 10px;
+        color: $textColor;
         padding: 
         calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200))
         calc(7px + (14 - 7) * (100vw - 200px) / (1920 - 200))
@@ -40,7 +42,7 @@
             font-style: normal;
             font-weight: 400;
             font-size: calc(8px + (12 - 8) * (100vw - 200px) / (1920 - 200));
-            color: #1F4868;
+            color: $inputTextColor;
         }
     }
     div {
@@ -60,7 +62,7 @@
 }
 
 .sendCommentIcon {
-    @include svgIconStyles(1.5625vw, 16px, $darkIconColor);
+    @include svgIconStyles(1.5625vw, 22px, $darkIconColor);
 }
 
 .sendComment {
@@ -69,6 +71,6 @@
 
 @media screen and (max-width: 768px) {
     .addComment {
-        width: 90%;
+        width: 96%;
     }
 }

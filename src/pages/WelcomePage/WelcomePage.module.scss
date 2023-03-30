@@ -1,0 +1,182 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.welcomePageWrap {
+    width: 100vw;
+}
+
+.slider {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    perspective: 1000px;
+}
+
+.slide {
+    top: calc(50% + (33.85vw / 2));
+    position: absolute;
+    width: 62.5vw;
+    height: 33.85vw;
+    background: $secondLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &::after {
+        content: "Инновационный дизайн";
+        position: absolute;        
+        color: $textColor;
+        font-family: 'Advent Pro';
+        font-size: 33px;
+        top: 100%;
+        animation: keke 6s linear forwards infinite;
+    }
+}
+
+
+.slide.animation {
+    animation: kuku 6s linear forwards infinite;
+}
+
+@keyframes keke {
+    0% {
+        opacity: 0;
+        top: 230%;
+    }
+    11% {
+        opacity: 0.6;
+        top: 110%;
+    }
+    20% {
+        opacity: 1;
+        top: 110%;
+    }
+    86% {
+        opacity: 1;
+        top: 110%;
+    }
+    94% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+        top: 110%;
+    }
+}
+
+@keyframes aboba {
+    
+}
+
+@keyframes kuku {
+    0% {
+        left: -100%;
+        opacity: 0.2;
+        transform: matrix(1, 0.04, 0, 1, 0, 0);
+        top: calc(45% + (33.85vw / 2));
+        width: 62.5vw;
+        height: 33.85vw;
+    }
+    10% {
+        top: calc(50% + (33.85vw / 2));
+        left: calc(50% - (62.5vw / 2));
+        opacity: 1;
+        width: 62.5vw;
+        height: 33.85vw;
+    }
+    50% {
+        transform: rotateY(0deg);
+    }
+    60% {
+        transform: matrix(1, 0, 0, 1, 0, 0);
+        transform: rotateY(180deg);
+
+    }
+    90% {
+        transform: matrix(1, 0, 0.16, 1, 0, 0);
+        transform: rotateY(180deg);
+        top: calc(50% + (33.85vw / 2));
+        left: calc(50% - (62.5vw / 2));
+        opacity: 1;
+        width: 62.5vw;
+        height: 33.85vw;
+    }
+    92% {
+        top: calc(50% + (33.85vw / 2));
+        left: 25%;
+        opacity: 0.9;
+        width: 62.5vw;
+        height: 33.85vw;
+    }
+    94% {
+        top: calc(50% + (33.55vw / 2));
+        left: 35%;
+        opacity: 0.7;
+        width: 62.5vw;
+        height: 33.85vw;
+    }
+    96% {
+        top: calc(50% + (32.85vw / 2));
+        left: 60%;
+        opacity: 0.5;
+        width: 52.5vw;
+        height: 26.85vw;
+    }
+    98% {
+        top: calc(50% + (6.85vw / 2));
+        left: 100%;
+        opacity: 0.3;
+        width: 42.5vw;
+        height: 21.85vw;
+    }
+    100% {
+        top: calc(50% + (-33.85vw / 2));
+        left: 100%;
+        opacity: 0.2;
+        width: 22.5vw;
+        height: 11.85vw;
+    } 
+}
+
+// .slide.appear {
+//     animation: appear 2s linear forwards;
+// }
+
+// .slide.disappear {
+//     animation: disappear 2s linear forwards;
+// }
+
+// .slide.transform {
+//     animation: trans 6s linear forwards;
+// }
+
+// @keyframes appear {
+//     from {
+//         left: -100%;
+//     }
+//     to {
+//         left: 0;
+//     }
+// }
+
+// @keyframes trans {
+//     from {
+//         transform: matrix(1.1, 0.7, -0.5, 0.9, 0, 1);
+//     }
+//     to {
+//         transform: matrix(0.9, 0.9, 0.5, 0.6, 0, 4);
+//     }
+// }
+
+// @keyframes disappear {
+//     from {
+//         left: 0;
+//     }
+//     to {
+//         left: 100%;
+//     }
+// }

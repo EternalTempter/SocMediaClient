@@ -1,9 +1,23 @@
 @import "../../styles/Mixins.scss";
 @import "../../styles/Variables.scss";
 
+.welcomeWrap {
+    background: $backgroundColor;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 99;
+}
+
 .homePageContentHello {
-    margin-top: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200));
-    background: linear-gradient(114.13deg, rgba(255, 255, 255, 0.4) 2.55%, rgba(255, 255, 255, 0.1) 97.6%);
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
+    background: $firstLayerColor;
     border-radius: 5px;
     width: 55.729vw;
     min-width: 300px;
@@ -12,71 +26,111 @@
     align-items: center;
 }
 
-.label {
+.header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.welcome {
+    margin-top: calc(20px + (50 - 20) * (100vw - 200px) / (1920 - 200));
     @include fontStyles($textColor);
-    font-size: calc(14px + (22 - 14) * (100vw - 200px) / (1920 - 200));
+    font-size: calc(16px + (24 - 16) * (100vw - 768px) / (1920 - 768));
     text-align: center;
 }
 
+.label {
+    @include fontStyles($textColor);
+    font-size: calc(14px + (22 - 14) * (100vw - 768px) / (1920 - 768));
+    text-align: center;
+    margin-top: calc(10px + (35 - 10) * (100vw - 1024px) / (1920 - 1024));
+}
+
 .logo {
-    width: 6.771vw;
-    height: 6.771vw;
+    width: 7.813vw;
+    height: 7.813vw;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 50px;
-    min-height: 50px;
-    margin-top: calc(15px + (40 - 15) * (100vw - 200px) / (1920 - 200));
+    min-width: 90px;
+    min-height: 90px;
+    margin-top: calc(0px + (30 - 0) * (100vw - 1024px) / (1920 - 1024));
 } 
 
 .logoIcon {
-    fill: $darkIconColor;
-    width: 12.771vw;
-    height: 12.771vw;
-    min-width: 80px;
-    min-height: 80px;
+    @include svgIconStylesStroke(12.771vw, 80px, $darkIconColor);
+}
+
+.body {
+    margin-top: calc(5px + (30 - 5) * (100vw - 1024px) / (1920 - 1024 ));
+    margin-bottom: calc(35px + (70 - 35) * (100vw - 1024px) / (1920 - 1024));
+    width: 46.354vw;
+    background: $secondLayerColor;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
 }
 
 .findFriends, .findGroups {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 
+        calc(20px + (60 - 20) * (100vw - 768px) / (1920 - 768))
+        calc(25px + (70 - 25) * (100vw - 768px) / (1920 - 768));
     width: 46.875vw;
-    margin-top: calc(20px + (60 - 20) * (100vw - 200px) / (1920 - 200));
+    box-sizing: border-box;
     div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    div div {
         border-radius: 50%;
-        min-width: calc(40px + (110 - 40) * (100vw - 300px) / (1920 - 300));
-        min-height: calc(40px + (110 - 40) * (100vw - 300px) / (1920 - 300));
-        max-width: calc(40px + (110 - 40) * (100vw - 300px) / (1920 - 300));
-        max-height: calc(40px + (110 - 40) * (100vw - 300px) / (1920 - 300));
+        width: 4.688vw;
+        height: 4.688vw;
+        min-width: 40px;
+        min-height: 40px;
     }
     p {
+        width: 15.323vw;
+        min-width: 190px;
         @include fontStyles($textColor);
-        font-size: calc(10px + (18 - 10) * (100vw - 200px) / (1920 - 200));
-        margin-left: calc(10px + (20 - 10) * (100vw - 200px) / (1920 - 200));
-        margin-right: 1vw;
-        text-align: center;
+        font-size: calc(10px + (16 - 10) * (100vw - 768px) / (1920 - 768));
+        margin-left: calc(15px + (60 - 15) * (100vw - 768px) / (1920 - 768));
+        text-align: left;
     }
     button {
-        padding: calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
-        width: 14.021vw;
-        min-width: 200px;
+        padding: calc(6px + (15 - 6) * (100vw - 200px) / (1920 - 200));
+        width: 11.458vw;
+        min-width: 150px;
         margin-left: auto;
         @include fontStyles($textColor);
-        font-size: calc(10px + (16 - 10) * (100vw - 200px) / (1920 - 200));
-        background: linear-gradient(94.68deg, rgba(255, 255, 255, 0.4) 8.73%, rgba(255, 255, 255, 0.1) 92.13%);
+        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        background: $thirdLayerColor;
+        box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.15);
+        transition: .5s;
         border-radius: 5px;
         border: none;
         cursor: pointer;
+        &:hover {
+            background: #505050;
+            transition: .5s;
+        }
     }
 }
 
-.findGroups {
-    margin-bottom: calc(30px + (80 - 30) * (100vw - 200px) / (1920 - 200));
+.findFriendsInfo, .findGroupsInfo {
+    display: flex;
+    align-items: center;
 }
 
-.findFriends div, .findGroups div{
-    @include roundedImageStyles();
+.friendsIcon {
+    @include svgIconStylesStroke(4.688vw, 40px, $textColor);
+}
+.groupIcon {
+    @include svgIconStyles(4.688vw, 40px, $textColor);
 }
 
 @media screen and(max-width: 1023px) {
@@ -86,20 +140,69 @@
         button {
             margin: 0;
         }
+        p {
+            width: 30vw;
+        }
+    }
+    .body {
+        margin-top: 5px;
+        margin-bottom: 30px;
+    }
+    .logo {
+        margin-top: 0;
+    }
+    .label {
+        margin-top: 10px;
     }
 }
 
 @media screen and(max-width: 768px) {
     .homePageContentHello {
-        width: 91vw;
+        width: 100vw;
+        height: 100%;
+        margin-top: 0;
+        border-radius: 0;   
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .header {
+        flex-direction: column-reverse;
     }
     .findFriends, .findGroups {
-        width: 70%;
+        padding: 20px 25px;
+        width: 100%;
+        flex-direction: row;
+        p {
+            font-size: 10px;
+            margin-left: 15px;
+        }
+    }
+    .findFriends {
+        padding-top: 40px;
+    }
+    .findGroups {
+        padding-bottom: 40px;
+    }
+    .label {
+        font-size: 12px;
+    }
+    .welcome {
+        font-size: 16px;
+        margin-top: 15px;
+        margin-bottom: 5px;
+    }
+    .body {
+        width: calc(280px + (540 - 280) * (100vw - 320px) / (768 - 320));
+        align-items: center;
     }
 }
 
-@media screen and(max-width: 500px) {
+@media screen and(max-width: 600px) {
     .findFriends, .findGroups {
-        width: 80%;
+        flex-direction: column;
+        button {
+            margin-top: 20px;
+        }
     }
 }

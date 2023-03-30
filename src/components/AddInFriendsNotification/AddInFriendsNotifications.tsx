@@ -14,9 +14,10 @@ interface AddInFriendsNotificationsProps {
     notification: IAddInFriendsNotification
     setVisible: (value: boolean) => void
     refetch: () => void
+    refetchNotifications: () => void
 }
 
-const AddInFriendsNotifications:FC<AddInFriendsNotificationsProps> = ({notification, setVisible, refetch}) => {
+const AddInFriendsNotifications:FC<AddInFriendsNotificationsProps> = ({notification, setVisible, refetch, refetchNotifications}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const navigate = useNavigate();
     const {isError, isLoading, data} = useGetUserByEmailQuery(notification.profile_from)
@@ -31,10 +32,14 @@ const AddInFriendsNotifications:FC<AddInFriendsNotificationsProps> = ({notificat
 
     function acceptRequest() {
         acceptFriendRequest({profile_from: data?.email, profile_to: user.email})
+        refetch();
+        refetchNotifications();
     }
 
     function rejectRequest() {
         rejectFriendRequest({profile_from: data?.email, profile_to: user.email})
+        refetch();
+        refetchNotifications();
     }
 
     return (
@@ -45,10 +50,10 @@ const AddInFriendsNotifications:FC<AddInFriendsNotificationsProps> = ({notificat
                         <img src={baseUrl + userData.image}/>
                     }
                 </div>
-                <p>{data?.name} {data?.surname} хочет добавить вас в друзья</p>
+                <p><span>{data?.name} {data?.surname}</span> хочет добавить вас в друзья</p>
             </div>
             <div>
-                <div onClick={acceptRequest}>
+                <div onClick={acceptRequest} className={styles.checkMarkWrap}>
                     <CheckMark className={styles.checkMark}/>
                 </div>
                 <div onClick={rejectRequest} className={styles.declineWrap}>

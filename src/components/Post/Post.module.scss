@@ -3,12 +3,11 @@
 
 .postWrap {
     width: 55.7292vw;
-    background: gray;
-    margin-top: calc(5px + (20 - 5) * (100vw - 200px) / (1920 - 200));
+   position: relative;
+    margin-top: calc(5px + (15 - 5) * (100vw - 200px) / (1920 - 200));
     display: flex;
     flex-direction: column;
-    background: linear-gradient(111.93deg, rgba(255, 255, 255, 0.4) 4.6%, rgba(255, 255, 255, 0) 100%, rgba(255, 255, 255, 0.1) 96.42%);
-    backdrop-filter: blur(40px);
+    background: $firstLayerColor;
     border-radius: 3px;
 }
 
@@ -22,11 +21,12 @@
 .postInfoWrap {
     display: flex;
     align-items: center;
+    margin-left: 9.4%;
 }
 
 .postImage {
     @include roundedImageStyles();
-    margin: 1.3021vw 0 0 1.3021vw;
+    margin-top: 1.3021vw;
     width: 4.1667vw;
     height: 4.1667vw;
     min-width: 45px;
@@ -62,14 +62,14 @@
 .postButtons {
     display: flex;
     align-self: flex-end;
-    margin-right: 11%;
+    margin-right: 9.4%;
 }
 
 .postButton {
     margin-left: 1.0417vw;
 } 
 
-.postReport, .postDislike, .postMore {
+.postReport, .postDislike, .postMore, .postDelete {
     @include svgIconStyles(1.5625vw, 20px, $darkIconColor);
 }
 
@@ -79,7 +79,7 @@
 
 .postBody {
     display: flex;
-    width: 74.767%;
+    width: 81.308%;
     background-clip: border-box;
     margin-top: calc(8px + (20 - 8) * (100vw - 200px) / (1920 - 200));
     align-self: center;
@@ -92,19 +92,20 @@
     p {
         @include fontStyles($textColor);
         font-size: calc(10px + (16 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
-        margin-top: 0;
+        margin: 0 0 0 5px;
     }
 }
 
 .postFooter {
-    margin-top: calc(12px + (30 - 12) * (100vw - 200px) / (1920 - 200));
-    margin-bottom: calc(12px + (30 - 12) * (100vw - 200px) / (1920 - 200));
+    width: 81.308%;
+    margin-top: calc(10px + (20 - 10) * (100vw - 200px) / (1920 - 200));
+    margin-bottom: calc(10px + (20 - 10) * (100vw - 200px) / (1920 - 200));
     display: flex;
     align-self: center;
+    justify-content: space-between;
 }
 
 .postFooterActions {
-    background: lightgray;
     width: 14.5833vw;
     min-width: 180px;
     padding: 0.5208vw;
@@ -112,26 +113,26 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    background: linear-gradient(92.12deg, rgba(255, 255, 255, 0.4) -5.5%, rgba(255, 255, 255, 0.1) 114.11%);
+    background: $secondLayerColor;
     border-radius: 5px;
 }
 
 .postViews {
-    background: lightgray;
     width: 5.2083vw;
     min-width: 70px;
     padding: calc(5px - (10 - 5) * (100vw - 200px) / (1920 - 200));
     box-sizing: border-box;
-    margin: 0 1.3021vw;
-    background: linear-gradient(92.12deg, rgba(255, 255, 255, 0.4) -5.5%, rgba(255, 255, 255, 0.1) 114.11%);
+    background: $secondLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
     border-radius: 5px;
 }
 
 .postMostLikedComment {
     background: lightgray;
     box-sizing: border-box;
-    width: 25vw;
-    background: linear-gradient(92.12deg, rgba(255, 255, 255, 0.4) -5.5%, rgba(255, 255, 255, 0.1) 114.11%);
+    width: 28.125vw;
+    background: $secondLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
     border-radius: 5px;
 }
 
@@ -154,19 +155,29 @@
 
 .postLike, .postComment, .postShare, .postView {
     @include svgIconStyles(1.5625vw, 25px, $lightIconColor);   
-    transition: 0.05s ease-in-out;
 }
 
-.postLike, .postComment, .postShare, .postReport, .postDislike, .postMore {
+.postLike, .postComment, .postShare, .postReport, .postDislike, .postMore, .postDelete {
+    transition: 0.1s ease-in-out;
     cursor: pointer;
 }
 
-.postLike:hover {
+.postLikes:hover .postLike{
     fill: red; 
+    transition: 0.1s;
 }
 
 .postLike.liked{
     fill: red; 
+}
+
+.postComments div:hover .postComment,  
+.postButtonReport:hover .postReport, 
+.postButtonDislike:hover .postDislike, 
+.postButtonMore:hover .postMore
+.postButtonDelete:hover .postDelete{
+    fill: white; 
+    transition: 0.1s;
 }
 
 .postViews {
@@ -180,9 +191,9 @@
 }
 
 .commentLine {
-    width: 94.3925%;
-    height: 2px;
-    background: linear-gradient(rgba(176, 219, 252, 1), rgba(176, 219, 252, 0.5));
+    width: 81.308%;
+    height: calc(1px + (2 - 1) * (100vw - 200px) / (1920 - 200));
+    background: #434343;
 }
 
 .allPostComments {
@@ -210,18 +221,89 @@
     }
 }
 
+.postViews {
+    display: none;
+}
+
+.postDeleteLoading, .postDeleteError {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background: #000000;
+    opacity: 0.3;
+    position: absolute;
+    z-index: 99;
+}
+
+.postDeleteError {
+    flex-direction: column;
+    p {
+        @include fontStyles($textColor);
+        font-size: calc(10px + (16 - 10) * (100vw - 300px) / (1440 - 300));
+    }
+    a {
+        @include fontStyles($textColor);
+        font-size: calc(12px + (18 - 12) * (100vw - 300px) / (1440 - 300));
+        text-decoration: underline;
+        display: block;
+        margin-top: 10px;
+    }
+}
+
+.postInfoLoader {
+    margin-left: 1.0417vw;
+    margin-top: 1.0417vw;
+    width: calc(140px + (210 - 140) * (100vw - 300px) / (1440 - 300));
+    height: calc(20px + (40 - 20) * (100vw - 300px) / (1440 - 300));
+    border-radius: 5px;
+}
+
+.emptyBestComment {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include fontStyles($textColor);
+    text-align: center;
+    font-size: calc(8px + (16 - 8) * (100vw - 1024px) / (1920 - 1024));
+}
+
+@media screen and (max-width: 1440px) {
+    .postMostLikedComment {
+        width: calc(250px + (405 - 250) * (100vw - 1024px) / (1440 - 1024));
+    }
+}
+
 @media screen and (max-width: 1023px) {
     .postMostLikedComment {
         display: none;
     }
+    .postViews {
+        display: flex;
+    }
+    .postShares {
+        display: none;
+    }
+    .postFooterActions {
+        min-width: 150px;
+    }
 }
 
 @media screen and (max-width: 768px) {
+    .commentLine {
+        width: 93%;
+    }
     .postReport, .postDislike {
         display: none;
     }
     .postMore {
         display: block;
+    }
+    .postInfoWrap {
+        margin-left: 8px;
     }
     .postWrap {
         width: 97vw;
@@ -237,7 +319,7 @@
     .postBody {
         width: 100%;
         p {
-            margin: 0 7px;
+            margin: 0 14px;
         }
     }
     .postFooter {

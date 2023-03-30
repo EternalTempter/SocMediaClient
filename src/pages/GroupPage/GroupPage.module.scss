@@ -2,7 +2,7 @@
 @import "../../styles/Variables.scss";
 
 .groupPageWrap {
-    margin-top: 1.0417vw;
+    padding-top: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
     z-index: 3;
     width: 92.5vw;
     height: 100vh;
@@ -25,7 +25,8 @@
     width: 55.7292vw;   
     height: 7.8125vw;
     min-height: 80px;
-    background: gray;
+    background: $thirdLayerColor;
+    border-radius: 5px 5px 0px 0px;
     @include imageStyles();
 }
 
@@ -33,7 +34,7 @@
     width: 55.7292vw; 
     padding: 0 3.6458vw 0 calc(17px + (96 - 17) * (100vw - 200px) / (1920 - 200));
     box-sizing: border-box;  
-    background: linear-gradient(93.12deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+    background: $firstLayerColor;
     border-radius: 0px 0px 5px 5px;
     display: flex;
 }
@@ -46,19 +47,19 @@
     position: absolute;
     left: 4.1667vw;
     top: 1.5625vw;
-    border: 3px solid #1F4868;
-    background: transparent;
+    border: calc(1.5px + (3 - 1.5) * (100vw - 200px) / (1920 - 200)) solid $lightIconColor;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 998;
     div {
         height: 8.8542vw;
         width: 8.8542vw;
         min-width: 82px;
         min-height: 82px;
         border-radius: 50%;
-        background: gray;
+        background: $firstLayerColor;
         @include roundedImageStyles();
     }
 }
@@ -77,6 +78,13 @@
     margin: 0;
     text-align: center;
 }
+.groupName.skeleton {
+    display: block;
+    width: calc(120px + (180 - 120) * (100vw - 320px) / (1920 - 320));
+    height: calc(25px + (40 - 25) * (100vw - 320px) / (1920 - 320));
+    margin-left: calc(-35px + (-20 - -35) * (100vw - 768px) / (1920 - 768));
+
+}
 
 .groupUsersAmount {
     @include fontStyles($textColor);
@@ -86,6 +94,13 @@
     white-space: nowrap;
 }
 
+.groupUsersAmount.skeleton {
+    display: block;
+    width: calc(100px + (150 - 100) * (100vw - 320px) / (1920 - 320));
+    height: calc(20px + (30 - 20) * (100vw - 320px) / (1920 - 320));
+    margin-left: calc(-35px + (-20 - -35) * (100vw - 768px) / (1920 - 768));
+}
+
 .groupUsers {
     display: flex;
     justify-content: center;
@@ -93,7 +108,7 @@
         width: 2.0833vw;
         height: 2.0833vw;
         border-radius: 50%;
-        background: #C4D7EB;
+        background: $thirdLayerColor;
         margin-left: -0.4167vw;
         display: flex;
         align-items: center;
@@ -131,28 +146,47 @@
 
 .subscribeButton {
     min-width: 6.8125vw;
-    background: linear-gradient(94.12deg, rgba(255, 255, 255, 0.4) 7.77%, rgba(255, 255, 255, 0.1) 124.32%);
+    background: $secondLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
+    transition: 0.5s;
     align-items: center;
     padding: 0.125vw 0.5208vw;
     p {
         margin: 0;
         padding: 0;
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 400;
+        @include fontStyles($textColor);
         font-size: calc(10px + (14 - 10) * (100vw - 768px) / (1920 - 768));
-        color: #1F4868;
     }
     div {
         margin-top: 5px;
     }
+    &:hover {
+        background: $thirdLayerColor;
+        transition: 0.5s;
+    }
 }
 
-.subscribeButtonHeart, .shareButton {
+.subscribeButton:hover .subscribeButtonHeart {
+    fill: white;
+    transition: 0.1s;
+}
+
+.subscribeButtonHeart {
+    transition: 0.1s;
     @include svgIconStyles(1.3021vw, 18px, $darkIconColor);
+}
+
+.optionsButtonWrap:hover .optionsButton {
+    stroke: white;
+    transition: 0.1s;
+}
+
+.optionsButton {
+    @include svgIconStylesStroke(1.3021vw, 18px, $darkIconColor);
+    transition: 0.1s;
 }
 
 .groupMobileViewButtons {
@@ -162,7 +196,13 @@
 .subscribeMobileViewButtonHeart, .moreMobileViewButtonHeart {
     width: 20px;
     height: 20px;
-    fill: #384859;
+    transition: 0.1s;
+    fill: $lightIconColor;
+}
+
+.subscribeMobileViewButtonHeartWrap:hover .subscribeMobileViewButtonHeart {
+    fill: white;
+    transition: 0.1s;
 }
 
 .moreMobileViewButtonHeart {
@@ -171,7 +211,6 @@
 
 .groupDescription {
     width: 36.458vw;
-    background: rgba(217, 217, 217, 0.2);
     border-radius: 4px;
     margin-top: 1.0417vw;
     p {
@@ -179,6 +218,12 @@
         margin: 0.7813vw;
         font-size: calc(8px + (14 - 8) * (100vw - 768px) / (1920 - 768));
     }
+}
+
+.description.skeleton {
+    display: block;
+    width: calc(150px + (480 - 150) * (100vw - 320px) / (1920 - 320));
+    height: calc(30px + (60 - 30) * (100vw - 320px) / (1920 - 320));
 }
 
 .moreButton {
@@ -210,6 +255,9 @@
 }
 
 @media screen and (max-width: 768px) {
+    .groupUsersAmount.skeleton, .groupName.skeleton {
+        margin-left: 0;
+    } 
     .groupPageWrap {
         width: 100vw;
         margin-top: 0;

@@ -2,7 +2,7 @@
 @import "../../styles/Variables.scss";
 
 .newsPageWrap {
-    padding-top: calc(5px + (30 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+    padding-top: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
     z-index: 3;
     width: 92.5vw;
     height: 100vh;

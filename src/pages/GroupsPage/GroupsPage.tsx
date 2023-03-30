@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Options from '../../assets/svg/Options';
 import Plus from '../../assets/svg/Plus';
-import Search from '../../assets/svg/Search';
 import GroupHolder from '../../components/GroupHolder/GroupHolder';
 import { useDebounce } from '../../hooks/useDebounce';
-import { IGroupUsers, IUser } from '../../models';
+import { IUser } from '../../models';
 import { useFindAllGroupsByNameQuery, useGetAllUserGroupSubscriptionsQuery, useLazyGetAllGroupsQuery, useLazyGetAllUserGroupSubscriptionsQuery } from '../../store/socmedia/groups/groups.api';
 import styles from './GroupsPage.module.scss';
 import jwt_decode from 'jwt-decode';
@@ -14,12 +13,18 @@ import ComplexButton from '../../components/UI/ComplexButton/ComplexButton';
 import InputBar from '../../components/InputBar/InputBar';
 import Input from '../../components/UI/Input/Input';
 import ModalWrap from '../../components/ModalWrap/ModalWrap';
-import CreateGroupModal from '../../components/CreateGroupModal/CreateGroupModal';
-import { useObserver } from '../../hooks/useObserver';
+import CreateGroupModal from '../../components/CreateGroup/CreateGroup';
 import GroupsWrap from '../../components/GroupsWrap/GroupsWrap';
+import EditModal from '../../components/EditModal/EditModal';
+import AlertHolder from '../../components/UI/AlertHolder/AlertHolder';
+import ErrorHolder from '../../components/UI/ErrorHolder/ErrorHolder';
+import Loader from '../../components/UI/Loader/Loader';
+import { useNavigate } from 'react-router-dom';
+import SearchError from '../../assets/svg/SearchError';
 
 const GroupsPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
+    const navigate = useNavigate();
 
     const [buttonState, setButtonState] = useState('Мои сообщества');
 
@@ -28,6 +33,7 @@ const GroupsPage = () => {
     // const [totalPages, setTotalPages] = useState<number | null>(null); 
     // const [groups, setGroups] = useState<IGroupUsers[]>([]);
     const [subscriptions, setSubscriptions] = useState<string[] | undefined>(undefined)
+
 
     const [createGroupModalVisible, setCreateGroupModalVisible] = useState(false);
     
@@ -95,47 +101,107 @@ const GroupsPage = () => {
         <div className={styles.groupsPageWrap}>
             {
                 createGroupModalVisible &&
-                    <ModalWrap visible={createGroupModalVisible} setVisible={setCreateGroupModalVisible} type='column'>
-                        <CreateGroupModal setVisible={setCreateGroupModalVisible}/>
+                    <ModalWrap 
+                        visible={createGroupModalVisible} 
+                        setVisible={setCreateGroupModalVisible}
+                    >
+                        <EditModal 
+                            header='Форма создания сообщества'
+                            setVisible={setCreateGroupModalVisible}
+                        >
+                            <CreateGroupModal setVisible={setCreateGroupModalVisible}/>
+                        </EditModal>
                     </ModalWrap>
             }
             <ButtonBar>
-                <Button onClick={showMyGroupsHandler} isActive={(buttonState === 'Мои сообщества')}>
+                <Button 
+                    onClick={showMyGroupsHandler} 
+                    isActive={(buttonState === 'Мои сообщества')}
+                >
                     Мои сообщества
                 </Button>
-                <Button onClick={showRecommendationsHandler} isActive={(buttonState === 'Рекомендации')}>
+                <Button 
+                    onClick={showRecommendationsHandler} 
+                    isActive={(buttonState === 'Рекомендации')}
+                >
                     Рекомендации
                 </Button>
-                <div className={styles.groupsOptions} onClick={() => setCreateGroupModalVisible(true)}>
+                <div 
+                    className={styles.groupsOptions} 
+                    onClick={() => setCreateGroupModalVisible(true)}
+                >
                     <Options className={styles.groupsOptionsIcon}/>
                 </div>
-                <div className={styles.createGroup} onClick={() => setCreateGroupModalVisible(true)}>
+            </ButtonBar>
+            
+            <InputBar type='regular'>
+                <Input 
+                    type="regular"
+                    placeholder="Искать сообщества..." 
+                    value={search} 
+                    onChange={setSearch}
+                />
+                <div 
+                    className={styles.createGroup} 
+                    onClick={() => setCreateGroupModalVisible(true)}
+                >
                     <ComplexButton>
                         <p>Создать сообщество</p>
                         <Plus className={styles.createGroupPlus}/>
                     </ComplexButton>
                 </div>
-            </ButtonBar>
-            
-            <InputBar>
-                <Input placeholder="Искать сообщества..." value={search} onChange={setSearch}/>
             </InputBar>
 
+
+            {(isLoading || isAllGroupsLoading || isGroupsLoading) &&
+                <Loader type="regular"/>
+            }
+            {(isError && buttonState === 'Мои сообщества') &&
+                <ErrorHolder 
+                    label="Произошла непредвиденная ошибка при загрузке групп, попробуйте нажать кнопку обновить"   
+                    refetch={() => getAllUserGroupSubscriptions({id: user.email, limit: 400})}
+                />
+            }
+            {(isAllGroupsError && buttonState === 'Рекомендации') &&
+                <ErrorHolder 
+                    label="Произошла непредвиденная ошибка при загрузке групп, попробуйте нажать кнопку обновить"   
+                    refetch={() => getAllGroups({id: user.email, limit: 20, page: 1})}
+                />
+            }
+            {isGroupsError && isSearch &&
+                <ErrorHolder 
+                    label="Произошла непредвиденная ошибка при загрузке групп, попробуйте нажать кнопку обновить"   
+                    refetch={() => {}}
+                />
+            }
+            {groupsData && (groupsData[0] === undefined) && (!isError && !isAllGroupsError && !isGroupsError) && (!isLoading && !isAllGroupsLoading && !isGroupsLoading) && isSearch &&
+                <AlertHolder 
+                    icon={<SearchError className={styles.alertIconDefault}/>}
+                    label="Групп по такому названию не существует"
+                />
+            }
             {!isSearch && buttonState === 'Мои сообщества' && 
                 <GroupsWrap 
                     getGroups={getAllUserGroupSubscriptions} 
                     isLoading={isLoading} 
+                    isError={isError}
                     type="SUBSCRIBED_GROUPS" 
                     data={data}
+                    buttonState={buttonState}
+                    setButtonState={setButtonState}
+                    setCreateGroupModalVisible={setCreateGroupModalVisible}
                 />
             }
-
             {!isSearch && buttonState === 'Рекомендации' && 
                 <GroupsWrap 
                     getGroups={getAllGroups} 
                     isLoading={isAllGroupsLoading} 
+                    isError={isAllGroupsError}
                     type="UNSUBSCRIBED_GROUPS" 
                     data={allGroupsData}
+                    buttonState={buttonState}
+                    setButtonState={setButtonState}
+                    setCreateGroupModalVisible={setCreateGroupModalVisible}
                 />
             }
 
@@ -145,8 +211,16 @@ const GroupsPage = () => {
             {!isSearch && data && buttonState === 'Рекомендации' && allGroupsData && allGroupsData.filter(group => checkIsSubscribed(group.id)).map(group => 
                 <GroupHolder key={group.id} refetch={updateSubscriptionsData} group_id={String(group.id)} user_subscriptions={groups.map(group => group.group_id)}/>
             )} */}
-            {isSearch && groupsData && data && subscriptions && subscriptions.length === data.rows.length && groupsData.map(group => 
-                <GroupHolder key={group.id} group_id={String(group.id)} user_subscriptions={subscriptions}/>
+            {isSearch && groupsData && data && subscriptions && 
+                subscriptions.length === data.rows.length && 
+                groupsData.map(group => 
+                <GroupHolder 
+                    key={group.id} 
+                    group_id={String(group.id)} 
+                    user_subscriptions={subscriptions}
+                    refetchUserSubs={() => getAllUserGroupSubscriptions({id: user.email, limit: 400})}
+                    isSubsLoading={isLoading}
+                />
             )}
             {/* <div className={styles.lastElement} ref={lastElement}></div> */}
         </div>

@@ -8,9 +8,6 @@ import styles from './ChatPage.module.scss';
 import BackArrow from '../../assets/svg/BackArrow';
 import More from '../../assets/svg/More';
 import Send from '../../assets/svg/Send';
-import Smile from '../../assets/svg/Smile';
-import Clip from '../../assets/svg/Clip';
-import Microphone from '../../assets/svg/Microphone';
 import { useGetUserByEmailQuery } from '../../store/socmedia/users/users.api';
 import Message from '../../components/Message/Message';
 import ChatUser from '../../components/ChatUser/ChatUser';
@@ -18,6 +15,9 @@ import { useObserver } from '../../hooks/useObserver';
 import { baseUrl } from '../../envVariables/variables';
 import { useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
 import AutoHeightTextarea from '../../components/AutoHeightTextarea/AutoHeightTextarea';
+import Loader from '../../components/UI/Loader/Loader';
+import ErrorHolder from '../../components/UI/ErrorHolder/ErrorHolder';
+import SkeletonLoader from '../../components/UI/SkeletonLoader/SkeletonLoader';
 
 const ChatPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -33,15 +33,16 @@ const ChatPage = () => {
     const [editingMessageId, setEditingMessageId] = useState(0);
 
     const [messages, setMessages] = useState<IMessage[]>([]);
-    const [page, setPage] = useState(0);
-    const [totalPages, setTotalPages] = useState<number | null>(null);
-    const lastElement = useRef<HTMLDivElement>(null);
+    // Код для динамической пагинации
+    // const [page, setPage] = useState(0);
+    // const [totalPages, setTotalPages] = useState<number | null>(null);
+    // const lastElement = useRef<HTMLDivElement>(null);
     
-    const {isError: isCurrentInboxError, isLoading: isCurrentInboxLoading, data: currentInboxData} = useGetInboxQuery({firstUserId: user.email, secondUserId: String(searchParams.get('id'))});
+    const {data: currentInboxData} = useGetInboxQuery({firstUserId: user.email, secondUserId: String(searchParams.get('id'))});
          
-    const [postMessage, {isError, isLoading, data}] = usePostMessageMutation();
+    const [postMessage] = usePostMessageMutation();
     
-    const {isError: isUpdatedMessagesError, isLoading: isUpdatedMessagesLoading, data: updatedMessagesData} = useGetMessagesQuery({
+    const {isLoading: isUpdatedMessagesLoading, data: updatedMessagesData} = useGetMessagesQuery({
         firstUserId: user.email, 
         secondUserId: searchParams.get('id'),
         limit: 1000
@@ -49,14 +50,15 @@ const ChatPage = () => {
             pollingInterval: 500,
         });
 
-    const {isError: isMessagesCountError, isLoading: isMessagesCountLoading, data: messagesCountData} = useGetMessagesCountQuery({firstUserId: user.email, secondUserId: searchParams.get('id')});
-    const [getMessages, {isError: isMessagesError, isLoading: isMessagesLoading, data: messagesData}] = useLazyGetMessagesQuery();
+    //Для динамической пагинации
+    // const {isError: isMessagesCountError, isLoading: isMessagesCountLoading, data: messagesCountData} = useGetMessagesCountQuery({firstUserId: user.email, secondUserId: searchParams.get('id')});
+    // const [getMessages, {isError: isMessagesError, isLoading: isMessagesLoading, data: messagesData}] = useLazyGetMessagesQuery();
         
-    const [updateMessage, {isError: isUpdateMessageError, isLoading: isUpdateMessageLoading, data: updateMessageData}] = useUpdateMessageMutation()
-    const [updateLastInboxMessage, {isError: isInboxMessageError, isLoading: isInboxMessageLoading, data: isInboxMessageData}] = useUpdateLastInboxMessageMutation();
-    const {isError: isUserError, isLoading: isUserLoading, data: userData} = useGetUserByEmailQuery(String(searchParams.get('id')))
-    const [createInbox, {isError: isInboxError, isLoading: isInboxLoading, data: inboxData}] = useCreateInboxMutation();
-    const {isError: isUserDataError, isLoading: isUserDataLoading, data: userAdditionalData} = useGetUserDataQuery(String(searchParams.get('id')));
+    const [updateMessage] = useUpdateMessageMutation()
+    const [updateLastInboxMessage] = useUpdateLastInboxMessageMutation();
+    const {data: userData} = useGetUserByEmailQuery(String(searchParams.get('id')))
+    const [createInbox, {data: inboxData}] = useCreateInboxMutation();
+    const {isLoading: isUserDataLoading, data: userAdditionalData} = useGetUserDataQuery(String(searchParams.get('id')));
 
     useEffect(() => {
         if(currentInboxData) {
@@ -200,10 +202,16 @@ const ChatPage = () => {
                     <div onClick={() => navigate('/messages')}>
                         <BackArrow className={styles.charHeaderBackArrow}/>
                     </div>
-                    <div className={styles.chatHeaderUserData} onClick={() => navigate(`/account/${searchParams.get('id')}`)}>
+                    <div 
+                        className={styles.chatHeaderUserData} 
+                        onClick={() => navigate(`/account/${searchParams.get('id')}`)}
+                    >
                         <div>
                             {(userAdditionalData && userAdditionalData.image !== 'none') &&
                                 <img src={baseUrl + userAdditionalData.image}/>
+                            }
+                            {isUserDataLoading && 
+                                <SkeletonLoader borderRadius={999}/>
                             }
                         </div>
                         <p>{userData && userData.name} {userData && userData.surname}</p>
@@ -213,6 +221,11 @@ const ChatPage = () => {
                     </div>
                 </div>
                 <div className={styles.chatArea}>
+                    {isUpdatedMessagesLoading &&
+                        <div className={styles.chatLoader}>
+                            <Loader type="regular"/>
+                        </div>
+                    }
                     {messages.map((message, index) => 
                         (message.outgoing_id !== user.email) 
                         ? 
@@ -236,46 +249,15 @@ const ChatPage = () => {
                             value={currentMessage} 
                             onChange={setCurrentMessage} 
                             style={{}} 
-                            placeholder='Введите сообщение'
+                            placeholder='Введите сообщение...'
                             onKeyPress={sendMessageByKeyHandler}
                         />
                         <div className={styles.chatUserInputButtons}>
-
-
-
-                            {/* <div>
-                                <Smile className={styles.chatButtonsSmile}/>
-                            </div>
-                            <div>
-                                <Clip className={styles.chatButtonsClip}/>
-                            </div> */}
-
-
-
-
                             <div onClick={messagePasteHandler}>
                                 <Send className={styles.chatUserInputSend}/>
                             </div>
                         </div>
                     </div>
-
-
-
-{/* 
-                    <div className={styles.chatButtons}>
-                        <div>
-                            <Smile className={styles.chatButtonsSmile}/>
-                        </div>
-                        <div>
-                            <Clip className={styles.chatButtonsClip}/>
-                        </div>
-                        <div>
-                            <Microphone className={styles.chatButtonsMicrophone}/>
-                        </div>
-                    </div> */}
-
-
-
                 </div>
             </div>
         </>

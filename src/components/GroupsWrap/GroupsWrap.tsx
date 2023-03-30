@@ -5,17 +5,35 @@ import jwt_decode from 'jwt-decode';
 import styles from './GroupsWrap.module.scss';
 import GroupHolder from '../GroupHolder/GroupHolder';
 import { useGetAllUserGroupSubscriptionsQuery } from '../../store/socmedia/groups/groups.api';
+import AlertHolder from '../UI/AlertHolder/AlertHolder';
+import Button from '../UI/Button/Button';
+import SearchError from '../../assets/svg/SearchError';
 
 interface GroupsWrapProps {
     getGroups: (obj: {}) => void
     isLoading: boolean
+    isError: boolean
     data: any
     type: string
     id?: string
     newGroupData?: IGroupUsers
+    buttonState: string
+    setButtonState: (value: string) => void
+    setCreateGroupModalVisible: (value: boolean) => void
 }
 
-const GroupsWrap:FC<GroupsWrapProps> = ({getGroups, isLoading, data, type, id, newGroupData}) => {
+const GroupsWrap:FC<GroupsWrapProps> = ({
+        getGroups, 
+        isLoading, 
+        isError, 
+        data, 
+        type, 
+        id, 
+        newGroupData, 
+        buttonState, 
+        setButtonState, 
+        setCreateGroupModalVisible,
+    }) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const [groups, setGroups] = useState<IGroupUsers[]>([]);
 
@@ -23,7 +41,7 @@ const GroupsWrap:FC<GroupsWrapProps> = ({getGroups, isLoading, data, type, id, n
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState<number | null>(null);
 
-    const {isError: isSubsError, isLoading: isSubsLoading, data: subsData} = useGetAllUserGroupSubscriptionsQuery({id: user.email, limit: 400});
+    const {isError: isSubsError, isLoading: isSubsLoading, data: subsData, refetch} = useGetAllUserGroupSubscriptionsQuery({id: user.email, limit: 400});
 
     function checkIfValueNotExistInPostsArray(value: number) {
         if(groups.length === 0) return true;
@@ -74,8 +92,38 @@ const GroupsWrap:FC<GroupsWrapProps> = ({getGroups, isLoading, data, type, id, n
 
     return (
         <div className={styles.wrap}>
+            {data && (data[0] === undefined) && groups && (groups[0] === undefined) && buttonState !== 'Рекомендации' && !isLoading && !isError &&
+                <AlertHolder 
+                    icon={<SearchError className={styles.alertIconDefault}/>}
+                    label="Вы пока не подписаны ни на одну группу, можете подписаться на понравившиеся группы в рекомендациях"
+                    button={
+                        <Button 
+                            onClick={() => setButtonState('Рекомендации')} 
+                            isActive={false}
+                            >Смотреть рекомендации</Button>
+                    }
+                />
+            }
+            {data && (data[0] === undefined) && groups && (groups[0] === undefined) && buttonState === 'Рекомендации' && !isLoading && !isError &&
+                <AlertHolder 
+                    icon={<SearchError className={styles.alertIconDefault}/>}
+                    label="Никто из пользователей пока не создал ни одну группу. Создайте группу, будьте первым!"
+                    button={
+                        <Button 
+                            onClick={() => setCreateGroupModalVisible(true)} 
+                            isActive={false}
+                        >Создать группу</Button>
+                    }
+                />
+            }
             {subsData && groups.map(group => 
-                <GroupHolder key={group.id} group_id={group.group_id || String(group.id)} user_subscriptions={subsData.rows.map(sub => sub.group_id)}></GroupHolder>
+                <GroupHolder 
+                    key={group.id} 
+                    group_id={group.group_id || String(group.id)} 
+                    user_subscriptions={subsData.rows.map(sub => sub.group_id)}
+                    refetchUserSubs={refetch}
+                    isSubsLoading={isSubsLoading}
+                ></GroupHolder>
             )}
             <div ref={lastElement} className={styles.lastElement}></div>
         </div>

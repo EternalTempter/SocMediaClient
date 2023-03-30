@@ -8,87 +8,120 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    // perspective: 800px;
 }
+
 .loginWrap {
-    background: linear-gradient(112.15deg, rgba(255, 255, 255, 0.4) -1.65%, rgba(255, 255, 255, 0.1) 96.33%);
-    backdrop-filter: blur(40px);
-    border-radius: 5px;
+    background: $firstLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
+    border-radius: 10px;
     width: 62.5vw;
     display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 
+        calc(0px + (85 - 0) * (100vw - 768px) / (1920 - 768))
+        calc(0px + (105 - 0) * (100vw - 768px) / (1920 - 768))
+        calc(0px + (115 - 0) * (100vw - 768px) / (1920 - 768))
+        calc(0px + (105 - 0) * (100vw - 768px) / (1920 - 768));
+    box-sizing: border-box;
+    // animation: aaa infinite linear forwards 12s;
+}
+
+// @keyframes aaa {
+//     from {
+//         transform: matrix(1.1, 0.1, -0.5, 0.9, 0, 15);
+//     }
+//     to {
+//         transform: matrix(0.3, 0.5, 0.5, -0.2, 0, 4);
+//     }
+// }
+
+.extendedLogo {
+    width: 20.833vw;
+    height: 20.833vw;
+}
+
+.mobileLogo {
+    display: none;
+    width: 3.125vw;
+    height: 3.125vw;
+    min-width: 60px;
+    min-height: 60px;
 }
   
 .loginImageHolder {
-    width: 36.459vw;
-    margin: 2.7778vh 0vw 2.7778vh 1.5625vw;
     display: flex;
     align-items: center;
-    justify-content: center;
-    video {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: fill;
-        border-radius: 10px;
+    flex-direction: column;
+    p {
+        @include fontStyles($textColor);
+        font-family: 'AdventPro';
+        font-size: calc(30px + (80 - 30) * (100vw - 200px) / (1920 - 200));
+        margin: 15px 0 0 0;
     }
 }
   
 .loginHolder {
+    width: 25.521vw;
+    min-width: 300px;
+    background: $secondLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
     align-items: center;
-    margin-left: calc(10px + (50 - 10) * (100vw - 1024px) / (1920 - 1024));
+    margin-left: calc(10px + (100 - 10) * (100vw - 768px) / (1920 - 768));
     input {
-        width: 19.063vw;
+        width: 19.271vw;
+        min-width: 240px;
+        min-height: 30px;
         padding: calc(6px + (11 - 6) * (100vw - 200px) / (1920 - 200));
-        background: rgba(221, 221, 221, 0.3);
-        border-radius: 5px;
+        box-sizing: border-box;
+        background: $firstLayerColor;
+        border-radius: 10px; 
         border: none;
-        margin-bottom: 1vh;
-    }
-    input::placeholder {
-        @include fontStyles($textColor);
-        padding-left: 0.3vw;
-        opacity: 0.8;
+        color: $textColor;
         font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        &::placeholder {
+            @include fontStyles($inputTextColor);
+            padding-left: 0.3vw;
+            font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+            transition: .5s;
+        }
+        &:focus {
+            outline: 1px solid $inputTextColor;
+        }
+        &:hover::placeholder {
+            color: $textColor;
+            transition: .5s;
+        }
+        &:focus::placeholder {
+            color: $inputTextColor;
+        }
     }
     button{
-        width: 11.9799vw;
-        min-width: 140px;
+        width: 11.979vw;
+        min-width: 180px;
         padding: calc(7px + (16 - 7) * (100vw - 200px) / (1920 - 200));
+        box-shadow: 4px 4px 4px rgba(13, 13, 13, 0.15);
         border: none;
-        background: linear-gradient(93.34deg, rgba(255, 255, 255, 0.4) -16.21%, rgba(255, 255, 255, 0.1) 101.16%);
+        background: $thirdLayerColor;
         border-radius: 5px;
-        align-self: flex-end;
         @include fontStyles($textColor);
+        transition: .5s;
         font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        cursor: pointer;
+        &:hover {
+            background: #505050;
+            transition: .5s;
+        }
     }  
-}
-
-.label {
-    @include fontStyles($textColor);
-    font-size: calc(14px + (22 - 14) * (100vw - 200px) / (1920 - 200));
-    line-height: 26px;
-    margin-top: 2.19vw;
-    margin-bottom: 2.6vw;
-}
-  
-.logoHolder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 10.41725vw;
-    min-width: 90px;
-    height: 6.65vw;
-    min-height: 45px;
-    margin-top: calc(20px + (30 - 20) * (100vw - 200px) / (1920 - 200));
-}
-
-.logo {
-    width: 6vw;
-    height: 6vw;
-    fill: $darkIconColor;
-    min-width: 60px;
-    min-height: 60px;
-    margin-top: -2.5vw;
+    p {
+        @include fontStyles($textColor);
+        font-size: calc(14px + (24 - 14) * (100vw - 200px) / (1920 - 200));
+    }
 }
   
 .userDontHaveAccount {
@@ -106,15 +139,22 @@
     }
     a, span {
         font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        transition: .5s;
         @include fontStyles($textColor);
     }
 }
 
-.inputLabel {
-    align-self: flex-start;
-    margin: 0px 0 2px 10px;
-    font-size: calc(6px + (12 - 6) * ( (100vw - 200px) / ( 1920 - 200) ));
-    @include fontStyles($textColor);
+
+// .inputLabel {
+//     align-self: flex-start;
+//     margin: 0px 0 2px 10px;
+//     font-size: calc(6px + (12 - 6) * ( (100vw - 200px) / ( 1920 - 200) ));
+//     @include fontStyles($textColor);
+// }
+.error {
+    @include fontStyles(red);
+    font-size: calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
+    margin: 0 0 3px 3px;
 }
 
 .input.error {
@@ -122,19 +162,29 @@
 }
 
 @media screen and (max-width: 1023px) {
+    .loginWrap {
+        width: 40vw;
+    }
     .loginImageHolder {
         display: none;
     }
     .loginWrap {
         justify-content: center;
+        padding: 0;
     }
     .loginHolder {
-        width: 75%;
+        background: $firstLayerColor;
+        margin-left: 0;
+        width: 100%;
         input {
-            width: 100%;
+            width: 70%;
+            background: $inputColor;
         }
     }
-
+    .mobileLogo {
+        margin-top: calc(20px + (35 - 20) * ( (100vw - 200px) / (1024 - 200) ));
+        display: block;
+    }
 }
 
 @media screen and (max-width: 768px) {

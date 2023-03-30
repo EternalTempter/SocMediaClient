@@ -7,6 +7,7 @@ import styles from './CommentHolder.module.scss';
 import jwt_decode from 'jwt-decode';
 import { useGetUserDataQuery } from '../../store/socmedia/userData/userData.api';
 import { baseUrl } from '../../envVariables/variables';
+import { getFormattedDateAndTimeForPost } from '../../helpers/helpers';
 
 interface CommentHolderProps {
     comment: IComment
@@ -68,7 +69,7 @@ const CommentHolder:FC<CommentHolderProps> = ({comment, type}) => {
                 </div>
                 <p>{commentLikes}</p>
             </div>
-            <div className={styles.commentDate}>{String(comment.createdAt).replace('T', ' ').slice(0, -5)}</div>
+            <div className={styles.commentDate}>{getFormattedDateAndTimeForPost(comment.createdAt)}</div>
         </div>
     );
 };

@@ -9,7 +9,7 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    background: linear-gradient(179.76deg, rgba(255, 255, 255, 0.4) -26.89%, rgba(255, 255, 255, 0.1) 189.85%);
+    background: $firstLayerColor;
     border-radius: 3px;
     z-index: 9999;
     a {
@@ -24,26 +24,38 @@
 .leftNavbar {
     left: 0;
     top: 0;
+    box-shadow: 10px 0px 6px rgba(13, 13, 13, 0.25);
 }
 .rightNavbar {
     right: 0;
     top: 0;
+    box-shadow: -10px 0px 6px rgba(13, 13, 13, 0.25);
 }
 
-.chat, .news, .account, .friends, .group, .notifications, .burgerMenu, .about {
+.chat, .friends, .logo, .account, .exit {
+    @include svgIconStylesStroke(2.6042vw, 25px, $darkIconColor); 
+    transition: 0.5s;
+}
+.news, .group, .notifications, .burgerMenu, .about {
     @include svgIconStyles(2.6042vw, 25px, $darkIconColor);
+    transition: 0.5s;
 }
-
-.logo {
-    fill: $darkIconColor;
-    width: 4vw;
-    height: 4vw;
-    min-width: 30px;
-    min-height: 30px;
+.about {
+    transform: rotate(180deg);
 }
 
 .notifications.active {
     fill: rgb(184, 27, 27);
+}
+
+.accountWrap:hover .account, .friendsWrap:hover .friends, 
+.logoWrap:hover .logo, .chatWrap:hover .chat, .exitWrap:hover .exit {
+    transition: 0.5s;
+    stroke: white;
+}
+.newsWrap:hover .news, .groupWrap:hover .group {
+    transition: 0.5s;
+    fill: white;
 }
 
 .chatWrap {
@@ -69,7 +81,7 @@
     position: fixed;
     z-index: 9999;
     width: 100%;
-    background: linear-gradient(91.38deg, rgba(255, 255, 255, 0.4) -3.6%, rgba(255, 255, 255, 0.1) 114.8%);
+    background: $firstLayerColor;
     align-items: center;
     justify-content: space-evenly;
     padding: calc(12px + (17 - 12) * (100vw - 200px) / (1920 - 200));

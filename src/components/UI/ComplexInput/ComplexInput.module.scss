@@ -1,0 +1,73 @@
+@import "../../../styles/Mixins.scss";
+@import "../../../styles/Variables.scss";
+
+.inputBox {
+    display: flex;
+    width: 55.7299vw;
+    background: $firstLayerColor;
+    input {
+        border: none;
+        width: 100%;
+        height: 100%;
+        padding: 0.91225vw 1.0417vw;
+        box-sizing: border-box;
+        border-radius: 3px;
+        border: none;
+        background: $firstLayerColor;
+        color: $textColor;
+        &::placeholder {
+            color: $inputTextColor;
+            margin-top: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+            font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+            transition: .5s;
+        }
+        &:focus {
+            outline: none
+        }
+        &:hover::placeholder {
+            color: $textColor;
+            transition: .5s;
+        }
+        &:focus::placeholder {
+            color: $inputTextColor;
+        }
+    }
+}
+
+.inputName, .inputSearcher {
+    width: calc(60px + (125 - 60) * ( (100vw - 0px) / ( 1920 - 0) ));
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: calc(8px + (18 - 8) * ( (100vw - 0px) / ( 1920 - 0) ));
+    background: #252525;
+    @include fontStyles($textColor);
+}
+
+.searchIcon {
+    @include svgIconStyles(1.563vw, 20px, $lightIconColor);
+}
+
+
+@media screen and (max-width: 768px) {
+    .inputBox {
+        display: flex;
+        width: 97vw;
+        position: relative;
+        input {
+            padding: 8px 40px 8px 13px;
+            border: 2px solid #1E1E1E;
+        }
+    }
+    .inputName{
+        display: none;
+    }
+    .inputSearcher {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 40px;
+        background: none;
+    }
+}

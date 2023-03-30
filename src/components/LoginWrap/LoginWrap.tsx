@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Logo from '../../assets/svg/Logo';
 import { resolve } from 'path';
+import ExtendedLogo from '../../assets/svg/ExtendedLogo';
 
 interface LoginWrapProps {
     children: React.ReactNode
@@ -27,14 +28,11 @@ const LoginWrap:FC<LoginWrapProps> = ({children}) => {
             <div className={styles.loginMainWrap}>
                 <div className={styles.loginWrap}>
                     <div className={styles.loginImageHolder}>
-                        <video autoPlay loop muted>
-                            <source src={require("../../assets/videos/strange.mp4")} type="video/mp4"/>   
-                        </video>    
+                        <ExtendedLogo className={styles.extendedLogo}/>
+                        <p>Ellentair</p>
                     </div>   
                     <div className={styles.loginHolder}>
-                        <div className={styles.logoHolder}>
-                            <Logo className={styles.logo}/>
-                        </div>
+                        <Logo className={styles.mobileLogo}/>
                         {children}
                     </div>
                 </div>

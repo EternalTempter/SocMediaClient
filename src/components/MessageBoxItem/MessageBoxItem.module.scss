@@ -2,14 +2,19 @@
 @import "../../styles/Variables.scss";
 
 .message {
-    background: linear-gradient(91.35deg, rgba(255, 255, 255, 0.4) 14.79%, rgba(255, 255, 255, 0.1) 69.05%);
-    backdrop-filter: blur(40px);
-    border-radius: 3px;
+    background: $firstLayerColor;
+    border-radius: 5px;
     width: 55.7299vw;
     display: flex;
-    margin-top: 5px;
+    margin-top: calc(4.5px + (10 - 4.5) * ( (100vw - 0px) / ( 1920 - 0) ));
+    box-shadow: 4px 4px 4px rgba(13, 13, 13, 0.4);
     cursor: pointer;
     position: relative;
+    transition: .5s;
+    &:hover {
+        background: $secondLayerColor;
+        transition: .5s;
+    }
 }
   
 .userImageHolder {
@@ -38,14 +43,14 @@
 
 .readIndicator {
     position: absolute;
-    right: calc(10px + (30 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+    right: calc(10px + (50 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
     align-self: center;
     width: 0.78vw;
     min-width: 10px;
     height: 0.78vw;
     min-height: 10px;
     border-radius: 50%;
-    background: linear-gradient(101.82deg, rgba(255, 255, 255, 0.4) 16.2%, rgba(255, 255, 255, 0.1) 294.57%);
+    background: $darkIconColor;
 }
 
 @media screen and (max-width: 768px){

@@ -12,6 +12,10 @@ import Button from '../../components/UI/Button/Button';
 import InputBar from '../../components/InputBar/InputBar';
 import Input from '../../components/UI/Input/Input';
 import UsersWrap from '../../components/UsersWrap/UsersWrap';
+import SearchError from '../../assets/svg/SearchError';
+import AlertHolder from '../../components/UI/AlertHolder/AlertHolder';
+import ErrorHolder from '../../components/UI/ErrorHolder/ErrorHolder';
+import Loader from '../../components/UI/Loader/Loader';
 
 const FriendsPage = () => {
     const mainUser : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -65,16 +69,52 @@ const FriendsPage = () => {
                 </Button>
             </ButtonBar>
 
-            <InputBar>
-                <Input placeholder='Искать пользователя...' value={search} onChange={setSearch}/>
+            <InputBar type='regular'>
+                <Input 
+                    type="regular" 
+                    placeholder='Искать пользователя...' 
+                    value={search} 
+                    onChange={setSearch}
+                />
             </InputBar>
+
+            {(isLoading || isFriendsLoading || isUsersLoading) &&
+                <Loader type="regular"/>
+            }
+            {(isFriendsError && buttonState === 'Мои друзья') &&
+                <ErrorHolder 
+                    label="Произошла непредвиденная ошибка при загрузке групп, попробуйте нажать кнопку обновить"   
+                    refetch={() => getAllFriends({id: mainUser.email, limit: 400, page: 1})}
+                />
+            }
+            {(isUsersError && buttonState === 'Рекомендации') &&
+                <ErrorHolder 
+                    label="Произошла непредвиденная ошибка при загрузке групп, попробуйте нажать кнопку обновить"   
+                    refetch={() => getAllUsers({id: mainUser.email, limit: 20, page: 1})}
+                />
+            }
+            {isError && isSearch &&
+                <ErrorHolder 
+                    label="Произошла непредвиденная ошибка при загрузке групп, попробуйте нажать кнопку обновить"   
+                    refetch={() => {}}
+                />
+            }
+            {data && (data[0] === undefined) && (!isError && !isUsersError && !isFriendsError) && (!isLoading && !isFriendsLoading && !isUsersLoading) && isSearch &&
+                <AlertHolder 
+                    icon={<SearchError className={styles.alertIconDefault}/>}
+                    label="Таких пользователей не найдено"
+                />
+            }
 
             {!isSearch && buttonState === 'Мои друзья' &&
                 <UsersWrap 
                     getUsers={getAllFriends} 
                     isLoading={isFriendsLoading} 
+                    isError={isFriendsError}
                     data={friendsData} 
                     type="FRIENDS"
+                    buttonState={buttonState}
+                    setButtonState={setButtonState}
                 />
             }
 
@@ -83,8 +123,11 @@ const FriendsPage = () => {
                     friends={friends}
                     getUsers={getAllUsers} 
                     isLoading={isUsersLoading} 
+                    isError={isUsersError}
                     data={usersData} 
                     type="USERS"
+                    buttonState={buttonState}
+                    setButtonState={setButtonState}
                 />
             }
 

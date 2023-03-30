@@ -2,7 +2,7 @@
 @import "../../styles/Variables.scss";
 
 .commentWrap {
-    width: 62.6168%;
+    width: 81.308%;
     display: flex;
     align-items: center;
     position: relative;
@@ -20,8 +20,8 @@
 .imageHolder {
     width: 2.3438vw;
     height: 2.3438vw;
-    min-width: 25px;
-    min-height: 25px;
+    min-width: 30px;
+    min-height: 30px;
     border-radius: 50%;
     background: gray;
     margin-right: calc(4px + (7 - 4) * (100vw - 200px) / (1920 - 200));
@@ -80,6 +80,6 @@
 
 @media screen and(max-width: 768px) {
     .commentWrap {
-        width: 90%;
+        width: 96%;
     }
 }

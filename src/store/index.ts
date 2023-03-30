@@ -4,6 +4,7 @@ import { groupsApi } from './socmedia/groups/groups.api';
 import { groupUsersApi } from './socmedia/groupUsers/groupUsers.api';
 import { inboxesApi } from './socmedia/inboxes/inboxes.api';
 import { messagesApi } from './socmedia/messages/messages.api';
+import { newsApi } from './socmedia/news/news.api';
 import { postsApi } from './socmedia/posts/posts.api';
 import { userDataApi } from './socmedia/userData/userData.api';
 import { usersApi } from './socmedia/users/users.api';
@@ -17,7 +18,8 @@ export const store = configureStore({
         [userDataApi.reducerPath]: userDataApi.reducer,
         [friendsApi.reducerPath]: friendsApi.reducer,
         [groupsApi.reducerPath]: groupsApi.reducer,
-        [groupUsersApi.reducerPath]: groupUsersApi.reducer
+        [groupUsersApi.reducerPath]: groupUsersApi.reducer,
+        [newsApi.reducerPath]: newsApi.reducer
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(
         inboxesApi.middleware, 
@@ -27,7 +29,8 @@ export const store = configureStore({
         userDataApi.middleware, 
         friendsApi.middleware, 
         groupsApi.middleware,
-        groupUsersApi.middleware
+        groupUsersApi.middleware,
+        newsApi.middleware
     ) 
 });
 

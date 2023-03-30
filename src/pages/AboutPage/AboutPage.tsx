@@ -12,8 +12,8 @@ const AboutPage = () => {
                         разработке дизайна отдельное спасибо: Galzarus.</p>
                 </div>
                 <div className={styles.copyright}>
-                    <p>© All rights reserved</p>
-                    <p>© Все права защищены</p>
+                    <p>© All rights reserved 2023</p>
+                    <p>© Все права защищены 2023</p>
                 </div>
             </div>
         </div>

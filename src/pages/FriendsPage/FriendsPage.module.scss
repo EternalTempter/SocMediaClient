@@ -2,7 +2,7 @@
 @import "../../styles/Variables.scss";
 
 .friendsWrap {
-    margin-top: 1.0417vw;
+    padding-top: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
     height: 100vh;
     position: relative;
     width: 92.5vw;

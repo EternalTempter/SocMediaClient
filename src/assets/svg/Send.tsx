@@ -6,7 +6,11 @@ interface SendProps {
 
 const Send:FC<SendProps> = ({className}) => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 64 64" xmlSpace="preserve" className={className}><g><g xmlns="http://www.w3.org/2000/svg" id="Send"><path d="m63 32a1.0009 1.0009 0 0 1 -.6025.918l-60 26a1 1 0 0 1 -1.2637-1.418l11.79-20.44a1.0011 1.0011 0 0 1 .502-.4317l11.8301-4.6283-11.83-4.6279a1.0011 1.0011 0 0 1 -.502-.4317l-11.7901-20.4404a1 1 0 0 1 1.2637-1.418l60 26a1.0009 1.0009 0 0 1 .6025.918z" fill="#000000" data-original="#000000" className={className}></path></g></g></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 25 25" xmlSpace="preserve" className={className}>
+            <g>
+                <path d="M22.65 12 2.76 3a.53.53 0 0 0-.55.09.5.5 0 0 0-.13.54l3.26 8.87-3.26 8.83a.5.5 0 0 0 .13.54.55.55 0 0 0 .34.13.52.52 0 0 0 .21 0l19.89-9a.5.5 0 0 0 0-.92zM3.43 4.45 20.13 12H6.22zM6.22 13h13.91l-16.7 7.55z" data-name="Layer 47" fill="#000000" data-original="#000000" className={className}></path>
+            </g>
+        </svg>
     );
 };
 

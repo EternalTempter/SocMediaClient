@@ -7,7 +7,7 @@
     width: 92.5vw;
     height: 100vh;
     position: relative;
-    overflow-y: scroll;
+    // overflow-y: scroll;  
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,8 +44,15 @@
     }
 }
 
+.homePage {
+    width: 100%;
+    height: 100%;
+}
+
 .homePageBody {
     position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .sliderArrowLeft {
@@ -58,52 +65,49 @@
     right: calc(-20px + (-60 - -20) * (100vw - 200px) / (1920 - 200));
 }
 
-.homePageContentNews {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200));
-}
 
 .swiper {
     width: 55.729vw;
     min-width: 300px;
-    height: calc(500px + (740 - 500) * (100vw - 1024px) / (1920 - 1024));
+    height: calc(500px + (800 - 500) * (100vw - 1024px) / (1920 - 1024));
 }
 
-@media screen and(max-width: 1439px) {
-    .homePageContentNews {
-        flex-direction: column;
+.mobileNavigation {
+    display: none;
+    // margin: 15px 0 0 5px;
+    padding: 15px 0 15px 5px;
+    a {
+        margin-left: 10px;
+        color: $textColor;
+        transition: 0.5s;
     }
 }
 
-@media screen and(max-width: 1023px) {
-    .swiper {
-        height: calc(470px + (640 - 470) * (100vw - 200px) / (1024 - 200));
-    }
+.active {
+    text-decoration: underline;
 }
 
 @media screen and(max-width: 768px) {
+    .mobileNavigation {
+        display: block;
+    }
     .homePageWrap {
+        background: $firstLayerColor;
         width: 100vw;
-        height: calc(100vh - calc(60px + (70 - 60) * (100vw - 300px) / (768 - 300)));
+        height: calc(100vh - calc(53.69px + (56.28 - 53.69) * (100vw - 320px) / (768 - 320)));
+        padding-top: 0;
         &::-webkit-scrollbar {
             width: 1px;
             height: 1px;
         }
     }
     .swiper {
-        width: 91vw;
+        width: 100vw;
+        height: calc(100vh - calc(53.69px + (56.28 - 53.69) * (100vw - 320px) / (768 - 320)));
     }
     .homePageHeader {
-        width: 91vw;
-    }
-    .homePageHeader {
-        width: 91vw;
-        div {
-            width: 100%;   
-        }
-    }   
+        width: 100vw;
+    }  
     .sliderArrowRight, .sliderArrowLeft {
         display: none;
     }

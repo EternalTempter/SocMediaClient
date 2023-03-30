@@ -3,25 +3,39 @@
 
 .notification {
     width: 100%;
-    border: 1px solid #302f2f;
-    background: rgba(0, 0, 0, 0.075);
-    margin-top: 0.7vh;
-    border-radius: 15px;
+    background: $secondLayerColor;
+    margin-top: 10px;
+    border-radius: 5px;
     display: flex;
     justify-content: space-between;
     color: white;
     box-sizing: border-box;
+    transition: .5s;
     padding: 3%;
+    cursor: pointer;
     p {
-        margin: 0 0 0 10px;
+        margin: 0 5px 0 10px;
         padding: 0;
-        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        font-size: calc(10px + (16 - 10) * (100vw - 768px) / (1920 - 768));
         @include fontStyles($textColor);
+        span {
+            font-size: calc(10px + (16 - 10) * (100vw - 768px) / (1920 - 768));
+            font-weight: bold;
+        }
     }
     div {
         display: flex;
         align-items: center;
     }
+    &:hover {
+        background: #363636;
+        transition: .5s;
+    }
+}
+
+.notification:hover .image{
+    background: #505050;
+    transition: 0.5s;
 }
 
 .image {
@@ -29,13 +43,23 @@
     min-height: 3.13vw;
     width: 3.13vw;
     height: 3.13vw;
+    min-width: 50px;
+    min-height: 50px;
+    transition: 0.5s;
     border-radius: 50%;
-    background: gray;
+    background: $thirdLayerColor;
     @include roundedImageStyles();
 }
 
 .checkMark, .decline {
-    @include svgIconStyles(1.5625vw, 18px, $darkIconColor);
+    transition: .1s;
+    @include svgIconStyles(1.5625vw, 22px, $darkIconColor);
+}
+
+.checkMarkWrap:hover .checkMark, .declineWrap:hover .decline {
+    fill: white;
+    cursor: pointer;
+    transition: .1s;
 }
 
 .declineWrap {
@@ -50,5 +74,12 @@
     .image {
         min-width: calc(40px + (60 - 40) * (100vw - 200px) / (768 - 200));
         min-height: calc(40px + (60 - 40) * (100vw - 200px) / (768 - 200));
+    }
+
+    .notification p {
+        font-size: 12px;
+        span {
+            font-size: 12px;
+        }
     }
 }

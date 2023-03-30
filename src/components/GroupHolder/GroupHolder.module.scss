@@ -3,15 +3,21 @@
 
 .groupHolder {
     width: 55.7292vw;
-    background: linear-gradient(91.3deg, rgba(255, 255, 255, 0.4) -4.25%, rgba(255, 255, 255, 0.1) 101.96%);
+    background: $firstLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
     border-radius: 3px;
     display: flex;
     box-sizing: border-box;
-    margin-top: 1.8519vh;
+    margin-top: calc(5px + (15 - 5) * (100vw - 200px) / (1920 - 200));
     padding: 0.7813vw 0;
     position: relative;
     align-items: center;
     cursor: pointer;
+    transition: .5s;
+    &:hover {
+        background: #222222;
+        transition: .5s;
+    }
     &:last-child {
         margin-bottom: calc(5px + (30 - 5) * (100vw - 200px) / (1920 - 200));
     }
@@ -50,17 +56,18 @@
 
 }
 .groupType {
-    background: linear-gradient(92.5deg, rgba(255, 255, 255, 0.26) -7.81%, rgba(255, 255, 255, 0.065) 119.16%);
+    background: $secondLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
     border-radius: 5px;
     width: 15vw;
     min-width: 80px;
     padding: calc(4px + (7 - 4) * (100vw - 200px) / (1920 - 200)) 0;
     font-size: calc(8px + (10 - 8) * (100vw - 200px) / (1920 - 200));   
-    color: #1F4868;
+    color: $textColor;
     display: none;
     align-items: center;
     justify-content: center;
-    margin-left: 13px;
+    margin: 5px 0 0 13px;
 }
 
 .groupUsersHolder {
@@ -105,7 +112,8 @@
 .addButton {
     width: 10.4167vw;
     min-width: 80px;
-    background: linear-gradient(94.12deg, rgba(255, 255, 255, 0.4) 7.77%, rgba(255, 255, 255, 0.1) 124.32%);
+    background: $secondLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
@@ -117,6 +125,7 @@
              calc(4px + (10 - 4) * (100vw - 200px) / (1920 - 200))
              calc(1px + (6 - 1) * (100vw - 200px) / (1920 - 200)) 
              calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
+    transition: .5s;
     p {
         @include fontStyles($textColor);
         margin: 0;
@@ -128,7 +137,22 @@
         align-items: center;
         justify-content: center;
     }
+    &:hover {
+        background: $thirdLayerColor;
+        transition: .5s;
+    }
 }
+
+.addButton.unsubscribe {
+    background: $activeButtonColor;
+    transition: 0.5s;
+    &:hover {
+        background: #333333;
+        transition: 0.5s;
+        box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
+    }
+}
+
 
 .addButtonBrokenHeart, .addButtonHeart {
     @include svgIconStyles(1.3021vw, 13px, $darkIconColor);

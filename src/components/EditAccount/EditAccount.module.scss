@@ -1,0 +1,168 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+// .wrap {
+//     width: 100%;
+//     display: flex;
+//     justify-content: space-between;
+// }
+
+.editImages, .editData {
+    display: flex;
+    flex-direction: column;
+}
+
+.photo {
+    width: 6.771vw;
+    height: 6.771vw;
+    min-width: 110px;
+    min-height: 110px;
+    background: $thirdLayerColor;
+    border-radius: 50%;
+    margin-top: calc(15px + (20 - 15) * (100vw - 200px) / (1920 - 200));
+    margin-bottom: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200));
+    @include roundedImageStyles();
+    transition: 0.5s;
+    &:hover {
+        transition: 0.5s;
+        background: #4d4d4d;
+    }
+}
+
+
+.background {
+    width: 20.625vw;
+    height: 10.729vw;
+    min-width: 240px;
+    min-height: 104px;
+    background: $thirdLayerColor;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-top: calc(15px + (20 - 15) * (100vw - 200px) / (1920 - 200));
+    margin-bottom: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200));
+    @include imageStyles();
+    transition: 0.5s;
+    &:hover {
+        transition: 0.5s;
+        background: #4d4d4d;
+    }
+    img {
+        border-radius: 10px; 
+    }
+}
+
+.inputs {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    input {
+        width: 91.5%;
+        border: none;
+        padding: 
+        calc(8px + (10 - 8) * (100vw - 1024px) / (1920 - 1024))
+        calc(11px + (15 - 11) * (100vw - 1024px) / (1920 - 1024));
+        background: $firstLayerColor;
+        border-radius: 10px;
+        color: $textColor;
+        &::placeholder {
+            color: $inputTextColor;
+            transition: .5s;
+        }
+        &:focus {
+            outline: 1px solid $inputTextColor;
+        }
+        &:hover::placeholder {
+            color: $textColor;
+            transition: .5s;
+        }
+        &:focus::placeholder {
+            color: $inputTextColor;
+        }
+    }
+}
+
+.inputBox {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputBox.errored {
+    margin-top: 4px;
+}
+
+.selects {
+    margin-top: 12px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    select {
+        text-align-last:center;
+        padding: 8px 0;
+        background: $firstLayerColor;
+        border-radius: 3px;
+        border: none;
+        color: $textColor;
+    }
+
+}
+
+.days, .years {
+    width: 4.688vw;
+    min-width: 70px;
+}
+
+.months {
+    width: 6.771vw;
+    min-width: 110px;
+}
+
+.saveButton {
+    background: $secondLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
+    border-radius: 5px;
+    align-self: flex-end;
+    margin-top: auto;
+    width: 11.458vw;
+    min-width: 180px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(10px + (15 - 10) * (100vw - 200px) / (1920 - 200)) 0;
+    @include fontStyles($textColor);
+    transition: 0.5s;
+    font-size: calc(12px + (14 - 12) * (100vw - 200px) / (1920 - 200));
+    &:disabled {
+        color: $inputTextColor;
+    }
+    &:hover {
+        transition: 0.5s;
+        background: $thirdLayerColor;
+    }
+}
+
+.error {
+    @include fontStyles(red);
+    font-size: calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
+    margin: 0 0 3px 3px;
+}
+
+@media screen and (max-width: 768px) {
+    .photo {
+        width: 20.771vw;
+        height: 20.771vw;
+    }
+    
+    .background {
+        width: 50.625vw;
+        height: 20.729vw;
+    }
+
+    .saveButton {
+        align-self: center;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+}

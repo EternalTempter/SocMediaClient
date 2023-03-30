@@ -16,11 +16,11 @@ const NewsPage = () => {
     const [getPosts, {isLoading, isError, data}] = useLazyGetAllPostsQuery();
 
     const [friendsIds, setFriendsIds] = useState<string[]>([])
-    const {isLoading: isFriendsLoading, isError: isFriendsError, data: friendsData} = useGetAllFriendsQuery({id: user.email, limit: 400, page: 1})
+    const {data: friendsData} = useGetAllFriendsQuery({id: user.email, limit: 400, page: 1})
     const [getAllFriendsPosts, {isLoading: isFriendsPostsLoading, isError: isFriendsPostsError, data: friendsPostsData}] = useLazyGetAllFriendsPostsQuery()
 
     const [likesIds, setLikesIds] = useState<string[]>([])
-    const {isLoading: isLikesLoading, isError: isLikesError, data: likesData} = useGetAllLikesQuery(user.email)
+    const {data: likesData} = useGetAllLikesQuery(user.email)
     const [getAllLikedPosts, {isLoading: isLikedPostsLoading, isError: isLikedPostsError, data: likedPostsData}] = useLazyGetAllLikedPostsQuery();
     
     function showInterestPostsHandler() {
@@ -67,15 +67,35 @@ const NewsPage = () => {
         </ButtonBar>
 
         {(buttonState === 'Интересное' || buttonState === 'Только новое') &&
-            <PostsWrap getPosts={getPosts} isLoading={isLoading} data={data} type="NEW_POSTS"/>
+            <PostsWrap 
+                getPosts={getPosts} 
+                isLoading={isLoading} 
+                isError={isError} 
+                data={data} 
+                type="NEW_POSTS"
+            />
         }
 
         {(buttonState === 'Новости друзей') && 
-            <PostsWrap getPosts={getAllFriendsPosts} isLoading={isFriendsPostsLoading} data={friendsPostsData} type="FRIENDS_POSTS" friendsIds={friendsIds}/>
+            <PostsWrap 
+                getPosts={getAllFriendsPosts} 
+                isLoading={isFriendsPostsLoading} 
+                isError={isFriendsPostsError} 
+                data={friendsPostsData} 
+                type="FRIENDS_POSTS" 
+                friendsIds={friendsIds}
+            />
         }
 
         {(buttonState === 'Понравившееся') &&
-            <PostsWrap getPosts={getAllLikedPosts} isLoading={isLikedPostsLoading} data={likedPostsData} type="LIKED_POSTS" likesIds={likesIds}/>
+            <PostsWrap 
+                getPosts={getAllLikedPosts} 
+                isLoading={isLikedPostsLoading} 
+                isError={isLikedPostsError}
+                data={likedPostsData} 
+                type="LIKED_POSTS" 
+                likesIds={likesIds}
+            />
         }
         </div>
     );

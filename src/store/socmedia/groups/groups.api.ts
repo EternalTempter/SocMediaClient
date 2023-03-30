@@ -50,6 +50,20 @@ export const groupsApi = createApi({
                 body: body
             })
         }),
+        updateName: build.mutation<any, {}>({
+            query: (body: {}) => ({
+                url: 'updateName',
+                method: 'put',
+                body: body
+            })
+        }),
+        updateType: build.mutation<any, {}>({
+            query: (body: {}) => ({
+                url: 'updateType',
+                method: 'put',
+                body: body
+            })
+        }),
         updateImage: build.mutation<any, {}>({
             query: (body: {}) => ({
                 url: 'updateImage',
@@ -86,4 +100,6 @@ export const {
     useUpdatePanoramaImageMutation,
     useLazyGetAllUserGroupSubscriptionsQuery,
     useDeleteGroupMutation,
+    useUpdateNameMutation, 
+    useUpdateTypeMutation
 } = groupsApi;

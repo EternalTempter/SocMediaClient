@@ -1,35 +1,36 @@
 import React, { FC, useEffect, useState } from 'react';
 import styles from './GroupHolder.module.scss';
-import { IGroup, IGroupUsers, IUser } from '../../models';
+import { IUser } from '../../models';
 import BrokenHeart from '../../assets/svg/BrokenHeart';
 import { useGetGroupByIdQuery } from '../../store/socmedia/groups/groups.api';
-import { useGetAllGroupSubscribersQuery, useGetFirstGroupSubsQuery, useGetGroupSubsCountQuery, useGetGroupUserQuery, useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation } from '../../store/socmedia/groupUsers/groupUsers.api';
+import { useGetFirstGroupSubsQuery, useGetGroupSubsCountQuery, useLazySubscribeOnGroupQuery, useUnsubscribeOnGroupMutation } from '../../store/socmedia/groupUsers/groupUsers.api';
 import jwt_decode from 'jwt-decode';
 import Like from '../../assets/svg/Like';
 import { useNavigate } from 'react-router-dom';
 import { baseUrl } from "../../envVariables/variables";
 import GroupSubscriber from '../GroupSubscriber/GroupSubscriber';
-import { useRejectFriendRequestMutation } from '../../store/socmedia/friends/friends.api';
 
 interface GroupHolderProps {
     group_id: string
     user_subscriptions?: string[]
+    refetchUserSubs: () => void
+    isSubsLoading: boolean
     // refetch: (type: string, group: IGroupUsers) => void
 }
 
-const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions}) => {  
+const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions, refetchUserSubs, isSubsLoading}) => {  
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
 
     const navigate = useNavigate();
     
-    const {isError: isGroupSubsError, isLoading: isGroupSubsLoading, data: groupSubsData, refetch: refetchFirstGroupSubs} = useGetFirstGroupSubsQuery({group_id: group_id, amount: 3});
+    const {data: groupSubsData, refetch: refetchFirstGroupSubs} = useGetFirstGroupSubsQuery({group_id: group_id, amount: 3});
 
-    const {isError: isGroupUserError, isLoading: isGroupUserLoading, data: groupUserData} = useGetGroupUserQuery({group_id: group_id, user_id: user.email});
+    // const {isError: isGroupUserError, isLoading: isGroupUserLoading, data: groupUserData} = useGetGroupUserQuery({group_id: group_id, user_id: user.email});
 
-    const {isError, isLoading, data} = useGetGroupByIdQuery(group_id);
-    const {isError: isGroupSubsCountError, isLoading: isGroupSubsCountLoading, data: groupSubsCountData, refetch: refetchGroupSubs} = useGetGroupSubsCountQuery(group_id);
-    const [unsubscribe, {isError: isUnsubscribeError, isLoading: isUnsubscribeLoading, data: unsubscribeData}] = useUnsubscribeOnGroupMutation();
-    const [subscribe, {isError: isSubscribeError, isLoading: isSubscribeLoading, data: subscribeData}] = useLazySubscribeOnGroupQuery();
+    const {data} = useGetGroupByIdQuery(group_id);
+    const {data: groupSubsCountData, refetch: refetchGroupSubs} = useGetGroupSubsCountQuery(group_id);
+    const [unsubscribe, {isLoading: isUnsubscribeLoading, data: unsubscribeData}] = useUnsubscribeOnGroupMutation();
+    const [subscribe, {isLoading: isSubscribeLoading, data: subscribeData}] = useLazySubscribeOnGroupQuery();
     const [buttonValue, setButtonValue] = useState('');
 
     useEffect(() => {
@@ -41,22 +42,27 @@ const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions}) => {
 
     function groupOptionHandler(event) {
         event.stopPropagation();
-        if(buttonValue === 'Отписаться') unsubscribe({group_id: group_id, id: user.email})
-        else subscribe({group_id: group_id, id: user.email});
+        if(!isUnsubscribeLoading && !isSubscribeLoading && !isSubsLoading) {
+            if(buttonValue === 'Отписаться') {
+                unsubscribe({group_id: group_id, id: user.email})
+            } 
+            else {
+                subscribe({group_id: group_id, id: user.email});
+            } 
+            
+        }
     }
 
     useEffect(() => {
         if(subscribeData) {
-            console.log('Подписались и обновили данные');
             refetchGroupSubs()
             refetchFirstGroupSubs()
-            setButtonValue('Отписаться')
+            refetchUserSubs()
         }
         if(unsubscribeData) {
-            console.log('Отписались и обновили данные');
             refetchGroupSubs()
             refetchFirstGroupSubs()
-            setButtonValue('Подписаться')
+            refetchUserSubs()
         }
     }, [subscribeData, unsubscribeData])
 
@@ -80,7 +86,16 @@ const GroupHolder:FC<GroupHolderProps> = ({group_id, user_subscriptions}) => {
                 </div>
                 <p>{groupSubsCountData && groupSubsCountData} участников</p>
             </div>
-            <div className={styles.addButton} onClick={event => groupOptionHandler(event)}>
+            <div 
+                className={
+                    buttonValue === 'Отписаться' 
+                        ? 
+                    [styles.addButton, styles.unsubscribe].join(' ') 
+                        : 
+                    styles.addButton
+                } 
+                onClick={event => groupOptionHandler(event)}
+            >
                 <p>{buttonValue}</p>
                 <div>
                     {buttonValue === 'Отписаться' ? <BrokenHeart className={styles.addButtonBrokenHeart}/> : <Like className={styles.addButtonHeart}/>}              

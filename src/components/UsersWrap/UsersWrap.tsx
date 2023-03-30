@@ -4,18 +4,35 @@ import { IFriend, IUser } from '../../models';
 import styles from './UsersWrap.module.scss';
 import jwt_decode from 'jwt-decode';
 import UserHolder from '../UserHolder/UserHolder';
+import SearchError from '../../assets/svg/SearchError';
+import AlertHolder from '../UI/AlertHolder/AlertHolder';
+import Button from '../UI/Button/Button';
 
 interface UsersWrapProps {
     getUsers: (obj: {}) => void
     isLoading: boolean
+    isError: boolean
     data: any
     type: string
     id?: string
     newUserData?: IFriend
     friends?: string[]
+    buttonState: string
+    setButtonState: (value: string) => void
 }
 
-const UsersWrap:FC<UsersWrapProps> = ({getUsers, isLoading, data, type, id, newUserData, friends}) => {
+const UsersWrap:FC<UsersWrapProps> = ({
+        getUsers, 
+        isLoading, 
+        isError,
+        data, 
+        type, 
+        id, 
+        newUserData, 
+        friends,
+        buttonState,
+        setButtonState
+    }) => {
     const mainUser : IUser = jwt_decode(localStorage.getItem('token') || '');
     const [users, setUsers] = useState<IFriend[]>([]);
     const [usersFriends, setUsersFriends] = useState<IUser[]>([]);
@@ -77,6 +94,18 @@ const UsersWrap:FC<UsersWrapProps> = ({getUsers, isLoading, data, type, id, newU
 
     return (
         <div className={styles.wrap}>
+            {data && (data[0] === undefined) && users && (users[0] === undefined) && buttonState !== 'Рекомендации' && !isLoading && !isError &&
+                <AlertHolder 
+                    icon={<SearchError className={styles.alertIconDefault}/>}
+                    label="Вы пока не добавляли никого в друзья, можете найти друзей в рекомендациях!"
+                    button={
+                        <Button 
+                            onClick={() => setButtonState('Рекомендации')} 
+                            isActive={false}
+                        >Смотреть рекомендации</Button>
+                    }
+                />
+            }
             {type === 'FRIENDS' && users.map(user => 
                 <UserHolder key={user.id} user_id={user.profile_from !== mainUser.email ? user.profile_from : user.profile_to} isFriend={user.status === 'ACCEPTED'}></UserHolder>
             )}

@@ -43,7 +43,10 @@ const AddPostPanel:FC<AddPostPanelProps> = ({
                     className={isPostDescriptionError ? styles.error : undefined}
                 />
                 <div>
-                    <div onClick={showFileUpload}>
+                    <div 
+                        onClick={showFileUpload}
+                        className={styles.addPostClipWrap}
+                    >
                         <input 
                             type="file" 
                             className={styles.fileUploadInput} 
@@ -52,11 +55,14 @@ const AddPostPanel:FC<AddPostPanelProps> = ({
                         />
                         <Clip className={styles.addPostClip}/>
                     </div>
-                    <div onClick={() => createPost('click')}>
+                    <div 
+                        onClick={() => createPost('click')}
+                        className={styles.addPostSendWrap}
+                    >
                         <Send className={styles.addPostSend}/>
                     </div>
                     {postImagePreview && postImagePreview !== '' &&
-                        <div>
+                        <div>   
                             <img src={postImagePreview}/>
                         </div>
                     }

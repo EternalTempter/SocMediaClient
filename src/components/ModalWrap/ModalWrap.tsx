@@ -5,13 +5,12 @@ interface ModalWrapProps {
     children: React.ReactNode
     visible: boolean
     setVisible: (value: boolean) => void
-    type: string
 }
 
-const ModalWrap:FC<ModalWrapProps> = ({children, setVisible, visible, type}) => {
+const ModalWrap:FC<ModalWrapProps> = ({children, setVisible, visible}) => {
     return (
         <div className={styles.modalWrap} onClick={() => setVisible(false)}>
-            <div className={type === 'row' ? styles.modalRow : styles.modalColumn} onClick={e => e.stopPropagation()}>
+            <div className={styles.modal} onClick={e => e.stopPropagation()}>
                 {children}
             </div>
         </div>

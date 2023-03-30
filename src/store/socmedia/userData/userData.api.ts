@@ -44,6 +44,20 @@ export const userDataApi = createApi({
                 body: body
             })
         }),
+        changeUserName: build.mutation<any, {}>({
+            query: (body: {}) => ({
+                url: 'updateName',
+                method: 'put',
+                body: body
+            })
+        }),
+        changeUserSurname: build.mutation<any, {}>({
+            query: (body: {}) => ({
+                url: 'updateSurname',
+                method: 'put',
+                body: body
+            })
+        }),
         updateImage: build.mutation<any, {}>({
             query: (body: {}) => ({
                 url: 'updateImage',
@@ -69,5 +83,7 @@ export const {
     useChangeUserStatusMutation,
     useUpdateImageMutation,
     useUpdatePanoramaImageMutation,
-    useLazyGetUserDataQuery
+    useLazyGetUserDataQuery,
+    useChangeUserNameMutation,
+    useChangeUserSurnameMutation
 } = userDataApi;
