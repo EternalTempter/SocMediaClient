@@ -30,6 +30,14 @@ export const usersApi = createApi({
                 }
             })
         }),
+        getById: build.query<IUser, string>({
+            query: (id: string) => ({
+                url: 'getById',
+                params: {
+                    id: id
+                }
+            })
+        }),
         findAllUsersByName: build.query<IUser[], string>({
             query: (name: string) => ({
                 url: 'findAllByName',
@@ -44,6 +52,27 @@ export const usersApi = createApi({
                 params: params
             })
         }),
+        deleteComment: build.mutation<any, {}>({
+            query: (obj: {}) => ({
+                url: 'deleteComment',
+                method: 'delete',
+                body: obj
+            })
+        }),
+        deleteUserByEmail: build.mutation<any, {}>({
+            query: (obj: {}) => ({
+                url: 'deleteComment',
+                method: 'delete',
+                body: obj
+            })
+        }),
+        changeUserRole: build.mutation<any, {}>({
+            query: (obj: {}) => ({
+                url: 'changeUserRole',
+                method: 'put',
+                body: obj
+            })
+        }),
     })
 })
 
@@ -53,5 +82,8 @@ export const {
     useGetUserByEmailQuery, 
     useLazyGetUserByEmailQuery, 
     useFindAllUsersByNameQuery, 
-    useLazyGetAllUsersQuery
+    useLazyGetAllUsersQuery,
+    useLazyGetByIdQuery,
+    useDeleteUserByEmailMutation,
+    useChangeUserRoleMutation
 } = usersApi;

@@ -9,8 +9,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: $firstLayerColor;
-    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
     position: fixed;
     box-sizing: border-box;
     left: 0;
@@ -36,10 +34,9 @@
     display: flex;
     a {
         display: block;
-        margin-left: calc(20px + (40 - 20) * (100vw - 768px) / (1920 - 768));
+        margin-left: calc(5px + (15 - 5) * (100vw - 768px) / (1920 - 768));
         padding: calc(10px + (14 - 10) * (100vw - 768px) / (1920 - 768));
         border-radius: 5px;
-        background: $secondLayerColor;
         box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
         display: flex;
         justify-content: center;
@@ -60,5 +57,19 @@
             background: $thirdLayerColor;
             transition: 0.5s;
         }
+    }
+}
+
+.burgerMenuIcon {
+    display: none;
+    @include svgIconStyles(3.13vw, 30px, $darkIconColor);
+}
+
+@media screen and(max-width: 768px) {
+    .burgerMenuIcon {
+        display: block
+    }
+    .login a {
+        display: none;
     }
 }

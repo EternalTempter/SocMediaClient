@@ -1,0 +1,9 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+@import "../../components/EditAccount/EditAccount.module.scss";
+@import "../../components/AdminPanelManageNews/AdminPanelManageNews.module.scss";
+
+.deleteNews {
+    height: calc(200px + (290 - 200) * (100vw - 200px) / (1920 - 200));
+    margin-left: 0;
+}

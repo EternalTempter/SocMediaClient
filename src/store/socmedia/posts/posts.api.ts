@@ -176,6 +176,13 @@ export const postsApi = createApi({
                 body: obj
             })
         }),
+        deleteComment: build.mutation<any, {}>({
+            query: (obj: {}) => ({
+                url: 'deleteComment',
+                method: 'delete',
+                body: obj
+            })
+        }),
         getAllPostsCount: build.query<any, string>({
             query: () => ({
                 url: 'getAllPostsCount',
@@ -189,6 +196,18 @@ export const postsApi = createApi({
                 }
             })
         }),
+        getCommentById: build.query<any, {}>({
+            query: (params: {}) => ({
+                url: 'getCommentById',
+                params: params
+            })
+        }),
+        getPostById: build.query<any, {}>({
+            query: (params: {}) => ({
+                url: 'getPostById',
+                params: params
+            })
+        })
     })
 });
 
@@ -218,5 +237,8 @@ export const {
     useLazyGetPostCommentsAmountQuery,
     useDeletePostMutation,
     useGetAllPostsCountQuery,
-    useGetUserMostLikedCommentQuery
+    useGetUserMostLikedCommentQuery,
+    useLazyGetCommentByIdQuery,
+    useLazyGetPostByIdQuery,
+    useDeleteCommentMutation
 } = postsApi;

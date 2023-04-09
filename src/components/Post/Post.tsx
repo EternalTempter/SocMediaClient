@@ -17,11 +17,12 @@ import { useLazyGetUserDataQuery } from '../../store/socmedia/userData/userData.
 import { useLazyGetGroupByIdQuery } from '../../store/socmedia/groups/groups.api';
 import { baseUrl } from "../../envVariables/variables";
 import SendComment from '../SendComment/SendComment';
-import { getFormattedDateAndTimeForPost } from '../../helpers/helpers';
+import { getFormattedDateAndTimeForPost, notifyError } from '../../helpers/helpers';
 import TrashCan from '../../assets/svg/TrashCan';
 import Loader from '../UI/Loader/Loader';
 import { toast, ToastContainer } from 'react-toastify';
 import SkeletonLoader from '../UI/SkeletonLoader/SkeletonLoader';
+import ChooseReport from '../ChooseReport/ChooseReport';
 
 interface PostProps {
     post: IPost
@@ -63,6 +64,8 @@ const Post:FC<PostProps> = ({post, hidePost, filterPostsAfterDeletion, reportPos
 
     const [currentComment, setCurrentComment] = useState('');
     const [commentClasses, setCommentClasses] = useState([styles.allPostComments, styles.off]);
+
+    const [isReportVisible, setIsReportVisible] = useState(false);
 
     const lastElement = useRef<HTMLDivElement | null>(null);
     const observer = useRef<IntersectionObserver>();
@@ -111,45 +114,33 @@ const Post:FC<PostProps> = ({post, hidePost, filterPostsAfterDeletion, reportPos
         deletePost({id: id});
     }
 
-    function notify(errorMessage: string) {
-        toast.error(errorMessage, {
-            position: "top-right",
-            autoClose: 3500,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-    }
-
     useEffect(() => {
         if(isDeletePostError && isDeletePostError === true) {
-            notify('Произошла ошибка при удалении поста');
+            notifyError('Произошла ошибка при удалении поста');
         }
     }, [isDeletePostError])
 
     useEffect(() => {
         if(isLikeError && isLikeError === true) {
-            notify('Произошла ошибка при добавлении лайка на пост');
+            notifyError('Произошла ошибка при добавлении лайка на пост');
         }
     }, [isLikeError])
 
     useEffect(() => {
         if(isRemoveLikeError && isRemoveLikeError === true) {
-            notify('Произошла ошибка при удалении лайка с поста');
+            notifyError('Произошла ошибка при удалении лайка с поста');
         }
     }, [isRemoveLikeError])
 
     useEffect(() => {
         if(isCommentsError && isCommentsError === true) {
-            notify('Произошла ошибка при загрузке комментариев к посту');
+            notifyError('Произошла ошибка при загрузке комментариев к посту');
         }
     }, [isCommentsError])
 
     useEffect(() => {
         if(isCommentError && isCommentError === true) {
-            notify('Произошла ошибка при отправке комментария');
+            notifyError('Произошла ошибка при отправке комментария');
         }
     }, [isCommentError])
 
@@ -208,6 +199,13 @@ const Post:FC<PostProps> = ({post, hidePost, filterPostsAfterDeletion, reportPos
             pauseOnHover
             className={styles.toast}
         />
+        {isReportVisible &&
+            <ChooseReport 
+                setVisible={setIsReportVisible}
+                reported_id={post.id}
+                reported_type='POST'
+            />
+        }
         <div className={styles.postWrap} ref={lastElement}>
             {isDeletePostLoading &&
                 <div className={styles.postDeleteLoading}>
@@ -263,7 +261,8 @@ const Post:FC<PostProps> = ({post, hidePost, filterPostsAfterDeletion, reportPos
                         }
                         <div 
                             className={[styles.postButton, styles.postButtonReport].join(' ')}
-                            onClick={() => reportPost(post.id)}
+                            // onClick={() => reportPost(post.id)}
+                            onClick={() => setIsReportVisible(true)}
                         >
                             <Report className={styles.postReport}/>
                         </div>
@@ -328,7 +327,10 @@ const Post:FC<PostProps> = ({post, hidePost, filterPostsAfterDeletion, reportPos
                     </div>
                     <div className={styles.postMostLikedComment}>
                         {bestCommentData && 
-                            <CommentHolder comment={bestCommentData} type='BEST_COMMENT'/>
+                            <CommentHolder 
+                                comment={bestCommentData} 
+                                type='BEST_COMMENT'
+                            />
                         }
                         {isBestCommentLoading && 
                             <SkeletonLoader borderRadius={5}/>
@@ -344,7 +346,11 @@ const Post:FC<PostProps> = ({post, hidePost, filterPostsAfterDeletion, reportPos
                         <Loader type="mini"/>
                     }
                     {commentsData && commentsData.map(comment => 
-                        <CommentHolder key={comment.id} comment={comment} type='REGULAR_COMMENT'/>
+                        <CommentHolder 
+                            key={comment.id} 
+                            comment={comment} 
+                            type='REGULAR_COMMENT'
+                        />
                     )}
                     <SendComment 
                         currentComment={currentComment} 

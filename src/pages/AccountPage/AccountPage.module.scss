@@ -312,6 +312,7 @@
 
 .hiddenOptions {
     display: none;
+    padding: 3px;
     a {
         display: block;
         background: $firstLayerColor;
@@ -323,6 +324,15 @@
         @include fontStyles($textColor);
         font-size: calc(10px + (16 - 10) * (100vw - 200px) / (1920 - 200));
         text-decoration: none;
+        transition: 0.5s;
+        margin-top: 3px;
+        &:first-child {
+            margin-top: 0;  
+        }
+        &:hover {
+            background: $secondLayerColor;
+            transition: 0.5s;
+        }
     }
 }
 

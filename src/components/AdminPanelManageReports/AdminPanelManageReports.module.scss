@@ -1,0 +1,45 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.label {
+    @include fontStyles($textColor);
+    font-size: calc(18px + (24 - 18) * ( (100vw - 768px) / ( 1920 - 768) ));
+    margin: 0;
+    padding: 0;
+}
+
+.reportsWrap {
+    display: flex;
+    margin-top: calc(10px + (30 - 10) * ( (100vw - 768px) / ( 1920 - 768) ));
+}
+
+.recentReports {
+    width: 22.4vw;
+    min-width: 330px;
+    padding: calc(10px + (20 - 10) * ( (100vw - 768px) / ( 1920 - 768) ));
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    @include scrollStyles(0.02em);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background: $secondLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
+    border-radius: 5px;
+}
+
+.recentReports.skeleton {
+    padding: 0;
+}
+
+.recentRep {
+    box-sizing: border-box;
+}
+
+.recentReportsLabel {
+    @include fontStyles($textColor);
+    font-size: calc(14px + (20 - 14) * ( (100vw - 768px) / ( 1920 - 768) ));
+    margin: 0;
+    padding: 0;
+    align-self: flex-start; 
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/svg/Logo';
 import styles from './Header.module.scss';
+import BurgerMenu from '../../assets/svg/BurgerMenu';
 
 const Header = () => {
     return (
@@ -23,6 +24,7 @@ const Header = () => {
                 >
                     Зарегистрироваться
                 </Link>
+                <BurgerMenu className={styles.burgerMenuIcon}/>
             </div>
         </div>
     );

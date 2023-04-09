@@ -1,0 +1,39 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.recentReport {
+    position: relative;
+    padding: calc(6px + (10 - 6) * ( (100vw - 768px) / ( 1920 - 768) ));
+    margin-top: calc(8px + (15 - 8) * ( (100vw - 768px) / ( 1920 - 768) ));
+    background: $thirdLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
+    border-radius: 5px;
+    transition: 0.5s;
+    width: 100%;
+    cursor: pointer;
+    box-sizing: border-box;
+    p {
+        &:first-child {
+            @include fontStyles($textColor);
+            font-size: calc(12px + (16 - 12) * ( (100vw - 768px) / ( 1920 - 768) ));
+            margin: 0 0 calc(10px + (20 - 10) * ( (100vw - 768px) / ( 1920 - 768) )) 0;
+        }
+        &:nth-child(2) {
+            position: absolute;
+            margin: 0;
+            padding: 0;
+            bottom: 5px;
+            right: 5px;
+            @include fontStyles($textColor);
+            font-size: calc(8px + (14 - 8) * ( (100vw - 768px) / ( 1920 - 768) ));
+        }
+    }
+    &:hover {
+        background: #505050;
+        transition: 0.5s;
+    }
+}
+
+.recentReport.active {
+    background: #505050;
+}

@@ -1,0 +1,138 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.currentReportWrap {
+    padding: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200));
+    margin-left: calc(20px + (40 - 20) * ( (100vw - 768px) / ( 1920 - 768) ));
+    background: $secondLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.recentReportsLabel {
+    @include fontStyles($textColor);
+    font-size: calc(14px + (20 - 14) * ( (100vw - 768px) / ( 1920 - 768) ));
+    margin: 0;
+    padding: 0;
+    align-self: flex-start; 
+}
+
+.currentReport{
+    margin-top: calc(15px + (25 - 15) * ( (100vw - 768px) / ( 1920 - 768) ));
+    width: 43.23vw;
+    min-width: 450px;
+    height: 27.08vw;
+    min-height: 300px;
+    background: $thirdLayerColor;
+    box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
+    border-radius: 5px;
+}
+
+.chosenReportWrap {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: center;
+}
+
+.chosenReport {
+    p {
+        @include fontStyles($textColor);
+        font-size: calc(12px + (18 - 12) * ( (100vw - 768px) / ( 1920 - 768) ));
+        margin-top: 0;
+    }
+    img {
+        width: 80%;
+        height: 60%;
+    }
+}
+
+.chosenAccountReport {
+    p {
+        @include fontStyles($textColor);
+        font-size: calc(12px + (18 - 12) * ( (100vw - 768px) / ( 1920 - 768) ));
+        margin-top: 0;
+    }
+}
+
+.chosenAccountReportImages {
+    display: flex;
+}
+
+.chosenAccountReportImage {
+    width: 25%;
+    height: 25%;
+    border-radius: 50%;
+    @include roundedImageStyles();
+}
+
+.chosenAccountReportPanoramaImage {
+    width: 60%;
+    height: 25%;
+    @include imageStyles();
+    margin-left: 15px;
+}
+
+.chosenCommentReport {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    object-fit: cover;
+    div {
+        margin-top: 0;
+        margin-left: 0;
+        div {
+            &:nth-child(3) {
+                margin-left: auto;
+            }
+        }
+    }
+}
+
+.reportOptions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: calc(5px + (20 - 5) * ( (100vw - 768px) / ( 1920 - 768) ));
+    margin-top: calc(20px + (43 - 20) * ( (100vw - 768px) / ( 1920 - 768) ));
+    button {
+        border: none;
+        width: 12.5vw;
+        min-width: 160px;
+        background: $thirdLayerColor;
+        box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
+        border-radius: 5px;
+        @include fontStyles($textColor);
+        font-size: calc(12px + (18 - 12) * ( (100vw - 768px) / ( 1920 - 768) ));
+        margin-right: calc(10px + (20 - 10) * ( (100vw - 768px) / ( 1920 - 768) ));
+        transition: 0.5s;
+        padding: calc(7px + (13 - 7) * ( (100vw - 768px) / ( 1920 - 768) ));
+        &:hover {
+            transition: 0.5s;
+            background: #505050;
+        }
+    }
+    select {
+        border: none;
+        width: 16.15vw;
+        min-width: 220px;
+        background: $thirdLayerColor;
+        box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
+        border-radius: 5px;
+        @include fontStyles($textColor);
+        font-size: calc(12px + (18 - 12) * ( (100vw - 768px) / ( 1920 - 768) ));
+        transition: 0.5s;
+        padding: calc(7px + (13 - 7) * ( (100vw - 768px) / ( 1920 - 768) ));
+        &:hover {
+            transition: 0.5s;
+            background: #505050;
+        }
+    }
+}

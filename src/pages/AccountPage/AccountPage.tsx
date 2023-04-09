@@ -34,6 +34,7 @@ import SkeletonLoader from '../../components/UI/SkeletonLoader/SkeletonLoader';
 import AlertHolder from '../../components/UI/AlertHolder/AlertHolder';
 import Loader from '../../components/UI/Loader/Loader';
 import SearchError from '../../assets/svg/SearchError';
+import ChooseReport from '../../components/ChooseReport/ChooseReport';
 
 const AccountPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -87,6 +88,8 @@ const AccountPage = () => {
     const {data: notificationsData} = useGetAllNotificationsQuery(user.email);
 
     const {data: friendsData} = useGetAllFriendsQuery({id: user.email, limit: 400, page: 1});
+
+    const [isReportVisible, setIsReportVisible] = useState(false);
 
     function checkIsNotFriend(user) {
         if(friendsData)
@@ -226,6 +229,11 @@ const AccountPage = () => {
         setPosts(posts.filter(post => post.id !== postId))
     }
 
+    function showChooseReportHandler(event) {
+        event.stopPropagation();
+        setIsReportVisible(true);
+    }
+
     useEffect(() => {
         if(isUserPostError) notifyError('Произошла ошибка при создании поста');
     }, [isUserPostError])
@@ -304,6 +312,13 @@ const AccountPage = () => {
                     />
                 </ModalWrap>
             }
+            {isReportVisible && data &&
+                <ChooseReport 
+                    setVisible={setIsReportVisible}
+                    reported_id={Number(data.id)}
+                    reported_type='ACCOUNT'
+                />
+            }
             {
                 visibleUserOptionsModal &&
                     <ModalWrap 
@@ -363,6 +378,9 @@ const AccountPage = () => {
                     onMouseOver={() => setIsShowHiddenOptions(true)}
                     onMouseOut={() => setIsShowHiddenOptions(false)}
                 >
+                    {(id !== user.email) &&
+                        <a onClick={event => showChooseReportHandler(event)}>Пожаловаться</a>
+                    }
                     {!checkIsNotFriend(id) && (id !== user.email) &&
                         <a onClick={event => handleOpenConfirmationModal(event)}>Удалить из друзей</a>
                     }
