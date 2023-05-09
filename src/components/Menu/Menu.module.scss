@@ -55,7 +55,7 @@
     display: block;
 }
 
-.group, .about, .home {
+.group, .about, .home, .exit {
     @include svgIconStyles(1.3vw, 25px, $darkIconColor);
 }
 

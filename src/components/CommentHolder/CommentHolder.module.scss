@@ -6,7 +6,6 @@
     display: flex;
     align-items: center;
     position: relative;
-    margin-top: calc(7px + (20 - 7) * (100vw - 200px) / (1920 - 200));
 }
 
 .commentWrap:hover .reportIcon, .bestCommentWrap:hover .reportIcon{
@@ -19,7 +18,6 @@
     display: flex;
     align-items: center;
     position: relative;
-    padding: 0 3px;
 }
 
 .imageHolder {
@@ -29,7 +27,6 @@
     min-height: 30px;
     border-radius: 50%;
     background: gray;
-    margin-right: calc(4px + (7 - 4) * (100vw - 200px) / (1920 - 200));
     @include roundedImageStyles();
 }
 
@@ -40,22 +37,15 @@
 
 .commenterName {
     @include fontStyles($textColor);
-    font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
-    margin: 2px 0 0 0;
 }
 
 .comment {
     @include fontStyles($textColor);
-    font-size: calc(8px + (12 - 8) * (100vw - 200px) / (1920 - 200));
-    margin: 4px 0 4px 0;
 }
 
 .commentDate {
     @include fontStyles($textColor);
     position: absolute;
-    right: 5px;
-    top: 5px;
-    font-size: calc(8px + (12 - 8) * (100vw - 200px) / (1920 - 200));
     margin: 0;
     display: flex;
     align-items: center;
@@ -68,11 +58,7 @@
     margin-left: auto;
     p {
         @include fontStyles($textColor);
-        font-size: calc(8px + (10 - 8) * (100vw - 200px) / (1920 - 200));
         margin: 0;
-    }
-    div {
-        margin-right: 3px;
     }
 }
 
@@ -98,7 +84,6 @@
 }
 
 .reportIcon {
-    margin-right: 5px;
     @include svgIconStyles(0.9375vw, 14px, $darkIconColor);
     fill: none;
     cursor: pointer;
@@ -108,6 +93,92 @@
 .reportIcon:hover {
     fill: white;
     transition: 0.5s;
+}
+
+@media screen and (max-width: 7680px){
+    .commentWrap {
+        margin-top: 1.04vw;
+    }
+    
+    .bestCommentWrap {
+        padding: 0 0.16vw;
+    }
+    
+    .imageHolder {
+        margin-right: 0.36vw;
+    }
+    
+    .commenterName {
+        font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+        margin: 0.1vw 0 0 0;
+    }
+    
+    .comment {
+        font-size: calc(12px + (62 - 12) * ( (100vw - 1920px) / (7680 - 1920) ));
+        margin: 0.21vw 0 0.21vw 0;
+    }
+    
+    .commentDate {
+        right: 0.26vw;
+        top: 0.26vw;
+        font-size: calc(12px + (62 - 12) * ( (100vw - 1920px) / (7680 - 1920) ));
+    }
+    
+    .likesAmount {
+        p {
+            font-size: calc(10px + (60 - 10) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+        div {
+            margin-right: 0.16vw;
+        }
+    }
+    
+    .reportIcon {
+        margin-right: 0.26vw;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .commentWrap {
+        margin-top: calc(7px + (20 - 7) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .bestCommentWrap {
+        padding: 0 3px;
+    }
+    
+    .imageHolder {
+        margin-right: calc(4px + (7 - 4) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .commenterName {
+        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        margin: 2px 0 0 0;
+    }
+    
+    .comment {
+        font-size: calc(8px + (12 - 8) * (100vw - 200px) / (1920 - 200));
+        margin: 4px 0 4px 0;
+    }
+    
+    .commentDate {
+        right: calc(1px + (5 - 1) * (100vw - 200px) / (1920 - 200));
+        top: calc(1px + (5 - 1) * (100vw - 200px) / (1920 - 200));
+        font-size: calc(8px + (12 - 8) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .likesAmount {
+        p {
+            font-size: calc(8px + (10 - 8) * (100vw - 200px) / (1920 - 200));
+        }
+        div {
+            margin-right: 3px;
+        }
+    }
+    
+    .reportIcon {
+        margin-right: 5px;
+    }
 }
 
 @media screen and(max-width: 768px) {

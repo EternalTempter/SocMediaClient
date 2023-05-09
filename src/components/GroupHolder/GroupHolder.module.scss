@@ -5,10 +5,8 @@
     width: 55.7292vw;
     background: $firstLayerColor;
     box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
-    border-radius: 3px;
     display: flex;
     box-sizing: border-box;
-    margin-top: calc(5px + (15 - 5) * (100vw - 200px) / (1920 - 200));
     padding: 0.7813vw 0;
     position: relative;
     align-items: center;
@@ -18,17 +16,14 @@
         background: #222222;
         transition: .5s;
     }
-    &:last-child {
-        margin-bottom: calc(5px + (30 - 5) * (100vw - 200px) / (1920 - 200));
-    }
 }
 
 .groupPhoto {
     width: 6.25vw;
     height: 6.25vw;
-    min-width: 45px;
-    min-height: 45px;
-    background: black;
+    min-width: 55px;
+    min-height: 55px;
+    background: $thirdLayerColor;
     border-radius: 50%;
     margin-left: 1.3021vw;
     @include roundedImageStyles();
@@ -45,33 +40,30 @@
 
 .groupName {
     @include fontStyles($textColor);
-    font-size: calc(12px + (18 - 12) * (100vw - 200px) / (1920 - 200));   
-    margin: 0 0 0 calc(6px + (13 - 6) * (100vw - 200px) / (1920 - 200));
+    margin: 0 0 0 1.25vw;
 }
 
 .groupDescription {
-    @include fontStyles($textColor);
-    font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));   
-    margin: 0 0 0 1.25vw;
+    @include fontStyles($textColor); 
+    margin: 0.52vw 0 0 1.25vw;
 
 }
 .groupType {
     background: $secondLayerColor;
     box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
-    border-radius: 5px;
     width: 15vw;
-    min-width: 80px;
-    padding: calc(4px + (7 - 4) * (100vw - 200px) / (1920 - 200)) 0;
-    font-size: calc(8px + (10 - 8) * (100vw - 200px) / (1920 - 200));   
+    min-width: 80px; 
     color: $textColor;
     display: none;
     align-items: center;
     justify-content: center;
-    margin: 5px 0 0 13px;
+}
+
+.groupType.skeleton {
+    padding: 0;
 }
 
 .groupUsersHolder {
-    margin-top: 25px;
     align-self: flex-end;
     margin-left: auto;
     margin-bottom: 0.3646vw;
@@ -84,7 +76,6 @@
         margin: 0;
         padding: 0;
         @include fontStyles($textColor);
-        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
     }
 }
 
@@ -105,32 +96,23 @@
     }
     p {
         @include fontStyles($textColor);
-        font-size: 12px;
     }
 }
 
 .addButton {
     width: 10.4167vw;
-    min-width: 80px;
+    min-width: 95px;
     background: $secondLayerColor;
     box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
-    border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    right: calc(4px + (10 - 4) * (100vw - 200px) / (1920 - 200));
-    top: calc(4px + (10 - 4) * (100vw - 200px) / (1920 - 200));
-    padding: calc(1px + (6 - 1) * (100vw - 200px) / (1920 - 200)) 
-             calc(4px + (10 - 4) * (100vw - 200px) / (1920 - 200))
-             calc(1px + (6 - 1) * (100vw - 200px) / (1920 - 200)) 
-             calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
     transition: .5s;
     p {
         @include fontStyles($textColor);
         margin: 0;
         padding: 0;
-        font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));
     }
     div {
         display: flex;
@@ -140,6 +122,14 @@
     &:hover {
         background: $thirdLayerColor;
         transition: .5s;
+    }
+}
+
+.addButton.skeleton {
+    padding: 0;
+    div {
+        width: 100%;
+        height: 100%;
     }
 }
 
@@ -153,9 +143,181 @@
     }
 }
 
+.skeletonGroupName {
+    display: block;
+}
+
+.skeletonGroupDescription {
+    display: block;
+}
 
 .addButtonBrokenHeart, .addButtonHeart {
     @include svgIconStyles(1.3021vw, 13px, $darkIconColor);
+}
+
+.groupUsersHolder.skeleton {
+    display: block;
+}
+
+@media screen and (max-width: 7680px){
+    .groupHolder {
+        border-radius: 0.16vw;
+        margin-top: 0.78vw;
+        &:last-child {
+            margin-bottom: 1.56vw;
+        }
+    }
+    
+    .groupName {
+        font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));   
+    }
+    
+    .groupDescription {
+        font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));       
+    }
+    .groupType {
+        border-radius: 0.26vw;
+        padding: 0.36vw 0;
+        font-size: calc(10px + (60 - 10) * ( (100vw - 1920px) / (7680 - 1920) ));   
+        margin: 0.26vw 0 0 0.68vw;
+    }
+    
+    .groupType.skeleton {
+        width: 5.73vw;
+        margin-top: 0.63vw;
+        height: 1.2vw;
+    }
+    
+    .groupUsersHolder {
+        margin-top: 1.3vw;
+        p {
+            font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+    
+    .groupUsers {   
+        p {
+            font-size: calc(12px + (62 - 12) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+    
+    .addButton {
+        border-radius: 0.26vw;
+        right: 0.52vw;
+        top: 0.52vw;
+        padding: 0.31vw 0.52vw 0.31vw 0.63vw;
+        p {
+            font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+    
+    .addButton.skeleton {
+        width: 10.42vw;
+        height: 1.82vw;
+    }
+    
+    .skeletonGroupName {
+        margin-left: 0.52vw;
+        width: 11.46vw;
+        margin-top: 0.63vw;
+        height: 1.56vw;
+    }
+    
+    .skeletonGroupDescription {
+        margin-left: 0.52vw;
+        width: 23.44vw;
+        margin-top: 0.63vw;
+        height: 2.08vw;
+    }
+    
+    .groupUsersHolder.skeleton {
+        width: 9.38vw;
+        margin-top: 0.63vw;
+        height: 2.6vw;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .groupHolder {
+        border-radius: 3px;
+        margin-top: calc(5px + (15 - 5) * (100vw - 200px) / (1920 - 200));
+        &:last-child {
+            margin-bottom: calc(5px + (30 - 5) * (100vw - 200px) / (1920 - 200));
+        }
+    }
+    
+    .groupName {
+        font-size: calc(12px + (18 - 12) * (100vw - 200px) / (1920 - 200));   
+        margin: 5px 0 0 1.04vw;
+    }
+    
+    .groupDescription {
+        font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200)); 
+        margin: 5px 0 0 1.04vw;    
+    }
+    .groupType {
+        border-radius: 5px;
+        padding: calc(4px + (7 - 4) * (100vw - 200px) / (1920 - 200)) 0;
+        font-size: calc(8px + (10 - 8) * (100vw - 200px) / (1920 - 200));   
+        margin: 5px 0 0 1.04vw;
+    }
+    
+    .groupType.skeleton {
+        width: calc(90px + (140 - 90) * (100vw - 300px) / (768 - 300));
+        margin-top: calc(6px + (12 - 6) * (100vw - 300px) / (1920 - 300));
+        height: calc(20px + (30 - 20) * (100vw - 300px) / (768 - 300));
+    }
+    
+    .groupUsersHolder {
+        margin-top: 25px;
+        p {
+            font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        }
+    }
+    
+    .groupUsers {   
+        p {
+            font-size: 12px;
+        }
+    }
+    
+    .addButton {
+        border-radius: 5px;
+        right: calc(4px + (10 - 4) * (100vw - 200px) / (1920 - 200));
+        top: calc(4px + (10 - 4) * (100vw - 200px) / (1920 - 200));
+        padding: calc(4px + (6 - 4) * (100vw - 200px) / (1920 - 200)) 
+                 calc(4px + (10 - 4) * (100vw - 200px) / (1920 - 200))
+                 calc(4px + (6 - 4) * (100vw - 200px) / (1920 - 200)) 
+                 calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
+        p {
+            font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));
+        }
+    }
+    
+    .addButton.skeleton {
+        width: calc(110px + (200 - 110) * (100vw - 300px) / (1920 - 300));
+        height: calc(20px + (35 - 20) * (100vw - 300px) / (1920 - 300));
+    }
+    
+    .skeletonGroupName {
+        margin-left: 10px;
+        width: calc(120px + (220 - 120) * (100vw - 300px) / (1920 - 300));
+        margin-top: calc(6px + (12 - 6) * (100vw - 300px) / (1920 - 300));
+        height: calc(15px + (30 - 15) * (100vw - 300px) / (1920 - 300));
+    }
+    
+    .skeletonGroupDescription {
+        margin-left: 10px;
+        width: calc(60px + (450 - 60) * (100vw - 300px) / (1920 - 300));
+        margin-top: calc(6px + (12 - 6) * (100vw - 300px) / (1920 - 300));
+        height: calc(20px + (40 - 20) * (100vw - 300px) / (1920 - 300));
+    }
+    
+    .groupUsersHolder.skeleton {
+        width: calc(80px + (180 - 80) * (100vw - 300px) / (1920 - 300));
+        margin-top: calc(6px + (12 - 6) * (100vw - 300px) / (1920 - 300));
+        height: calc(20px + (50 - 20) * (100vw - 300px) / (1920 - 300));
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -164,8 +326,12 @@
     }
     .groupType {
         display: flex;
+        margin: 5px 0 0 10px;
     }
-    .groupDescription {
+    .groupName {  
+        margin: 5px 0 0 10px;
+    }
+    .groupDescription, .skeletonGroupDescription {
         display: none;
     }
     .groupUsers div {   

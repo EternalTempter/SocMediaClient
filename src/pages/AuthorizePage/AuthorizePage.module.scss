@@ -1,48 +1,22 @@
 @import "../../styles/Mixins.scss";
 @import "../../styles/Variables.scss";
   
-.userDontHaveAccount {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.label {
-    margin-top: calc(20px + (80 - 20) * (100vw - 320px) / (1920 - 320));
-    margin-bottom: calc(25px + (60 - 25) * (100vw - 320px) / (1920 - 320));
-}
-
-.authorizeButton {
-    margin-top: calc(25px + (60 - 25) * (100vw - 320px) / (1920 - 320));
-    margin-bottom: calc(15px + (30 - 15) * (100vw - 320px) / (1920 - 320));
-}
-  
 .userDontHaveAccount{
-    margin-bottom: calc(35px + (80 - 35) * (100vw - 320px) / (1920 - 320));
     a {
         margin-left: 0.5vw;
     }
     a, span {
-        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
         @include fontStyles($textColor);
     }
 }
 
 .error {
     @include fontStyles(red);
-    font-size: calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
-    margin: 0 0 3px 3px;
 }
 
 .inputBox {
-    margin-top: calc(10px + (15 - 10) * (100vw - 200px) / (1920 - 200));
     display: flex;
     flex-direction: column;
-}
-
-.inputBox.errored {
-    margin-top: 4px;
 }
 
 .userDontHaveAccount a:hover {
@@ -51,8 +25,79 @@
 }
 
 .info {
-    font-size: calc(8px + (16 - 8) * ( (100vw - 200px) / ( 1920 - 200) ));
     @include fontStyles($textColor);
+}
+
+@media screen and (max-width: 7680px){
+    .label {
+        margin-top: 4.17vw;
+        margin-bottom: 3.13vw;
+    }
+    
+    .authorizeButton {
+        margin-top: 3.13vw;
+        margin-bottom: 1.56vw;
+    }
+      
+    .userDontHaveAccount{
+        margin-bottom: 4.17vw;
+        a, span {
+            font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+    
+    .error {
+        font-size: calc(12px + (62 - 12) * ( (100vw - 1920px) / (7680 - 1920) ));
+        margin: 0 0 0.16vw 0.16vw;
+    }
+    
+    .inputBox {
+        margin-top: 0.78vw;
+    }
+    
+    .inputBox.errored {
+        margin-top: 0.21vw;
+    }
+    
+    .info {
+        font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .label {
+        margin-top: calc(20px + (80 - 20) * (100vw - 320px) / (1920 - 320));
+        margin-bottom: calc(25px + (60 - 25) * (100vw - 320px) / (1920 - 320));
+    }
+    
+    .authorizeButton {
+        margin-top: calc(25px + (60 - 25) * (100vw - 320px) / (1920 - 320));
+        margin-bottom: calc(15px + (30 - 15) * (100vw - 320px) / (1920 - 320));
+    }
+      
+    .userDontHaveAccount{
+        margin-bottom: calc(35px + (80 - 35) * (100vw - 320px) / (1920 - 320));
+        a, span {
+            font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        }
+    }
+    
+    .error {
+        font-size: calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
+        margin: 0 0 3px 3px;
+    }
+    
+    .inputBox {
+        margin-top: calc(10px + (15 - 10) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .inputBox.errored {
+        margin-top: 4px;
+    }
+    
+    .info {
+        font-size: calc(8px + (16 - 8) * ( (100vw - 200px) / ( 1920 - 200) ));
+    }
 }
 
 @media screen and (max-width: 1023px) {

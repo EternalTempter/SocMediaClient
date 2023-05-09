@@ -6,6 +6,7 @@ import { useGetUserFriendsCountQuery, useGetUserSubscribersCountQuery } from '..
 import { useGetUserPostsCountQuery } from '../../store/socmedia/posts/posts.api';
 import { useGetUserGroupSubsCountQuery } from '../../store/socmedia/groupUsers/groupUsers.api';
 import SkeletonLoader from '../UI/SkeletonLoader/SkeletonLoader';
+import { declOfNum } from '../../helpers/helpers';
 
 interface UserStatsProps {
     id: string
@@ -22,19 +23,19 @@ const UserStats:FC<UserStatsProps> = ({id}) => {
                 <div className={styles.userStats}>
                     <div>
                         <p className={styles.userStatsCount}>{friendsData && friendsData}</p>
-                        <p className={styles.userStatsType}>друзей</p>
+                        <p className={styles.userStatsType}>{declOfNum(friendsData && friendsData, ['друг', 'друга', 'друзей'])}</p>
                     </div>
                     <div>
                         <p className={styles.userStatsCount}>{groupSubsData && groupSubsData}</p>
-                        <p className={styles.userStatsType}>группы</p>
+                        <p className={styles.userStatsType}>{declOfNum(groupSubsData && groupSubsData, ['группа', 'группы', 'групп'])}</p>
                     </div>
                     <div>
                         <p className={styles.userStatsCount}>{subsData && subsData}</p>
-                        <p className={styles.userStatsType}>подписчиков</p>
+                        <p className={styles.userStatsType}>{declOfNum(subsData && subsData, ['подписчик', 'подписчика', 'подписчиков'])}</p>
                     </div>
                     <div>
                         <p className={styles.userStatsCount}>{data && data}</p>
-                        <p className={styles.userStatsType}>записи</p>
+                        <p className={styles.userStatsType}>{declOfNum(data && data, ['запись', 'записи', 'записей'])}</p>
                     </div>
                 </div>
             }

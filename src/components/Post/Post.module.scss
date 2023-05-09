@@ -3,12 +3,10 @@
 
 .postWrap {
     width: 55.7292vw;
-   position: relative;
-    margin-top: calc(5px + (15 - 5) * (100vw - 200px) / (1920 - 200));
+    position: relative;
     display: flex;
     flex-direction: column;
     background: $firstLayerColor;
-    border-radius: 3px;
 }
 
 .postHeader {
@@ -47,16 +45,11 @@
 
 .postGroupName {
     @include fontStyles($textColor);
-    font-size: calc(12px + (18 - 12) * (100vw - 200px) / (1920 - 200));
-    line-height: 17px;
     cursor: pointer;
 }
 
 .postPublicationDate {
     @include fontStyles($textColor);
-    font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
-    line-height: 17px;
-    margin-top: 3px;
 }
 
 .postButtons {
@@ -81,7 +74,6 @@
     display: flex;
     width: 81.308%;
     background-clip: border-box;
-    margin-top: calc(8px + (20 - 8) * (100vw - 200px) / (1920 - 200));
     align-self: center;
     flex-direction: column;
     img {
@@ -91,15 +83,11 @@
     }
     p {
         @include fontStyles($textColor);
-        font-size: calc(10px + (16 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
-        margin: 0 0 0 5px;
     }
 }
 
 .postFooter {
     width: 81.308%;
-    margin-top: calc(10px + (20 - 10) * (100vw - 200px) / (1920 - 200));
-    margin-bottom: calc(10px + (20 - 10) * (100vw - 200px) / (1920 - 200));
     display: flex;
     align-self: center;
     justify-content: space-between;
@@ -114,17 +102,14 @@
     align-items: center;
     justify-content: space-evenly;
     background: $secondLayerColor;
-    border-radius: 5px;
 }
 
 .postViews {
     width: 5.2083vw;
     min-width: 70px;
-    padding: calc(5px - (10 - 5) * (100vw - 200px) / (1920 - 200));
     box-sizing: border-box;
     background: $secondLayerColor;
     box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
-    border-radius: 5px;
 }
 
 .postMostLikedComment {
@@ -133,7 +118,6 @@
     width: 28.125vw;
     background: $secondLayerColor;
     box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
-    border-radius: 5px;
 }
 
 .postLikes, .postComments, .postShares, .postViews {
@@ -145,11 +129,8 @@
     }
     p {
         @include fontStyles($textColor);
-        font-size: calc(10px + (12 - 10) * (100vw - 200px) / (1920 - 200));
-        line-height: 12px;
         margin: 0;
         padding: 0;
-        margin-left: 5px;
     }
 }
 
@@ -192,7 +173,6 @@
 
 .commentLine {
     width: 81.308%;
-    height: calc(1px + (2 - 1) * (100vw - 200px) / (1920 - 200));
     background: #434343;
 }
 
@@ -208,16 +188,10 @@
 
 .hiddenPostOptions {
     position: absolute;
-    top: calc(20px + (30 - 20) * (100vw - 200px) / (768 - 200));
-    right: calc(-5px + (-70 - -90) * (100vw - 200px) / (768 - 200));
     a {
-        background: rgba(196, 215, 235, 0.75);
+        background: $secondLayerColor;
         display: block;
-        padding: 5px 10px;
-        border-radius: 5px;
         @include fontStyles($textColor);
-        font-size: calc(10px + (16 - 10) * (100vw - 200px) / (1920 - 200));
-        width: 80px;
     }
 }
 
@@ -241,23 +215,17 @@
     flex-direction: column;
     p {
         @include fontStyles($textColor);
-        font-size: calc(10px + (16 - 10) * (100vw - 300px) / (1440 - 300));
     }
     a {
         @include fontStyles($textColor);
-        font-size: calc(12px + (18 - 12) * (100vw - 300px) / (1440 - 300));
         text-decoration: underline;
         display: block;
-        margin-top: 10px;
     }
 }
 
 .postInfoLoader {
     margin-left: 1.0417vw;
     margin-top: 1.0417vw;
-    width: calc(140px + (210 - 140) * (100vw - 300px) / (1440 - 300));
-    height: calc(20px + (40 - 20) * (100vw - 300px) / (1440 - 300));
-    border-radius: 5px;
 }
 
 .emptyBestComment {
@@ -268,7 +236,173 @@
     align-items: center;
     @include fontStyles($textColor);
     text-align: center;
-    font-size: calc(8px + (16 - 8) * (100vw - 1024px) / (1920 - 1024));
+}
+
+@media screen and (max-width: 7680px){
+    .postWrap {
+        margin-top: 0.78vw;
+        border-radius: 0.16vw;
+    }
+    
+    .postGroupName {
+        font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+        line-height: 0.89vw;
+    }
+    
+    .postPublicationDate {
+        font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+        line-height: 0.89vw;
+        margin-top: 0.16vw;
+    }
+
+    .postBody {
+        margin-top: 1.04vw;
+        p {
+            font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+            margin: 0 0 0.42vw 0.26vw;
+        }
+    }
+    
+    .postFooter {
+        margin-top: 1.04vw;
+        margin-bottom: 1.04vw;
+    }
+    
+    .postFooterActions {
+        border-radius: 0.26vw;
+    }
+    
+    .postViews {
+        padding: 0.52vw;
+        border-radius: 0.26vw;
+    }
+    
+    .postMostLikedComment {
+        border-radius: 0.26vw;
+    }
+    
+    .postLikes, .postComments, .postShares, .postViews {
+        p {
+            font-size: calc(12px + (62 - 12) * ( (100vw - 1920px) / (7680 - 1920) ));
+            line-height: 0.63vw;
+            margin-left: 0.26vw;
+        }
+    }
+    
+    .commentLine {
+        height: 0.104vw;
+    }
+    
+    .postDeleteError {
+        p {
+            font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+        a {
+            font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+            margin-top: 0.52vw;
+        }
+    }
+    
+    .postInfoLoader {
+        width: 10.94vw;
+        height: 2.08vw;
+        border-radius: 0.26vw;
+    }
+    
+    .emptyBestComment {
+        font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .postWrap {
+        margin-top: calc(5px + (15 - 5) * (100vw - 200px) / (1920 - 200));
+        border-radius: 3px;
+    }
+    
+    .postGroupName {
+        font-size: calc(12px + (18 - 12) * (100vw - 200px) / (1920 - 200));
+        line-height: 17px;
+    }
+    
+    .postPublicationDate {
+        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        line-height: 17px;
+        margin-top: 3px;
+    }
+
+    .postBody {
+        margin-top: calc(8px + (20 - 8) * (100vw - 200px) / (1920 - 200));
+        p {
+            font-size: calc(10px + (16 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+            margin: 0 0 8px 5px;
+        }
+    }
+    
+    .postFooter {
+        margin-top: calc(10px + (20 - 10) * (100vw - 200px) / (1920 - 200));
+        margin-bottom: calc(10px + (20 - 10) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .postFooterActions {
+        border-radius: 5px;
+    }
+    
+    .postViews {
+        padding: calc(5px - (10 - 5) * (100vw - 200px) / (1920 - 200));
+        border-radius: 5px;
+    }
+    
+    .postMostLikedComment {
+        border-radius: 5px;
+    }
+    
+    .postLikes, .postComments, .postShares, .postViews {
+        p {
+            font-size: calc(10px + (12 - 10) * (100vw - 200px) / (1920 - 200));
+            line-height: 12px;
+            margin-left: 5px;
+        }
+    }
+    
+    .commentLine {
+        height: calc(1px + (2 - 1) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .hiddenPostOptions {
+        top: calc(20px + (30 - 20) * (100vw - 200px) / (768 - 200));
+        right: calc(-5px + (-70 - -90) * (100vw - 200px) / (768 - 200));
+        a {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: calc(12px + (16 - 12) * (100vw - 200px) / (1920 - 200));
+            width: 80px;
+            margin-top: 5px;
+            &:first-child {
+                margin-top: 10px;
+            }
+        }
+    }
+    
+    .postDeleteError {
+        p {
+            font-size: calc(10px + (16 - 10) * (100vw - 300px) / (1440 - 300));
+        }
+        a {
+            font-size: calc(12px + (18 - 12) * (100vw - 300px) / (1440 - 300));
+            margin-top: 10px;
+        }
+    }
+    
+    .postInfoLoader {
+        width: calc(140px + (210 - 140) * (100vw - 300px) / (1440 - 300));
+        height: calc(20px + (40 - 20) * (100vw - 300px) / (1440 - 300));
+        border-radius: 5px;
+    }
+    
+    .emptyBestComment {
+        font-size: calc(8px + (16 - 8) * (100vw - 1024px) / (1920 - 1024));
+    }
 }
 
 @media screen and (max-width: 1440px) {

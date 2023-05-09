@@ -11,6 +11,7 @@ export const messagesApi = createApi({
         getMessages: build.query<any, {}>({
             query: (usersId: {}) => ({
                 url: 'getAll',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: usersId
             })
         }),
@@ -18,6 +19,7 @@ export const messagesApi = createApi({
             query: (message: {}) => ({
                 url: 'create',
                 method: 'post',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: message
             })
         }),
@@ -25,6 +27,7 @@ export const messagesApi = createApi({
             query: (body: {}) => ({
                 url: 'updateMessage',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -32,12 +35,14 @@ export const messagesApi = createApi({
             query: (body: {}) => ({
                 url: 'deleteMessage',
                 method: 'delete',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
         findMessages: build.query<any, {}>({
             query: (params: {}) => ({
                 url: 'findMessages',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: params
             })
         }),
@@ -45,18 +50,21 @@ export const messagesApi = createApi({
             query: (body: {}) => ({
                 url: 'updateView',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
         getMessagesCount: build.query<any, {}>({
             query: (params: {}) => ({
                 url: 'getMessagesCount',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: params
             })
         }),
         getAllUserMessagesCount: build.query<any, string>({
             query: (user_id: string) => ({
                 url: 'getAllUserMessagesCount',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     user_id: user_id
                 }
@@ -65,6 +73,7 @@ export const messagesApi = createApi({
         checkForNewMessages: build.query<any, string>({
             query: (user_id: string) => ({
                 url: 'checkForNewMessages',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     user_id: user_id
                 }

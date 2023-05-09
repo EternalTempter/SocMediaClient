@@ -17,8 +17,6 @@
         color: $textColor;
         &::placeholder {
             color: $inputTextColor;
-            margin-top: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
-            font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
             transition: .5s;
         }
         &:focus {
@@ -35,12 +33,10 @@
 }
 
 .inputName, .inputSearcher {
-    width: calc(60px + (125 - 60) * ( (100vw - 0px) / ( 1920 - 0) ));
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: calc(8px + (18 - 8) * ( (100vw - 0px) / ( 1920 - 0) ));
     background: #252525;
     @include fontStyles($textColor);
 }
@@ -49,6 +45,36 @@
     @include svgIconStyles(1.563vw, 20px, $lightIconColor);
 }
 
+
+@media screen and (max-width: 7680px){
+    .inputBox input {
+        padding: 1.11225vw 1.2417vw;
+        font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+        &::placeholder {
+            font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+    
+    .inputName, .inputSearcher {
+        width: 6.51vw;
+        font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .inputBox input {
+        font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+        &::placeholder {
+            margin-top: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+            font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+        }
+    }
+    
+    .inputName, .inputSearcher {
+        width: calc(60px + (125 - 60) * ( (100vw - 0px) / ( 1920 - 0) ));
+        font-size: calc(8px + (18 - 8) * ( (100vw - 0px) / ( 1920 - 0) ));
+    }
+}
 
 @media screen and (max-width: 768px) {
     .inputBox {

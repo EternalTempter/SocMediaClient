@@ -11,6 +11,7 @@ export const groupsApi = createApi({
         findAllGroupsByName: build.query<IGroup[], string>({
             query: (name: string) => ({
                 url: 'findAllByName',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     name
                 }
@@ -19,6 +20,7 @@ export const groupsApi = createApi({
         getGroupById: build.query<IGroup, string>({
             query: (id: string) => ({
                 url: 'getById',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     id
                 }
@@ -27,12 +29,14 @@ export const groupsApi = createApi({
         getAllGroups: build.query<any, {}>({
             query: (params: {}) => ({
                 url: 'getAll',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: params
             })
         }),
         getAllUserGroupSubscriptions: build.query<any, {}>({
             query: (params: {}) => ({
                 url: 'getAllUserSubscriptions',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: params
             })
         }),
@@ -40,6 +44,7 @@ export const groupsApi = createApi({
             query: (body: {}) => ({
                 url: 'create',
                 method: 'post',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -47,6 +52,7 @@ export const groupsApi = createApi({
             query: (body: {}) => ({
                 url: 'updateDescription',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -54,6 +60,7 @@ export const groupsApi = createApi({
             query: (body: {}) => ({
                 url: 'updateName',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -61,6 +68,7 @@ export const groupsApi = createApi({
             query: (body: {}) => ({
                 url: 'updateType',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -68,6 +76,7 @@ export const groupsApi = createApi({
             query: (body: {}) => ({
                 url: 'updateImage',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -75,6 +84,7 @@ export const groupsApi = createApi({
             query: (body: {}) => ({
                 url: 'updatePanoramaImage',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -82,6 +92,7 @@ export const groupsApi = createApi({
             query: (body: {}) => ({
                 url: 'deleteGroup',
                 method: 'delete',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),

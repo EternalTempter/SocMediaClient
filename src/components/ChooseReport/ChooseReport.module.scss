@@ -20,26 +20,19 @@
 
 .chooseReport {
     background: $firstLayerColor;
-    border-radius: 5px;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     width: 32.04vw;
     min-width: 320px;
     p {
         @include fontStyles($textColor);
-        font-size: calc(14px + (20 - 14) * ( (100vw - 768px) / ( 1920 - 768) ));
         margin: 0;
     }
     div {
         @include fontStyles($textColor);
-        font-size: calc(10px + (16 - 10) * ( (100vw - 768px) / ( 1920 - 768) ));
-        margin-top: 5px;
         display: flex;
         transition: 0.5s;
-        border-radius: 5px;
         justify-content: space-between;
-        padding: calc(6px + (10 - 6) * ( (100vw - 768px) / ( 1920 - 768) ));
         &:hover {
             transition: 0.5s;
             background: $secondLayerColor;
@@ -49,16 +42,12 @@
 
 .sendReport {
     background: $secondLayerColor;
-    border-radius: 5px;
     cursor: pointer;
     @include fontStyles($textColor);
-    margin-top: 10px;
-    font-size: calc(12px + (18 - 12) * ( (100vw - 768px) / ( 1920 - 768) ));
     align-self: flex-end;
     transition: 0.5s;
     width: 10.42vw;
     min-width: 140px;
-    padding: calc(6px + (10 - 6) * ( (100vw - 768px) / ( 1920 - 768) ));
     border: none;
     &:hover {
         transition: 0.5s;
@@ -68,4 +57,67 @@
 
 .active {
     background: $secondLayerColor;
+}
+
+@media screen and (max-width: 7680px){
+    .chooseReport {
+        border-radius: 0.26vw;
+        padding: 1.04vw;
+        p {
+            font-size: calc(20px + (74 - 20) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+        div {
+            font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+            margin-top: 0.26vw;
+            border-radius: 0.26vw;
+            padding: 0.52vw;
+        }
+    }
+    
+    .sendReport {
+        border-radius: 0.26vw;
+        margin-top: 0.52vw;
+        font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+        padding: 0.52vw;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .chooseReport {
+        border-radius: 5px;
+        padding: 20px;
+        p {
+            font-size: calc(14px + (20 - 14) * ( (100vw - 768px) / ( 1920 - 768) ));
+        }
+        div {
+            font-size: calc(10px + (16 - 10) * ( (100vw - 768px) / ( 1920 - 768) ));
+            margin-top: 5px;
+            border-radius: 5px;
+            padding: calc(6px + (10 - 6) * ( (100vw - 768px) / ( 1920 - 768) ));
+        }
+    }
+    
+    .sendReport {
+        border-radius: 5px;
+        margin-top: 10px;
+        font-size: calc(12px + (18 - 12) * ( (100vw - 768px) / ( 1920 - 768) ));
+        padding: calc(6px + (10 - 6) * ( (100vw - 768px) / ( 1920 - 768) ));
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .chooseReport {
+        p {
+            font-size: 16px;
+        }
+        div {
+            font-size: 12px;
+            padding: 10px;
+        }
+    }
+    
+    .sendReport {
+        font-size: 12px;
+        padding: 10px;
+    }
 }

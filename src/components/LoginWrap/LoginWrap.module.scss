@@ -8,34 +8,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    // perspective: 800px;
 }
 
 .loginWrap {
     background: $firstLayerColor;
     box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
-    border-radius: 10px;
     width: 62.5vw;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    padding: 
-        calc(0px + (85 - 0) * (100vw - 768px) / (1920 - 768))
-        calc(0px + (105 - 0) * (100vw - 768px) / (1920 - 768))
-        calc(0px + (115 - 0) * (100vw - 768px) / (1920 - 768))
-        calc(0px + (105 - 0) * (100vw - 768px) / (1920 - 768));
     box-sizing: border-box;
-    // animation: aaa infinite linear forwards 12s;
 }
-
-// @keyframes aaa {
-//     from {
-//         transform: matrix(1.1, 0.1, -0.5, 0.9, 0, 15);
-//     }
-//     to {
-//         transform: matrix(0.3, 0.5, 0.5, -0.2, 0, 4);
-//     }
-// }
 
 .extendedLogo {
     width: 20.833vw;
@@ -57,8 +40,6 @@
     p {
         @include fontStyles($textColor);
         font-family: 'AdventPro';
-        font-size: calc(30px + (80 - 30) * (100vw - 200px) / (1920 - 200));
-        margin: 15px 0 0 0;
     }
 }
   
@@ -67,27 +48,21 @@
     min-width: 300px;
     background: $secondLayerColor;
     box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
-    border-radius: 10px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     align-items: center;
-    margin-left: calc(10px + (100 - 10) * (100vw - 768px) / (1920 - 768));
     input {
         width: 19.271vw;
         min-width: 240px;
         min-height: 30px;
-        padding: calc(6px + (11 - 6) * (100vw - 200px) / (1920 - 200));
         box-sizing: border-box;
         background: $firstLayerColor;
-        border-radius: 10px; 
         border: none;
         color: $textColor;
-        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
         &::placeholder {
             @include fontStyles($inputTextColor);
             padding-left: 0.3vw;
-            font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
             transition: .5s;
         }
         &:focus {
@@ -104,14 +79,11 @@
     button{
         width: 11.979vw;
         min-width: 180px;
-        padding: calc(7px + (16 - 7) * (100vw - 200px) / (1920 - 200));
         box-shadow: 4px 4px 4px rgba(13, 13, 13, 0.15);
         border: none;
         background: $thirdLayerColor;
-        border-radius: 5px;
         @include fontStyles($textColor);
         transition: .5s;
-        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
         cursor: pointer;
         &:hover {
             background: #505050;
@@ -120,7 +92,6 @@
     }  
     p {
         @include fontStyles($textColor);
-        font-size: calc(14px + (24 - 14) * (100vw - 200px) / (1920 - 200));
     }
 }
   
@@ -138,27 +109,107 @@
         margin-left: 0.5vw;
     }
     a, span {
-        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
         transition: .5s;
         @include fontStyles($textColor);
     }
 }
 
-
-// .inputLabel {
-//     align-self: flex-start;
-//     margin: 0px 0 2px 10px;
-//     font-size: calc(6px + (12 - 6) * ( (100vw - 200px) / ( 1920 - 200) ));
-//     @include fontStyles($textColor);
-// }
 .error {
     @include fontStyles(red);
-    font-size: calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
-    margin: 0 0 3px 3px;
 }
 
 .input.error {
     background: rgba(207, 58, 58, 0.4);
+}
+
+@media screen and (max-width: 7680px){
+    .loginWrap {
+        border-radius: 0.52vw;
+        padding: 4.43vw 5.47vw 5.99vw 5.47vw;
+    }
+      
+    .loginImageHolder p {
+        font-size: calc(80px + (294 - 80) * ( (100vw - 1920px) / (7680 - 1920) ));
+        margin: 0.78vw 0 0 0;
+    }
+      
+    .loginHolder {
+        border-radius: 0.52vw;
+        margin-left: 5.21vw;
+        input {
+            padding: 0.57vw;
+            border-radius: 0.52vw; 
+            font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+            &::placeholder {
+                font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+            }
+        }
+        button {
+            padding: 0.83vw;
+            border-radius: 0.26vw;
+            font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }  
+        p {
+            font-size: calc(24px + (76 - 24) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+      
+    .userDontHaveAccount {
+        a, span {
+            font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+    .error {
+        font-size: calc(12px + (62 - 12) * ( (100vw - 1920px) / (7680 - 1920) ));
+        margin: 0 0 0.16vw 0.16vw;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .loginWrap {
+        border-radius: 10px;
+        padding: 
+            calc(0px + (85 - 0) * (100vw - 768px) / (1920 - 768))
+            calc(0px + (105 - 0) * (100vw - 768px) / (1920 - 768))
+            calc(0px + (115 - 0) * (100vw - 768px) / (1920 - 768))
+            calc(0px + (105 - 0) * (100vw - 768px) / (1920 - 768));
+    }
+      
+    .loginImageHolder p {
+        font-size: calc(30px + (80 - 30) * (100vw - 200px) / (1920 - 200));
+        margin: 15px 0 0 0;
+    }
+      
+    .loginHolder {
+        border-radius: 10px;
+        margin-left: calc(10px + (100 - 10) * (100vw - 768px) / (1920 - 768));
+        input {
+            padding: calc(6px + (11 - 6) * (100vw - 200px) / (1920 - 200));
+            border-radius: 10px; 
+            font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+            &::placeholder {
+                font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+            }
+        }
+        button {
+            padding: calc(7px + (16 - 7) * (100vw - 200px) / (1920 - 200));
+            border-radius: 5px;
+            font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        }  
+        p {
+            font-size: calc(14px + (24 - 14) * (100vw - 200px) / (1920 - 200));
+        }
+    }
+      
+    .userDontHaveAccount {
+        a, span {
+            font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        }
+    }
+    .error {
+        font-size: calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
+        margin: 0 0 3px 3px;
+    }
 }
 
 @media screen and (max-width: 1023px) {

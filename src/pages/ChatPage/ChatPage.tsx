@@ -18,6 +18,7 @@ import AutoHeightTextarea from '../../components/AutoHeightTextarea/AutoHeightTe
 import Loader from '../../components/UI/Loader/Loader';
 import ErrorHolder from '../../components/UI/ErrorHolder/ErrorHolder';
 import SkeletonLoader from '../../components/UI/SkeletonLoader/SkeletonLoader';
+import Plus from '../../assets/svg/Plus';
 
 const ChatPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -87,11 +88,11 @@ const ChatPage = () => {
     }
 
     // Баг на мобильных устройствах
-    // function scrollToBottom() {
-    //     if(bottom.current) {
-    //         bottom.current.scrollIntoView({block: "center", behavior: 'auto'})
-    //     }
-    // }
+    function scrollToBottom() {
+        if(bottom.current) {
+            bottom.current.scrollIntoView({behavior: 'auto'})
+        }
+    }
 
     function sendMessageByKeyHandler(code) {
         if(code === 'Enter') {
@@ -129,7 +130,7 @@ const ChatPage = () => {
                     });
                 }
 
-                // Баг на мобильных устройствах
+                //Баг на мобильных устройствах
                 // if(bottom.current) {
                 //     bottom.current.scrollToBottom()
                 // }   
@@ -157,9 +158,9 @@ const ChatPage = () => {
 
 
     // Баг на мобильных устройствах
-    // useEffect(() => {
-    //     scrollToBottom();
-    // }, [messages])
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages])
     
     // Закоментированный код для динамической пагинации (сделано лишь на половину)
     // useEffect(() => {
@@ -229,19 +230,34 @@ const ChatPage = () => {
                     {messages.map((message, index) => 
                         (message.outgoing_id !== user.email) 
                         ? 
-                            <Message key={message.id} type='otherUserMessage' message={message} editMessageHandler={editMessageHandler} inboxId={currentInboxId}/>
+                            <Message 
+                                key={message.id} 
+                                type='otherUserMessage' 
+                                message={message} 
+                                editMessageHandler={editMessageHandler} 
+                                inboxId={currentInboxId}
+                            />
                         : 
-                            <Message key={message.id} type='ourMessage' message={message} editMessageHandler={editMessageHandler} inboxId={currentInboxId}/>
+                            <Message 
+                                key={message.id} 
+                                type='ourMessage' 
+                                message={message} 
+                                editMessageHandler={editMessageHandler} 
+                                inboxId={currentInboxId}
+                            />
                     )}
-                    <div>
                         <div ref={bottom} className={styles.bottom}/>
-                    </div>
                 </div>
                 <div className={styles.chatInteractive}>
                     {isEditing && 
                         <div className={styles.editingMode}>
-                            <p>сообщение в режиме редактирования</p>
-                            <button onClick={closeEditingMode}>Х</button>
+                            <p>Сообщение в режиме редактирования</p>
+                            <div 
+                                className={styles.closeEditingModeIconWrap}
+                                onClick={() => closeEditingMode()}
+                            >
+                                <Plus className={styles.closeEditingModeIcon}/>
+                            </div>
                         </div>
                     }
                     <div className={styles.chatUserInput}>

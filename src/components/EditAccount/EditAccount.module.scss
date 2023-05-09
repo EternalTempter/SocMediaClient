@@ -19,8 +19,6 @@
     min-height: 110px;
     background: $thirdLayerColor;
     border-radius: 50%;
-    margin-top: calc(15px + (20 - 15) * (100vw - 200px) / (1920 - 200));
-    margin-bottom: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200));
     @include roundedImageStyles();
     transition: 0.5s;
     &:hover {
@@ -36,18 +34,11 @@
     min-width: 240px;
     min-height: 104px;
     background: $thirdLayerColor;
-    border-radius: 10px;
-    margin-top: 20px;
-    margin-top: calc(15px + (20 - 15) * (100vw - 200px) / (1920 - 200));
-    margin-bottom: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200));
     @include imageStyles();
     transition: 0.5s;
     &:hover {
         transition: 0.5s;
         background: #4d4d4d;
-    }
-    img {
-        border-radius: 10px; 
     }
 }
 
@@ -58,11 +49,7 @@
     input {
         width: 91.5%;
         border: none;
-        padding: 
-        calc(8px + (10 - 8) * (100vw - 1024px) / (1920 - 1024))
-        calc(11px + (15 - 11) * (100vw - 1024px) / (1920 - 1024));
         background: $firstLayerColor;
-        border-radius: 10px;
         color: $textColor;
         &::placeholder {
             color: $inputTextColor;
@@ -82,26 +69,18 @@
 }
 
 .inputBox {
-    margin-top: 10px;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.inputBox.errored {
-    margin-top: 4px;
-}
-
 .selects {
-    margin-top: 12px;
     width: 100%;
     display: flex;
     justify-content: space-between;
     select {
         text-align-last:center;
-        padding: 8px 0;
         background: $firstLayerColor;
-        border-radius: 3px;
         border: none;
         color: $textColor;
     }
@@ -121,7 +100,6 @@
 .saveButton {
     background: $secondLayerColor;
     box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
-    border-radius: 5px;
     align-self: flex-end;
     margin-top: auto;
     width: 11.458vw;
@@ -130,10 +108,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: calc(10px + (15 - 10) * (100vw - 200px) / (1920 - 200)) 0;
     @include fontStyles($textColor);
     transition: 0.5s;
-    font-size: calc(12px + (14 - 12) * (100vw - 200px) / (1920 - 200));
     &:disabled {
         color: $inputTextColor;
     }
@@ -145,8 +121,104 @@
 
 .error {
     @include fontStyles(red);
-    font-size: calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
-    margin: 0 0 3px 3px;
+}
+
+@media screen and (max-width: 7680px){
+    .photo {
+        margin-top: 1.04vw;
+        margin-bottom: 0.52vw;
+    }    
+    .background {
+        border-radius: 0.52vw;
+        margin-top: 1.04vw;
+        margin-top: 1.04vw;
+        margin-bottom: 0.52vw;
+        img {
+            border-radius: 0.52vw; 
+        }
+    }  
+    .inputs input {
+        padding: 0.52vw 0.78vw;
+        border-radius: 0.52vw;
+        font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+        &::placeholder {
+            font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }   
+    .inputBox {
+        margin-top: 0.52vw;
+    }   
+    .inputBox.errored {
+        margin-top: 0.21vw;
+    }   
+    .selects {
+        margin-top: 0.63vw;
+        select {
+            font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+            padding: 0.42vw 0;
+            border-radius: 0.16vw;
+        }
+    
+    }   
+    .saveButton {
+        border-radius: 0.26vw;
+        padding: 0.78vw 0;
+        font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+    }   
+    .error {
+        font-size: calc(12px + (62 - 12) * ( (100vw - 1920px) / (7680 - 1920) ));
+        margin: 0 0 0.16vw 0.16vw;
+    }
+}
+
+@media screen and (max-width: 1920px){   
+    .photo {
+        margin-top: calc(15px + (20 - 15) * (100vw - 200px) / (1920 - 200));
+        margin-bottom: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200));
+    }    
+    .background {
+        border-radius: 10px;
+        margin-top: 20px;
+        margin-top: calc(15px + (20 - 15) * (100vw - 200px) / (1920 - 200));
+        margin-bottom: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200));
+        img {
+            border-radius: 10px; 
+        }
+    }  
+    .inputs input {
+        padding: 
+            calc(8px + (10 - 8) * (100vw - 1024px) / (1920 - 1024))
+            calc(11px + (15 - 11) * (100vw - 1024px) / (1920 - 1024));
+        border-radius: 10px;
+        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        &::placeholder {
+            font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        }
+    }   
+    .inputBox {
+        margin-top: 10px;
+    }   
+    .inputBox.errored {
+        margin-top: 4px;
+    }   
+    .selects {
+        margin-top: 12px;
+        select {
+            font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+            padding: 8px 0;
+            border-radius: 3px;
+        }
+    
+    }   
+    .saveButton {
+        border-radius: 5px;
+        padding: calc(10px + (15 - 10) * (100vw - 200px) / (1920 - 200)) 0;
+        font-size: calc(12px + (14 - 12) * (100vw - 200px) / (1920 - 200));
+    }   
+    .error {
+        font-size: calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
+        margin: 0 0 3px 3px;
+    }
 }
 
 @media screen and (max-width: 768px) {

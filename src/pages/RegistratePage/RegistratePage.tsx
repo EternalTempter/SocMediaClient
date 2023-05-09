@@ -48,17 +48,16 @@ const RegistratePage:FC<RegistratePageProps> = ({setIsAuth, setIsWelcomeWindowVi
                 name: registrationData.name, 
                 surname: registrationData.surname
             });
-            setDefaultUserData(registrationData.email);
         }
         else notifyAlert('Правильно заполните все поля!');
     }
 
     function validateName() {
-        setIsNameError(registrationData.name.length > 15 || registrationData.name.length < 1);
+        setIsNameError(registrationData.name.length > 20 || registrationData.name.length < 1);
     }
 
     function validateSurname() {
-        setIsSurnameError(registrationData.surname.length > 15 || registrationData.surname.length < 1);
+        setIsSurnameError(registrationData.surname.length > 20 || registrationData.surname.length < 1);
     }
 
     function validateEmail() {
@@ -79,10 +78,11 @@ const RegistratePage:FC<RegistratePageProps> = ({setIsAuth, setIsWelcomeWindowVi
 
     useEffect(() => {
         if(data) {
-            setIsAuth(true);
             localStorage.setItem('token', JSON.stringify(data.token));
-            navigate('/');
-            setIsWelcomeWindowVisible(true);
+            setDefaultUserData(registrationData.email);
+            setIsAuth(true);
+            setIsWelcomeWindowVisible(false);
+            navigate('/activate');
         }
     }, [data]);
 
@@ -106,7 +106,7 @@ const RegistratePage:FC<RegistratePageProps> = ({setIsAuth, setIsWelcomeWindowVi
         }           
             <p className={styles.label}>Регистрация</p>
             <div className={!isNameError ? styles.inputBox : [styles.inputBox, styles.errored].join(' ')}>
-                {isNameError && <span className={styles.error}>Допустимая длина от 1 до 16 символов</span>}
+                {isNameError && <span className={styles.error}>Допустимая длина от 1 до 20 символов</span>}
                 <input 
                     placeholder='Введите имя' 
                     type='text' 
@@ -117,7 +117,7 @@ const RegistratePage:FC<RegistratePageProps> = ({setIsAuth, setIsWelcomeWindowVi
                 />
             </div>
             <div className={!isSurnameError ? styles.inputBox : [styles.inputBox, styles.errored].join(' ')}>
-                {isSurnameError && <span className={styles.error}>Допустимая длина от 1 до 16 символов</span>}
+                {isSurnameError && <span className={styles.error}>Допустимая длина от 1 до 20 символов</span>}
                 <input 
                     placeholder='Введите фамилию' 
                     type='text' 

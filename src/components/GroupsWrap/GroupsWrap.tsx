@@ -34,12 +34,15 @@ const GroupsWrap:FC<GroupsWrapProps> = ({
         setButtonState, 
         setCreateGroupModalVisible,
     }) => {
+
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const [groups, setGroups] = useState<IGroupUsers[]>([]);
 
     const lastElement = useRef<HTMLDivElement>(null)
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState<number | null>(null);
+    
+    const [isNoGroupsAlertVisible, setIsNoGroupsAlertVisible] = useState(false);
 
     const {isError: isSubsError, isLoading: isSubsLoading, data: subsData, refetch} = useGetAllUserGroupSubscriptionsQuery({id: user.email, limit: 400});
 
@@ -70,6 +73,12 @@ const GroupsWrap:FC<GroupsWrapProps> = ({
             }
         }
     }, [data])
+
+    useEffect(() => {
+        if(groups) {
+            setIsNoGroupsAlertVisible(data && (data[0] === undefined) && groups && (groups[0] === undefined) && buttonState !== 'Рекомендации' && !isLoading && !isError);
+        }
+    }, [groups])
     
     useEffect(() => {
         if(type === 'SUBSCRIBED_GROUPS')
@@ -92,7 +101,7 @@ const GroupsWrap:FC<GroupsWrapProps> = ({
 
     return (
         <div className={styles.wrap}>
-            {data && (data[0] === undefined) && groups && (groups[0] === undefined) && buttonState !== 'Рекомендации' && !isLoading && !isError &&
+            {isNoGroupsAlertVisible &&
                 <AlertHolder 
                     icon={<SearchError className={styles.alertIconDefault}/>}
                     label="Вы пока не подписаны ни на одну группу, можете подписаться на понравившиеся группы в рекомендациях"
@@ -100,19 +109,7 @@ const GroupsWrap:FC<GroupsWrapProps> = ({
                         <Button 
                             onClick={() => setButtonState('Рекомендации')} 
                             isActive={false}
-                            >Смотреть рекомендации</Button>
-                    }
-                />
-            }
-            {data && (data[0] === undefined) && groups && (groups[0] === undefined) && buttonState === 'Рекомендации' && !isLoading && !isError &&
-                <AlertHolder 
-                    icon={<SearchError className={styles.alertIconDefault}/>}
-                    label="Никто из пользователей пока не создал ни одну группу. Создайте группу, будьте первым!"
-                    button={
-                        <Button 
-                            onClick={() => setCreateGroupModalVisible(true)} 
-                            isActive={false}
-                        >Создать группу</Button>
+                        >Смотреть рекомендации</Button>
                     }
                 />
             }

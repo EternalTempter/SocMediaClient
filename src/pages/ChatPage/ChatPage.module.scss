@@ -14,8 +14,6 @@
 .chatHeader {
     width: 100%;
     display: flex;
-    padding: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) )) 
-             calc(10px + (15 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
     justify-content: space-between;
     box-sizing: border-box;
     align-items: center;
@@ -41,7 +39,6 @@
         @include fontStyles($textColor);
         font-size: 12px;
         margin: 0;
-        margin-left: calc(5px + (12 - 5) * ( (100vw - 0px) / ( 1920 - 0) ));
     }
 }
 
@@ -65,10 +62,6 @@
 }
 
 .chatInteractive {
-    padding: calc(5px + (12 - 5) * ( (100vw - 200px) / ( 1920 - 200) ))
-             calc(5px + (40 - 5) * ( (100vw - 200px) / ( 1920 - 200) ))
-             calc(5px + (12 - 5) * ( (100vw - 200px) / ( 1920 - 200) ))
-             calc(5px + (50 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
     box-sizing: border-box;
     width: 100%;
     display: flex;
@@ -84,23 +77,17 @@
     display: flex;
     align-items: center;
     textarea {
+        resize: none;
         border: none;
         width: 100%;   
         background: #131313;
         border: 1px solid #2A2A2A;
         border-radius: 10px;
-        padding: calc(3px + (20 - 3) * ( (100vw - 0px) / ( 1920 - 0) )) 
-                calc(30px + (60 - 30) * ( (100vw - 0px) / ( 1920 - 0) ))             
-                calc(3px + (20 - 3) * ( (100vw - 0px) / ( 1920 - 0) )) 
-                calc(10px + (20 - 10) * ( (100vw - 0px) / ( 1920 - 0) )) ;
         box-sizing: border-box;
         overflow-y: hidden;
         display: flex;
         justify-content: center;
         color: $textColor;
-        &::placeholder {
-            font-size: calc(12px + (18 - 12) * (100vw - 200) / (1920 - 200));
-        }
     }
 }
 
@@ -130,7 +117,7 @@
 }
 
 .chatUserInputSend {
-    @include svgIconStyles(2.6042vw, 20px, $darkIconColor);
+    @include svgIconStyles(2.08vw, 25px, $darkIconColor);
     cursor: pointer;
 }
 
@@ -142,40 +129,6 @@
 .chatButtonsMicrophone {
     @include svgIconStyles(2.6042vw, 20px, $darkIconColor);
     margin-left: 1.0417vw;
-}
-
-.ourMessage, .otherUserMessage {
-    position: relative;
-    padding: calc(7px + (16 - 7) * ( (100vw - 0px) / ( 1920 - 0) ));
-    min-width: 180px;
-    max-width: 270px;
-    background: linear-gradient(92.05deg, rgba(255, 255, 255, 0.45) 7.46%, rgba(255, 255, 255, 0.125) 100%);
-    border-radius: 3px;
-    margin-top: calc(20px + (45 - 20) * ( (100vw - 0px) / ( 1920 - 0) ));
-    font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
-    @include fontStyles($textColor);
-    p {
-        margin: 0;
-        position: absolute;
-        top: -22px;
-        font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
-        @include fontStyles($textColor);
-    }
-}
-.ourMessageWrap {
-    margin-right: calc(10px + (65 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
-    align-self: flex-end;
-    p {
-        right: 0.5vw;
-    }
-}
-
-.otherUserMessage {
-    margin-left: calc(10px + (65 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
-    align-self: flex-start;
-    p {
-        left: 0.5vw;
-    }
 }
 
 .messageOptions.on {
@@ -197,23 +150,26 @@
 .editingMode {
     position: absolute;
     top: -70%;
-    left: 7%;
-    width: 45.7292vw;
+    left: 0;
+    padding: 0.78vw 5%;
+    width: 100%;
     display: flex;
-    padding: 15px;
+    box-sizing: border-box;
     align-items: center;
     justify-content: space-between;
+    background: $firstLayerColor;
     p {
         margin: 0;
-        font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
         @include fontStyles($textColor);
     }
-    button {
-        padding: 2px;
-        font-size: 28px;
-        border: none;
-        background: #1F4868;
-    }
+}
+
+.closeEditingModeIconWrap {
+    transform: rotateZ(45deg);
+}
+
+.closeEditingModeIcon {
+    @include svgIconStyles(1.5417vw, 18px, $darkIconColor);
 }
 
 .bottom {
@@ -235,6 +191,70 @@
 //     visibility: hidden;
 // }
 
+@media screen and (max-width: 7680px){
+    .chatHeader {
+        padding: 0.78vw;
+    }
+    
+    .chatInteractive {
+        padding: 0.63vw 2.08vw 0.63vw 2.08vw;
+    }
+    
+    .chatUserInput textarea {
+        padding: 1.04vw 3.12vw 1.04vw 1.04vw;
+        font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+        &::placeholder {
+            font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+            line-height: -10.42vw;
+        }
+    }  
+    
+    .editingMode {
+        p {
+            font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .chatHeader {
+        padding: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) )) 
+                 calc(10px + (15 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+    }
+    
+    .chatHeaderUserData p {
+        font-size: 14px;
+        margin-left: calc(5px + (12 - 5) * ( (100vw - 0px) / ( 1920 - 0) ));
+    }
+    
+    .chatInteractive {
+        padding: calc(5px + (12 - 5) * ( (100vw - 200px) / ( 1920 - 200) ))
+                 calc(5px + (40 - 5) * ( (100vw - 200px) / ( 1920 - 200) ))
+                 calc(5px + (12 - 5) * ( (100vw - 200px) / ( 1920 - 200) ))
+                 calc(5px + (50 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+    }
+    
+    .chatUserInput textarea {
+        padding: calc(15px + (20 - 15) * ( (100vw - 0px) / ( 1920 - 0) )) 
+                calc(30px + (60 - 30) * ( (100vw - 0px) / ( 1920 - 0) ))             
+                calc(15px + (20 - 15) * ( (100vw - 0px) / ( 1920 - 0) )) 
+                calc(10px + (20 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
+
+        &::placeholder {
+            line-height: -15px;
+        }
+    }  
+    
+    .editingMode {
+        top: calc(-35% + (-65 - -35) * ( (100vw - 0px) / ( 1920 - 0) ));
+        box-sizing: border-box;
+        p {
+            font-size: calc(14px + (18 - 14) * ( (100vw - 1024px) / ( 1920 - 1024) ));
+        }
+    }
+}
+
+
 @media screen and (max-width: 1023px){
     .chatWrap {
         width: 65vw;
@@ -255,12 +275,17 @@
         margin-bottom: 55px;
     }
     .chatWrap {
+        position: fixed;
         width: 100vw;
         justify-content: space-between;
     }
     .chatUserInput {
-        width: 100%;
+        width: 100%;   
         textarea {
+            font-size: 12px;
+            &::placeholder {
+                font-size: 12px;
+            }
             width: 100%;
             border-radius: 0; 
             border: 1px solid rgba(255, 255, 255, 0.1);  

@@ -35,7 +35,9 @@ const StatisticsWindow = () => {
 
     useEffect(() => {
         if(data) {
-            let daysSinceRegistration = getDaysCountSinceRegistration('March 21, 2023 03:24:00');
+            let daysSinceRegistration = getDaysCountSinceRegistration(data.createdAt);
+            daysSinceRegistration++;
+            
             if(daysSinceRegistration > 7) {
                 daysSinceRegistration = 7;
             } 

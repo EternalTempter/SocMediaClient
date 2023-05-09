@@ -27,18 +27,39 @@
 }
 
 .userStats.skeleton {
-    height: calc(40px + (70 - 40) * (100vw - 1024px) / (1920 - 1024));
-    margin-top: 10px;
     padding: 0;
 }
 
-.userStatsCount {
-    font-size: calc(10px + (22 - 10) * (100vw - 200px) / (1920 - 200));
+
+@media screen and (max-width: 7680px){
+    .userStats.skeleton {
+        height: 3.65vw;
+        margin-top: 0.52vw;
+    }
+    
+    .userStatsCount {
+        font-size: calc(22px + (74 - 22) * ( (100vw - 1920px) / (7680 - 1920) ));
+    }
+    
+    .userStatsType {
+        font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));  
+    } 
 }
 
-.userStatsType {
-    font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));   
-} 
+@media screen and (max-width: 1920px){  
+    .userStats.skeleton {
+        height: calc(40px + (70 - 40) * (100vw - 1024px) / (1920 - 1024));
+        margin-top: 10px;
+    }
+    
+    .userStatsCount {
+        font-size: calc(10px + (22 - 10) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .userStatsType {
+        font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));   
+    } 
+}
 
 @media screen and (max-width: 1023px) {
     .userStats {

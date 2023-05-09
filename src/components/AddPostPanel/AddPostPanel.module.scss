@@ -16,21 +16,14 @@
     display: flex;
     align-items: center;   
     flex-direction: column;
-    margin-top: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
     div {
         input {
             width: 100%;
             height: 100%;
             border: none;
-            padding: 
-                    calc(9px + (15 - 9) * ( (100vw - 200px) / ( 1920 - 200) ))
-                    calc(65px + (90 - 65) * ( (100vw - 200px) / ( 1920 - 200) ))
-                    calc(9px + (15 - 9) * ( (100vw - 200px) / ( 1920 - 200) ))
-                    calc(10px + (20 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
             box-sizing: border-box;
             background: $firstLayerColor;
             color: $textColor;
-            border-radius: 5px;
             &:focus {
                 outline: 1px solid $inputTextColor;
             }
@@ -44,22 +37,14 @@
         }
         input::placeholder {
             color: $inputTextColor;
-            font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
             transition: .5s;
         }
         div {           
-            min-width: 18px;
-            max-width: 25px;
             position: absolute;
             box-sizing: border-box;
             display: flex;
-            top: calc(4px + (7 - 4) * ( (100vw - 200px) / ( 1920 - 200) ));
             &:nth-child(1) {
-                right: 35px;
                 position: relative;
-            }
-            &:nth-child(2) {
-                right: 5px;
             }
             &:nth-child(3) {
                 display: none;
@@ -71,8 +56,6 @@
 }
 
 .addPostWrap {
-    margin-top: calc(5px + (12 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
-    margin-bottom: calc(5px + (12 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
     div input {
         background: $inputColor;
         border: 1px solid #2A2A2A;
@@ -106,23 +89,106 @@
     max-width: 70%;
     height: 10.417vw;
     min-width: 75px;
-    min-height: 75px;
-    margin-top: 10px;   
+    min-height: 75px;   
     @include imageStyles();
     background: $secondLayerColor;
     border: 1px solid $thirdLayerColor;
-    border-radius: 5px;
 }
 
 .closePreview {
     transform: rotate(45deg);
     position: absolute;
     top: 0; 
-    right: -40px;
 }
 
 .close {
     @include svgIconStyles(1.7vw, 18px, $darkIconColor);
+}
+
+@media screen and (max-width: 7680px){
+    .addPostWrap, .addPostWrapExtended {
+        margin-top: 0.78vw;
+        div {
+            input {
+                font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+                padding: 0.78vw 4.69vw 0.78vw 1.04vw;
+                border-radius: 0.26vw;
+            }
+            input::placeholder {
+                font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+            }
+            div {           
+                min-width: 0.94vw;
+                max-width: 1.3vw;
+                top: 0.36vw;
+                &:nth-child(1) {
+                    right: 1.82vw;
+                }
+                &:nth-child(2) {
+                    right: 0.26vw;
+                }
+            }
+        }
+    }
+    
+    .addPostWrap {
+        margin-top: 0.63vw;
+        margin-bottom: 0.63vw;
+    }
+    
+    .imagePreview {
+        margin-top: 0.52vw;   
+        border-radius: 0.26vw;
+    }
+    
+    .closePreview {
+        right: -2.08vw;
+    }
+}
+
+@media screen and (max-width: 1920px){   
+    .addPostWrap, .addPostWrapExtended {
+        margin-top: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+        div {
+            input {
+                font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+                padding: 
+                        calc(9px + (15 - 9) * ( (100vw - 200px) / ( 1920 - 200) ))
+                        calc(65px + (90 - 65) * ( (100vw - 200px) / ( 1920 - 200) ))
+                        calc(9px + (15 - 9) * ( (100vw - 200px) / ( 1920 - 200) ))
+                        calc(10px + (20 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+                border-radius: 5px;
+            }
+            input::placeholder {
+                font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+            }
+            div {           
+                min-width: 18px;
+                max-width: 25px;
+                top: calc(4px + (7 - 4) * ( (100vw - 200px) / ( 1920 - 200) ));
+                &:nth-child(1) {
+                    right: 35px;
+                }
+                &:nth-child(2) {
+                    right: 5px;
+                }
+            }
+        }
+    }
+    
+    .addPostWrap {
+        margin-top: calc(5px + (12 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+        margin-bottom: calc(5px + (12 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+    }
+    
+    .imagePreview {
+        margin-top: 10px;   
+        border-radius: 5px;
+    }
+    
+    .closePreview {
+        right: -40px;
+    }
 }
 
 @media screen and (max-width: 768px) {

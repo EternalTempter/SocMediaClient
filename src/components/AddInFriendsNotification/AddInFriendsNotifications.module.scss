@@ -67,6 +67,42 @@
     margin-left: 10px;
 }
 
+@media screen and (max-width: 7680px){
+    .notification {
+        margin-top: 0.52vw;
+        border-radius: 0.26vw;
+        p {
+            margin: 0 0.26vw 0 0.52vw;
+            font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+            span {
+                font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+            }
+        }
+    }
+    
+    .declineWrap {
+        margin-left: 0.52vw;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .notification {
+        margin-top: 10px;
+        border-radius: 5px;
+        p {
+            margin: 0 5px 0 10px;
+            font-size: calc(10px + (16 - 10) * (100vw - 768px) / (1920 - 768));
+            span {
+                font-size: calc(10px + (16 - 10) * (100vw - 768px) / (1920 - 768));
+            }
+        }
+    }
+    
+    .declineWrap {
+        margin-left: 10px;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .notification {
         padding: calc(5px + (10 - 5) * (100vw - 200px) / (768 - 200));   

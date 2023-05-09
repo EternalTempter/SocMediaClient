@@ -6,20 +6,15 @@
     width: 100%;
 }
 
-.selects {
-    select {
-        text-align-last:left;
-        padding: calc(8px + (10 - 8) * (100vw - 1024px) / (1920 - 1024)) calc(7px + (10 - 7) * (100vw - 1024px) / (1920 - 1024));
-        background: $firstLayerColor;
-        border-radius: 10px;
-        border: none;
-        color: $inputTextColor;
-    }
+.selects select {
+    text-align-last:left;
+    background: $firstLayerColor;
+    border: none;
+    color: $inputTextColor;
 }
 
 .editData button {
     width: 100%;
-    margin: 15px 0 0 0;
 }
 
 .generalOptionsWrap {
@@ -34,15 +29,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    p{
-        font-size: calc(8px + (12 - 8) * (100vw - 320px) / (1920 - 320));
+    p {
         @include fontStyles($textColor);
-        margin-top: 15px;
     }
     button {
         background: rgba($color: red, $alpha: 0.4);
         margin-left: 0;
-        margin: 10px;
         &:hover {
             background: rgba($color: red, $alpha: 0.6);
         }
@@ -65,21 +57,17 @@
 
 .modal {
     position: relative;
-    padding: 15px;
     background: $firstLayerColor;
     width: 25vw;
     min-width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 10px;
     p {
         @include fontStyles($textColor);
-        font-size: calc(10px + (16 - 10) * (100vw - 320px) / (1920 - 320));
         text-align: center;
     }
     div {
-        margin-top: 10px;
         display: flex;
         width: 100%;
         align-items: center;
@@ -89,6 +77,70 @@
             &:hover {
                 background: rgba($color: red, $alpha: 0.6);
             }
+        }
+    }
+}
+
+@media screen and (max-width: 7680px){
+    .selects select {
+        padding: 0.52vw 0.52vw;
+        border-radius: 0.52vw;
+    }
+    
+    .editData button {
+        margin: 0.78vw 0 0 0;
+    }
+    
+    .generalOptions {
+        p {
+            font-size: calc(12px + (62 - 12) * ( (100vw - 1920px) / (7680 - 1920) ));
+            margin-top: 0.78vw;
+        }
+        button {
+            margin: 0.52vw;
+        }
+    }
+    
+    .modal {
+        padding: 0.78vw;
+        border-radius: 0.52vw;
+        p {
+            font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+        div {
+            margin-top: 0.52vw;
+        }
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .selects select {
+        padding: calc(8px + (10 - 8) * (100vw - 1024px) / (1920 - 1024)) calc(7px + (10 - 7) * (100vw - 1024px) / (1920 - 1024));
+        border-radius: 10px;
+    }
+    
+    .editData button {
+        margin: 15px 0 0 0;
+    }
+    
+    .generalOptions {
+        p {
+            font-size: calc(8px + (12 - 8) * (100vw - 320px) / (1920 - 320));
+            margin-top: 15px;
+        }
+        button {
+            margin: 10px;
+        }
+    }
+    
+    .modal {
+        padding: 15px;
+        border-radius: 10px;
+        p {
+            font-size: calc(10px + (16 - 10) * (100vw - 320px) / (1920 - 320));
+        }
+        div {
+            margin-top: 10px;
         }
     }
 }

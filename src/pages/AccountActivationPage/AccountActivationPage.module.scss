@@ -1,0 +1,30 @@
+@import "../../styles/Mixins.scss";
+@import "../../styles/Variables.scss";
+
+.activateInfo {
+    padding: 2.52vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    h1 {
+        font-size: calc(14px + (76 - 14) * ( (100vw - 320px) / (7680 - 320) ));
+        @include fontStyles($textColor);
+    }
+    p {
+        font-size: calc(10px + (66 - 10) * ( (100vw - 320px) / (7680 - 320) ));
+        @include fontStyles($textColor);
+    }
+}
+
+.checkMarkIcon {
+    margin-bottom: 1vw;
+    @include svgIconStyles(7vw, 50px, $darkIconColor);
+}
+
+@media screen and (max-width: 1023px) {
+    .checkMarkIcon {
+        display: none;
+    }
+}

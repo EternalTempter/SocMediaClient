@@ -5,17 +5,34 @@
     width: 55.7292vw; 
     background: $firstLayerColor;
     box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
-    border-radius: 3px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: calc(5px + (10 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
-    margin-top: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
 }
 
-.inputBar.shortened {
-    padding: calc(5px + (10 - 5) * ( (100vw - 200px) / ( 1920 - 200) )) 9.4%;
+@media screen and (max-width: 7680px){
+    .inputBar {
+        border-radius: 0.16vw;
+        padding: 0.52vw;
+        margin-top: 0.78vw;
+    }
+    
+    .inputBar.shortened {
+        padding: 0.52vw 9.4%;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .inputBar {
+        border-radius: 3px;
+        padding: calc(5px + (10 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+        margin-top: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+    }
+    
+    .inputBar.shortened {
+        padding: calc(5px + (10 - 5) * ( (100vw - 200px) / ( 1920 - 200) )) 9.4%;
+    }
 }
 
 @media screen and (max-width: 768px) {

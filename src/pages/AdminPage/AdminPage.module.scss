@@ -13,6 +13,17 @@
     display: flex;
 }
 
+.mobileButton {
+    display: none;
+    position: absolute;
+    right: 2%;
+    top: 2%;
+}
+
+.burgerIcon {
+    @include svgIconStyles(1.56vw, 20px, $darkIconColor);
+}
+
 .adminMenu {
     width: 15.62vw;
     min-width: 250px;
@@ -26,18 +37,17 @@
 .adminField {
     width: 84.38vw;
     height: 100%;
-    background: $firstLayerColor;  
-    padding: calc(20px + (40 - 20) * ( (100vw - 768px) / ( 1920 - 768) ));
+    background: $firstLayerColor; 
+    overflow-y: scroll;
+    @include scrollStyles(0.1rem);
 }
 
 .adminProfile {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: calc(30px + (50 - 30) * ( (100vw - 768px) / ( 1920 - 768) ));
     p {
         @include fontStyles($textColor);
-        font-size: calc(16px + (22 - 16) * ( (100vw - 768px) / ( 1920 - 768) ));
     }
 }
 
@@ -65,22 +75,16 @@
 .adminOptions {
     display: flex;
     flex-direction: column;
-    // margin-left: calc(10px + (20 - 10) * ( (100vw - 768px) / ( 1920 - 768) ));
 }
 
 .adminOption {
-    margin-top: calc(5px + (15 - 5) * ( (100vw - 768px) / ( 1920 - 768) ));
     display: flex;
     align-items: center;
-    padding: 10px;
-    border-radius: 5px;
     cursor: pointer;
     transition: .5s;
     p {
-        margin: 0 0 0 8px;
         padding: 0;
         @include fontStyles($textColor);
-        font-size: calc(14px + (18 - 14) * ( (100vw - 768px) / ( 1920 - 768) ));
     }
     &:hover {
         background: $thirdLayerColor;
@@ -93,23 +97,139 @@
     align-items: center;
     justify-content: center;
     margin-top: auto;
-    margin-bottom: calc(25px + (40 - 25) * ( (100vw - 768px) / ( 1920 - 768) ));
     width: 11.46vw;
     min-width: 180px;
-    padding: calc(6px + (8 - 6) * ( (100vw - 768px) / ( 1920 - 768) )) 0;
     box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.2);
     transition: .5s;
-    border-radius: 5px;
     background: $thirdLayerColor;
     cursor: pointer;
     p {
-        margin: 0 0 0 8px;
         padding: 0;
         @include fontStyles($textColor);
-        font-size: calc(14px + (18 - 14) * ( (100vw - 768px) / ( 1920 - 768) ));
     }
     &:hover {
         transition: .5s;
         background: #505050;
+    }
+}
+
+@media screen and (max-width: 7680px){
+    .adminField {
+        padding: 2.08vw;
+    }
+    
+    .adminProfile {
+        margin-top: 2.6vw;
+        p {
+            font-size: calc(22px + (76 - 22) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+    
+    .adminOption {
+        margin-top: 0.78vw;
+        padding: 0.52vw;
+        border-radius: 0.26vw;
+        p {
+            margin: 0 0 0 0.42vw;
+            font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+    
+    .adminLogout {
+        margin-bottom: 2.08vw;
+        padding: 0.42vw 0;
+        border-radius: 0.26vw;
+        p {
+            margin: 0 0 0 0.42vw;
+            font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .adminField {
+        padding: calc(20px + (40 - 20) * ( (100vw - 768px) / ( 1920 - 768) ));
+    }
+    
+    .adminProfile {
+        margin-top: calc(30px + (50 - 30) * ( (100vw - 768px) / ( 1920 - 768) ));
+        p {
+            font-size: calc(16px + (22 - 16) * ( (100vw - 768px) / ( 1920 - 768) ));
+        }
+    }
+    
+    .adminOption {
+        margin-top: calc(5px + (15 - 5) * ( (100vw - 768px) / ( 1920 - 768) ));
+        padding: 10px;
+        border-radius: 5px;
+        p {
+            margin: 0 0 0 8px;
+            font-size: calc(14px + (18 - 14) * ( (100vw - 768px) / ( 1920 - 768) ));
+        }
+    }
+    
+    .adminLogout {
+        margin-bottom: calc(25px + (40 - 25) * ( (100vw - 768px) / ( 1920 - 768) ));
+        padding: calc(6px + (8 - 6) * ( (100vw - 768px) / ( 1920 - 768) )) 0;
+        border-radius: 5px;
+        p {
+            margin: 0 0 0 8px;
+            font-size: calc(14px + (18 - 14) * ( (100vw - 768px) / ( 1920 - 768) ));
+        }
+    }
+}
+
+.mobileMenu.hidden {
+    left: 0;
+    transition: all 0.8s;
+}
+
+.mobileMenu.show {
+    left: 0;
+    transition: all 0.8s;
+}
+
+@media screen and (max-width: 1024px) {
+    .adminMenu {
+        width: 40%;
+        height: 100%;
+        position: fixed;
+        top: 0;  
+        z-index: 999;  
+    }
+    .mobileButton {
+        display: block;
+    }
+    .adminField {
+        width: 100%;
+    }
+    .adminMenu.hidden {
+        left: 100%;
+        transition: all 0.8s;
+    }
+    
+    .adminMenu.show {
+        left: calc(100% - 40%);
+        transition: all 0.8s;
+    }
+    
+}
+
+@media screen and (max-width: 768px) {
+    .adminMenu {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;  
+        z-index: 999;  
+    }
+    .adminMenu.hidden {
+        left: 100%;
+        transition: all 0.8s;
+    }
+    
+    .adminMenu.show {
+        left: 0;
+        transition: all 0.8s;
     }
 }

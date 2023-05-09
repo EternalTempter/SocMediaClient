@@ -35,6 +35,7 @@ import AlertHolder from '../../components/UI/AlertHolder/AlertHolder';
 import Loader from '../../components/UI/Loader/Loader';
 import SearchError from '../../assets/svg/SearchError';
 import ChooseReport from '../../components/ChooseReport/ChooseReport';
+import SavingChangesHolder from '../../components/UI/SavingChangesHolder/SavingChangesHolder';
 
 const AccountPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
@@ -79,15 +80,15 @@ const AccountPage = () => {
     const {isLoading: isUserDataLoading, data: userData, refetch} = useGetUserDataQuery(id || user.email);
 
     const [changeStatus, {isError: isStatusError}] = useChangeUserStatusMutation();
-    const [createUserPost, {isError: isUserPostError, data: userPostData}] = useCreatePostMutation();
+    const [createUserPost, {isError: isUserPostError, isLoading: isCreatePostLoading, data: userPostData}] = useCreatePostMutation();
 
     const [deleteFromFriends, {error: isDeleteFromFriendsError, data: deleteFromFriendsData}] = useDeleteFriendMutation();
-    const [sendFriendRequest, {isError: isFriendRequestError}] = useSendFriendRequestMutation()
-    const [sendDeleteFriendRequest, {isError: isFriendDeleteRequestError}] = useDeleteFriendRequestMutation();
-    const [sendAcceptFriendRequest, {isError: isFriendAcceptRequestError}] = useAcceptFriendRequestMutation();
-    const {data: notificationsData} = useGetAllNotificationsQuery(user.email);
+    const [sendFriendRequest, {isError: isFriendRequestError, isLoading: isFriendRequestLoading, data: friendRequestData}] = useSendFriendRequestMutation()
+    const [sendDeleteFriendRequest, {isError: isFriendDeleteRequestError, isLoading: isFriendDeleteRequestLoading, data: friendDeleteRequestData}] = useDeleteFriendRequestMutation();
+    const [sendAcceptFriendRequest, {isError: isFriendAcceptRequestError, isLoading: isFriendAcceptRequestLoading, data: friendAcceptRequestData}] = useAcceptFriendRequestMutation();
+    const {data: notificationsData, refetch: refetchNotifications} = useGetAllNotificationsQuery(user.email);
 
-    const {data: friendsData} = useGetAllFriendsQuery({id: user.email, limit: 400, page: 1});
+    const {data: friendsData, refetch: refetchFriends} = useGetAllFriendsQuery({id: user.email, limit: 400, page: 1});
 
     const [isReportVisible, setIsReportVisible] = useState(false);
 
@@ -170,20 +171,19 @@ const AccountPage = () => {
     }
 
     function sendFrindRequestHandler(email) {
-        if(buttonState === 'Написать сообщение') {
-            navigate(`/chat?id=${email}`);    
-        }
-        else if(buttonState === 'Добавить в друзья') {
-            sendFriendRequest({profile_from: user.email, profile_to: email})
-            setButtonState('Запрос отправлен');
-        }
-        else if(buttonState === 'Запрос отправлен') {
-            sendDeleteFriendRequest({profile_from: user.email, profile_to: email})
-            setButtonState('Добавить в друзья');
-        }
-        else {
-            sendAcceptFriendRequest({profile_from: email, profile_to: user.email})
-            setButtonState('Написать сообщение');
+        if(!isFriendRequestLoading && !isFriendDeleteRequestLoading && !isFriendAcceptRequestLoading) {
+            if(buttonState === 'Написать сообщение') {
+                navigate(`/chat?id=${email}`);    
+            }
+            else if(buttonState === 'Добавить в друзья') {
+                sendFriendRequest({profile_from: user.email, profile_to: email})
+            }
+            else if(buttonState === 'Запрос отправлен') {
+                sendDeleteFriendRequest({profile_from: user.email, profile_to: email})
+            }
+            else {
+                sendAcceptFriendRequest({profile_from: email, profile_to: user.email})
+            }
         }
     }
 
@@ -259,6 +259,22 @@ const AccountPage = () => {
     }, [isFriendDeleteRequestError])
 
     useEffect(() => {
+        if(friendRequestData) setButtonState('Запрос отправлен');
+    }, [friendRequestData])
+
+    useEffect(() => {
+        if(friendDeleteRequestData) setButtonState('Добавить в друзья');
+    }, [friendDeleteRequestData])
+
+    useEffect(() => {
+        if(friendAcceptRequestData) {
+            refetchNotifications();
+            refetchFriends();
+            setButtonState('Написать сообщение');
+        }
+    }, [friendAcceptRequestData])
+
+    useEffect(() => {
         if(deleteFromFriendsData) setButtonState('Добавить в друзья');
     }, [deleteFromFriendsData])
 
@@ -299,6 +315,18 @@ const AccountPage = () => {
             pauseOnHover
             className={styles.toast}
         />
+        {isFriendRequestLoading && 
+            <SavingChangesHolder label="Отправка запроса"/>
+        }
+        {isFriendDeleteRequestLoading &&   
+            <SavingChangesHolder label="Удаление запроса"/>
+        }
+        {isFriendAcceptRequestLoading && 
+            <SavingChangesHolder label="Принятие запроса"/>
+        }
+        {isCreatePostLoading &&
+            <SavingChangesHolder label="Создание поста"/>
+        }
         <div className={styles.accountPageWrap}>
             {isDeleteFriendConfirmationVisible &&
                 <ModalWrap

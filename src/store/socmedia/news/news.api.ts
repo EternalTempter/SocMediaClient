@@ -10,12 +10,14 @@ export const newsApi = createApi({
         getAll: build.query<any, string>({
             query: () => ({
                 url: 'getAll',
+                headers: {'auth-token': localStorage.getItem('token')!},
             })
         }),
         create: build.mutation<any, {}>({
             query: (body: {}) => ({
                 url: 'create',
                 method: 'post',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -23,6 +25,7 @@ export const newsApi = createApi({
             query: (body: {}) => ({
                 url: 'deleteById',
                 method: 'delete',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),

@@ -180,9 +180,9 @@ const CreateGroupModal:FC<CreateGroupModalProps> = ({setVisible}) => {
                             onChange={e => setGroupInfo({...groupInfo, type: e.target.value})}
                         >
                             <option disabled value="">Выберите тематику сообщества</option>
-                            <option value="Мемы">Анекдоты</option>
+                            <option value="Анекдоты">Анекдоты</option>
                             <option value="Наука">Наука</option>
-                            <option value="Религия">Новости</option>
+                            <option value="Новости">Новости</option>
                             <option value="Игры">Игры</option>
                             <option value="Другое">Другое</option>
                         </select>

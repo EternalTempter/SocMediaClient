@@ -45,10 +45,10 @@ export function getFormattedDateAndTimeForPost(unformattedDate) {
         let minutes = Math.floor(differenceBetweenDates / 1000 / 60);
         return `${minutes} ${declOfNum(minutes, ['минуту', 'минуты', 'минут'])} назад`;
     }
-    else if((differenceBetweenDates / 1000 / 60 / 60) < 24) {
-        return `Сегодня в ${addZero(date.getHours())}:${addZero(date.getMinutes())}`;   
+    else if((currentDate.getDate() - date.getDate() === 0)) {
+        return `Сегодня в ${addZero(date.getHours())}:${addZero(date.getMinutes())}`;  
     }
-    else if((differenceBetweenDates / 1000 / 60 / 60) < 48) {
+    else if((currentDate.getDate() - date.getDate() === 1)) {
         return `Вчера в ${addZero(date.getHours())}:${addZero(date.getMinutes())}`;   
     }
     else {
@@ -63,7 +63,7 @@ export function addZero (number) {
     return (number < 10 ? '0' : '') + number;
 }
 
-function declOfNum(n, text_forms) {  
+export function declOfNum(n, text_forms) {  
     n = Math.abs(n) % 100; 
     var n1 = n % 10;
     if (n > 10 && n < 20) { return text_forms[2]; }

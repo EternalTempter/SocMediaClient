@@ -48,7 +48,8 @@ const AuthorizePage:FC<AuthorizePageProps> = ({setIsAuth}) => {
             setIsAuth(true);
             localStorage.setItem('token', JSON.stringify(data.token));
             const user : IUser = jwt_decode(localStorage.getItem('token') || '');
-            navigate(`/account/${user.email}`);
+            // navigate(`/account/${user.email}`);
+            navigate('/activate');
         }
     }, [data]);
 

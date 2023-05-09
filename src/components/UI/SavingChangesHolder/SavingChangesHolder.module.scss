@@ -32,3 +32,31 @@
         font-size: calc(8px + (16 - 8) * (100vw - 200px) / (1920 - 200));
     }
 }
+
+@media screen and (max-width: 7680px){
+    .savingChangesHolder {
+        padding: 1.04vw 1.04vw;
+        border-radius: 0.52vw;
+        div {
+            margin-top: 0.26vw !important;
+        }
+        p {
+            margin: 0 0 0 0.78vw;
+            font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .savingChangesHolder {
+        padding: 20px 20px;
+        border-radius: 10px;
+        div {
+            margin-top: calc(0px + (5 - 0) * (100vw - 200px) / (1920 - 200)) !important;
+        }
+        p {
+            margin: 0 0 0 15px;
+            font-size: calc(8px + (16 - 8) * (100vw - 200px) / (1920 - 200));
+        }
+    }
+}

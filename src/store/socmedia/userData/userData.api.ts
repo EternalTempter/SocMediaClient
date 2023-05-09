@@ -10,6 +10,7 @@ export const userDataApi = createApi({
         getUserData: build.query<any, string>({
             query: (id: string) => ({
                 url: 'getOne',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     id: id
                 }
@@ -18,6 +19,7 @@ export const userDataApi = createApi({
         setDefaultUserData: build.query<any, string>({
             query: (id: string) => ({
                 url: 'setDefaultData',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     id: id
                 }
@@ -27,6 +29,7 @@ export const userDataApi = createApi({
             query: (body: {}) => ({
                 url: 'updateStatus',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -34,6 +37,7 @@ export const userDataApi = createApi({
             query: (body: {}) => ({
                 url: 'updateCity',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -41,6 +45,7 @@ export const userDataApi = createApi({
             query: (body: {}) => ({
                 url: 'updateDateBirth',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -48,6 +53,7 @@ export const userDataApi = createApi({
             query: (body: {}) => ({
                 url: 'updateName',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -55,6 +61,7 @@ export const userDataApi = createApi({
             query: (body: {}) => ({
                 url: 'updateSurname',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -62,6 +69,7 @@ export const userDataApi = createApi({
             query: (body: {}) => ({
                 url: 'updateImage',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -69,6 +77,7 @@ export const userDataApi = createApi({
             query: (body: {}) => ({
                 url: 'updatePanoramaImage',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         })

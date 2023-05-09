@@ -154,7 +154,7 @@ const EditAccount:FC<EditAccountProps> = ({refetch, refetchUser, visible, setVis
 
     return (
         <>
-        <ToastContainer
+        {/* <ToastContainer
             position="top-right"
             autoClose={4000}
             hideProgressBar={false}
@@ -165,7 +165,7 @@ const EditAccount:FC<EditAccountProps> = ({refetch, refetchUser, visible, setVis
             draggable
             pauseOnHover
             className={styles.toast}
-        />
+        /> */}
         {(isCityLoading || isDateBirthLoading || isStatusLoading || isNameLoading || isSurnameLoading || isRegularImageLoading || isPanoramaImageLoading) &&
             <SavingChangesHolder label='Сохранение изменений'/>
         }

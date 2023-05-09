@@ -25,6 +25,7 @@ export const usersApi = createApi({
         getUserByEmail: build.query<IUser, string>({
             query: (email: string) => ({
                 url: 'getByEmail',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     email: email
                 }
@@ -33,6 +34,7 @@ export const usersApi = createApi({
         getById: build.query<IUser, string>({
             query: (id: string) => ({
                 url: 'getById',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     id: id
                 }
@@ -41,6 +43,7 @@ export const usersApi = createApi({
         findAllUsersByName: build.query<IUser[], string>({
             query: (name: string) => ({
                 url: 'findAllByName',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     queryParameter: name
                 }
@@ -49,6 +52,7 @@ export const usersApi = createApi({
         getAllUsers: build.query<any, {}>({
             query: (params: {}) => ({
                 url: 'getAll',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: params
             })
         }),
@@ -56,6 +60,7 @@ export const usersApi = createApi({
             query: (obj: {}) => ({
                 url: 'deleteComment',
                 method: 'delete',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: obj
             })
         }),
@@ -63,6 +68,7 @@ export const usersApi = createApi({
             query: (obj: {}) => ({
                 url: 'deleteComment',
                 method: 'delete',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: obj
             })
         }),
@@ -70,7 +76,15 @@ export const usersApi = createApi({
             query: (obj: {}) => ({
                 url: 'changeUserRole',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: obj
+            })
+        }),
+        checkIsActivated: build.query<any, {}>({
+            query: (params: {}) => ({
+                url: 'checkIsActivated',
+                headers: {'auth-token': localStorage.getItem('token')!},
+                params: params
             })
         }),
     })
@@ -85,5 +99,6 @@ export const {
     useLazyGetAllUsersQuery,
     useLazyGetByIdQuery,
     useDeleteUserByEmailMutation,
-    useChangeUserRoleMutation
+    useChangeUserRoleMutation,
+    useCheckIsActivatedQuery
 } = usersApi;

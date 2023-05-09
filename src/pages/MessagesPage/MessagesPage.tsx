@@ -44,7 +44,6 @@ const MessagesPage = () => {
 
     useEffect(() => {
         if(data) {
-            console.log(data.rows[0]);
             setInboxes([...inboxes, ...data.rows])
             if(totalPages === null) {
                 setTotalPages(data.count);
@@ -81,7 +80,7 @@ const MessagesPage = () => {
     }
 
     function checkForUpdates(inbox) {
-        let updatedRow = inboxes.filter(inb => inb.id === inbox.id && inb.last_message !== inbox.last_message);
+        let updatedRow = inboxes.filter(inb => inb.id === inbox.id && (inb.last_message !== inbox.last_message || inb.viewed !== inbox.viewed));
         if(updatedRow.length === 0) return false;
         return updatedRow[0].last_message;
     }

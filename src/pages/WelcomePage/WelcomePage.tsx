@@ -11,8 +11,20 @@ import Abstract from '../../assets/svg/Abstract';
 import Logo from '../../assets/svg/Logo';
 import { useNavigate } from 'react-router-dom';
 
+import SwiperCore, { Autoplay } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
 const WelcomePage = () => {
     const navigate = useNavigate(); 
+    
+    SwiperCore.use([Autoplay])
+
+    const [sliderComponents, setSliderComponents] = useState([
+        <img src={require('../../assets/images/preview1.png')}/>,
+        <img src={require('../../assets/images/preview2.png')}/>,
+    ]);
+
+    const [isScrollBlocked, setIsScrollBlocked] = useState(false);
 
     const [firstPreviewRootClasses, setFirstPreviewRootClasses] = useState<string[]>([styles.preview1, styles.hidden]);
     const [secondPreviewRootClasses, setSecondPreviewRootClasses] = useState<string[]>([styles.preview2, styles.hidden]);
@@ -20,6 +32,8 @@ const WelcomePage = () => {
     const [infographicRootClasses, setInfographicRootClasses] = useState<string[]>([styles.infographic, styles.hidden]);
     const [offerRootClasses, setOfferRootClasses] = useState<string[]>([styles.offerWrap, styles.hidden]);
     const [dontHaveAccountRootClasses, setDontHaveAccountRootClasses] = useState<string[]>([styles.dontHaveAccount, styles.hidden]);
+
+    const [mobileMenuRootClasses, setMobileMenuRootClasses] = useState<string[]>([styles.mobileMenu, styles.hidden]);
 
     const firstPreview = useRef<HTMLDivElement>(null);
     const secondPreview = useRef<HTMLDivElement>(null);
@@ -59,23 +73,61 @@ const WelcomePage = () => {
         }
     }
 
+    function openMobileMenuHandler() {
+        if(!mobileMenuRootClasses.includes(styles.show)) {
+            setMobileMenuRootClasses([...mobileMenuRootClasses, styles.show])
+            setIsScrollBlocked(true);
+        }
+        else {
+            setMobileMenuRootClasses(mobileMenuRootClasses.filter(item => item !== styles.show));
+            setIsScrollBlocked(false);
+        }
+    }
+
     useEffect(() => {
         hiddenElements.forEach(el => observer.observe(el.current!))
     }, [])
 
     return (
-        <div className={styles.welcomePageWrap}>
-            <div className={styles.starField}>
+        <div 
+            className={styles.welcomePageWrap} 
+            style={isScrollBlocked ? {overflow: 'hidden'} : undefined}
+        >
+            {/* <div className={styles.starField}>
                 <div className={styles.star}></div>
             </div>
             <div className={styles.firefly}></div>
             <div className={styles.firefly}></div>
             <div className={styles.firefly}></div>
             <div className={styles.firefly}></div>
-            <div className={styles.firefly}></div>
-            <Header/>
+            <div className={styles.firefly}></div> */}
+            <div className={mobileMenuRootClasses.join(' ')}>
+                <div className={styles.mobileMenuHeader}>
+                    <Logo className={styles.mobileLogoIcon}/>
+                    <button onClick={() => openMobileMenuHandler()}>X</button>
+                </div>
+                <button onClick={() => navigate('/login')}>Войти</button>
+                <button onClick={() => navigate('/registrate')}>Зарегистрироваться</button>
+            </div>
+            <Header openMobileMenuHandler={openMobileMenuHandler}/>
             <div className={styles.banner}>
-                <p>Здесь могла быть ваша реклама</p>
+                {/* <p>Здесь могла быть ваша реклама</p> */}
+                <div className={styles.bannerItem}>
+                    <Swiper
+                        loop={true}
+                        modules={[Autoplay]}
+                        autoplay={{ delay: 4000 }}
+                        speed={1000}
+                    >
+                        {sliderComponents.map((elem, index) => 
+                            <SwiperSlide key={index}>
+                                <div className={styles.imageWrap}>
+                                    {elem}
+                                </div>
+                            </SwiperSlide>    
+                        )}
+                    </Swiper>
+                </div>
             </div>
             <div className={styles.info}>
                 <h2>Ellentair</h2>
@@ -161,7 +213,7 @@ const WelcomePage = () => {
                 <div className={styles.offer}>
                     <div className={styles.offerInfo}>
                         <h3>Стань частью нового мира</h3>
-                        <p>Мира, где людям удобно общаться на расстоянии, делиться своими эмоциями и открывать новые горизонты самопознания в этой необьятной вселенной многогранности трансполяризации пространства</p>
+                        <p>Мира, где людям удобно общаться на расстоянии, делиться своими эмоциями и открывать новые горизонты</p>
                         <div className={styles.offerInfographic}>
                             <div className={styles.offerInfographicItem}>
                                 <div>

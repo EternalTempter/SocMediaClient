@@ -44,7 +44,7 @@ const AdminPanelManageUserRoles = () => {
             {isLoading &&
                 <SavingChangesHolder label='Изменение роли'/>
             }
-            <div>
+            <div className={styles.userRolesWrap}>
                 <p className={styles.label}>Управление ролями пользователя</p>
                 <div className={styles.deleteNews}>
                     <p className={styles.createNewsLabel}>Удаление новости</p>

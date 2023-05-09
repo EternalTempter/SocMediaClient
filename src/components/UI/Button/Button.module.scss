@@ -30,3 +30,25 @@
         transition: 0.5s;
     }
 }
+
+@media screen and (max-width: 7680px){
+    .button {
+        padding: 0.52vw 0.5208vw;
+        font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+        border-radius: 0.26vw;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .button {
+        padding: calc(6px + (10 - 6) * ( (100vw - 200px) / ( 1920 - 200) )) 0.5208vw;
+        font-size: calc(10px + (14 - 10) * ( (100vw - 200px) / ( 1920 - 200) ));
+        border-radius: 0.26vw;
+    }
+}
+
+@media screen and (max-width: 1440px){
+    .button {
+        border-radius: 5px;
+    }
+}

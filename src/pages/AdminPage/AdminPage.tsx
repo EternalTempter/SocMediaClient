@@ -14,13 +14,35 @@ import SkeletonLoader from '../../components/UI/SkeletonLoader/SkeletonLoader';
 import AdminPanelManageNews from '../../components/AdminPanelManageNews/AdminPanelManageNews';
 import AdminPanelManageReports from '../../components/AdminPanelManageReports/AdminPanelManageReports';
 import AdminPanelManageUserRoles from '../../components/AdminPanelManageUserRoles/AdminPanelManageUserRoles';
+import BurgerMenu from '../../assets/svg/BurgerMenu';
 
 const AdminPage = () => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const navigate = useNavigate();
     const [currentAdminOption, setCurrentAdminOption] = useState('manageNews');
 
+    const [mobileMenuRootClasses, setMobileMenuRootClasses] = useState<string[]>([styles.adminMenu, styles.hidden]);
+
     const {isLoading: isUserDataLoading, data: userData} = useGetUserDataQuery(user.email);
+
+    function openMobileMenuHandler() {
+        setMobileMenuRootClasses([...mobileMenuRootClasses, styles.show]);
+    }
+
+    function setManageNewsHandler() {
+        setCurrentAdminOption('manageNews');
+        setMobileMenuRootClasses(mobileMenuRootClasses.filter(item => item !== styles.show));
+    }
+
+    function setManageReportsHandler() {
+        setCurrentAdminOption('manageReports');
+        setMobileMenuRootClasses(mobileMenuRootClasses.filter(item => item !== styles.show));
+    }
+
+    function setManageUserRolesHandler() {
+        setCurrentAdminOption('manageUserRoles');
+        setMobileMenuRootClasses(mobileMenuRootClasses.filter(item => item !== styles.show));
+    }
 
     useEffect(() => {
         if(user.role !== 'OWNER' && user.role !== 'ADMIN') navigate('/account/' + user.email);
@@ -28,7 +50,13 @@ const AdminPage = () => {
 
     return (
         <div className={styles.adminWrap}>
-            <div className={styles.adminMenu}>
+            <div 
+                className={styles.mobileButton}
+                onClick={() => openMobileMenuHandler()}
+            >
+                <BurgerMenu className={styles.burgerIcon}/>
+            </div>
+            <div className={mobileMenuRootClasses.join(' ')}>
                 <div className={styles.adminProfile}>
                     <div className={styles.adminProfileImage}>
                         {isUserDataLoading && <SkeletonLoader borderRadius={999}/>}
@@ -39,28 +67,28 @@ const AdminPage = () => {
                 <div className={styles.adminOptions}>
                     <div 
                         className={styles.adminOption}
-                        onClick={() => setCurrentAdminOption('manageNews')}
+                        onClick={setManageNewsHandler}
                     >
                         <ManageNews className={styles.manageNewsIcon}/>
                         <p>Управление новостями</p>
                     </div>
                     <div 
                         className={styles.adminOption}
-                        onClick={() => setCurrentAdminOption('manageReports')}
+                        onClick={setManageReportsHandler}
                     >
                         <ManageReports className={styles.manageReportsIcon}/>
                         <p>Просмотр жалоб</p>
                     </div>
                     <div 
                         className={styles.adminOption}
-                        onClick={() => setCurrentAdminOption('manageUserRoles')}
+                        onClick={setManageUserRolesHandler}
                     >
                         <ManageUserRoles className={styles.manageUserRolesIcon}/>
                         <p>Управление ролями</p>
                     </div>
                     <div 
                         className={styles.adminOption}
-                        onClick={() => setCurrentAdminOption('manageNews')}
+                        onClick={setManageNewsHandler}
                     >
                         <Options className={styles.optionsIcon}/>
                         <p>Настройки</p>

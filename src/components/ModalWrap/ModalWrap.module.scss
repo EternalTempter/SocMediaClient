@@ -18,13 +18,25 @@
 }
 
 .modal {
-    width: calc(840px + (1070 - 840) * (100vw - 1439px) / (1920 - 1439));
     background: $firstLayerColor;
     box-shadow: 4px 4px 4px rgba(13, 13, 13, 0.4);
-    border-radius: 10px;
     display: flex;
     justify-content: center;
     overflow-y: auto;
+}
+
+@media screen and (max-width: 7680px){
+    .modal {
+        width: 55.73vw;
+        border-radius: 0.52vw;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .modal {
+        width: calc(840px + (1070 - 840) * (100vw - 1439px) / (1920 - 1439));
+        border-radius: 10px;
+    }
 }
 
 @media screen and (max-width: 1439px) {

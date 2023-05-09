@@ -5,6 +5,8 @@ export interface IUser {
     role: string
     name: string
     surname: string
+    is_activated?: boolean
+    is_banned?: boolean
     unique_id?: string
     createdAt?: Date;
     updatedAt?: Date;

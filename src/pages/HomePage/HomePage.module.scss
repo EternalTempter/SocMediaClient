@@ -2,46 +2,14 @@
 @import "../../styles/Variables.scss";
 
 .homePageWrap {
-    padding-top: calc(5px + (30 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
     z-index: 3;
     width: 92.5vw;
     height: 100vh;
     position: relative;
-    // overflow-y: scroll;  
     display: flex;
     flex-direction: column;
     align-items: center;
     @include scrollStyles(0.45em);
-}
-
-.homePageHeader {
-    display: flex;
-    width: 55.729vw;
-    button {
-        margin-left: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200));
-        background: linear-gradient(94.68deg, rgba(255, 255, 255, 0.4) 8.73%, rgba(255, 255, 255, 0.1) 92.13%);
-        border-radius: 5px;
-        width: 14.063vw;
-        min-width: 80px;
-        @include fontStyles($textColor);
-        font-size: calc(10px + (16 - 10) * (100vw - 200px) / (1920 - 200));
-        border: none;
-        cursor: pointer;
-    }
-}
-
-.homePageHeader div {
-    box-sizing: border-box;
-    width: 40.104vw;
-    min-width: 220px;
-    background: linear-gradient(90.52deg, rgba(255, 255, 255, 0.4) 5.79%, rgba(255, 255, 255, 0.1) 97.75%);
-    border-radius: 5px;
-    padding: calc(5px + (18 - 5) * (100vw - 200px) / (1920 - 200));
-    p {
-        @include fontStyles($textColor);
-        font-size: calc(14px + (18 - 14) * (100vw - 200px) / (1920 - 200));
-        margin: 0;
-    }
 }
 
 .homePage {
@@ -50,6 +18,9 @@
 }
 
 .homePageBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
     width: 100%;
     height: 100%;
@@ -57,27 +28,20 @@
 
 .sliderArrowLeft {
     top: 50%;
-    left: calc(-20px + (-60 - -20) * (100vw - 200px) / (1920 - 200));
 }
 
 .sliderArrowRight {
     top: 50%;
-    right: calc(-20px + (-60 - -20) * (100vw - 200px) / (1920 - 200));
 }
-
 
 .swiper {
     width: 55.729vw;
     min-width: 300px;
-    height: calc(500px + (800 - 500) * (100vw - 1024px) / (1920 - 1024));
 }
 
 .mobileNavigation {
     display: none;
-    // margin: 15px 0 0 5px;
-    padding: 15px 0 15px 5px;
     a {
-        margin-left: 10px;
         color: $textColor;
         transition: 0.5s;
     }
@@ -87,7 +51,52 @@
     text-decoration: underline;
 }
 
+@media screen and (max-width: 7680px){
+    .sliderArrowLeft {
+        left: -3.13vw;
+    }
+    
+    .sliderArrowRight {
+        right: -3.13vw;
+    }    
+    
+    .swiper {
+        height: 41.67vw;
+    }
+    
+    .mobileNavigation {
+        padding: 0.78vw 0 0.78vw 0.26vw;
+        a { 
+            margin-left: 0.52vw;
+        }
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .sliderArrowLeft {
+        left: calc(-20px + (-60 - -20) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .sliderArrowRight {
+        right: calc(-20px + (-60 - -20) * (100vw - 200px) / (1920 - 200));
+    }  
+    
+    .swiper {
+        height: calc(500px + (800 - 500) * (100vw - 1024px) / (1920 - 1024));
+    }
+    
+    .mobileNavigation {
+        padding: 15px 0 15px 5px;
+        a {
+            margin-left: 10px;
+        }
+    }
+}
+
 @media screen and(max-width: 768px) {
+    .homePageBody {
+        display: block;
+    }
     .mobileNavigation {
         display: block;
     }

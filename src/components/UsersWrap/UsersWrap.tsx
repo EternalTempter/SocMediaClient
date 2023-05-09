@@ -33,6 +33,7 @@ const UsersWrap:FC<UsersWrapProps> = ({
         buttonState,
         setButtonState
     }) => {
+
     const mainUser : IUser = jwt_decode(localStorage.getItem('token') || '');
     const [users, setUsers] = useState<IFriend[]>([]);
     const [usersFriends, setUsersFriends] = useState<IUser[]>([]);
@@ -40,6 +41,8 @@ const UsersWrap:FC<UsersWrapProps> = ({
     const lastElement = useRef<HTMLDivElement>(null)
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState<number | null>(null);
+
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
 
     function checkIfValueNotExistInPostsArray(value: number) {
         if(type === 'FRIENDS') {
@@ -76,10 +79,16 @@ const UsersWrap:FC<UsersWrapProps> = ({
     
     useEffect(() => {
         if(type === 'FRIENDS')
-            getUsers({id: mainUser.email, limit: 20, page: page});
+        getUsers({id: mainUser.email, limit: 20, page: page});
         else
-            getUsers({ids: JSON.stringify(friends), limit: 20, page: page});
+        getUsers({ids: JSON.stringify(friends), limit: 20, page: page});
     }, [page])
+    
+    useEffect(() => {
+        if(users) {
+            setIsAlertVisible(data && (data[0] === undefined) && users && (users[0] === undefined) && buttonState !== 'Рекомендации' && !isLoading && !isError);
+        }
+    }, [users])
 
     // useEffect(() => {
     //     if(id) {
@@ -94,7 +103,7 @@ const UsersWrap:FC<UsersWrapProps> = ({
 
     return (
         <div className={styles.wrap}>
-            {data && (data[0] === undefined) && users && (users[0] === undefined) && buttonState !== 'Рекомендации' && !isLoading && !isError &&
+            {isAlertVisible &&
                 <AlertHolder 
                     icon={<SearchError className={styles.alertIconDefault}/>}
                     label="Вы пока не добавляли никого в друзья, можете найти друзей в рекомендациях!"

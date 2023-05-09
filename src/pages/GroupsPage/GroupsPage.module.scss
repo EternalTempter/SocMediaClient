@@ -19,8 +19,12 @@
     display: none;
 }
 
-.groupsOptionsIcon, .createGroupPlus {
+.createGroupPlus {
     @include svgIconStyles(1.3021vw, 20px, $darkIconColor);
+}
+
+.groupsOptionsIcon {
+    @include svgIconStylesStroke(1.3021vw, 20px, $darkIconColor);
 }
 
 @media screen and (max-width: 1023px) {

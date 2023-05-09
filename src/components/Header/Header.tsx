@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/svg/Logo';
 import styles from './Header.module.scss';
 import BurgerMenu from '../../assets/svg/BurgerMenu';
 
-const Header = () => {
+interface HeaderProps {
+    openMobileMenuHandler: () => void
+}
+
+const Header:FC<HeaderProps> = ({openMobileMenuHandler}) => {
     return (
         <div className={styles.header}>
             <div className={styles.logo}>
@@ -24,7 +28,9 @@ const Header = () => {
                 >
                     Зарегистрироваться
                 </Link>
-                <BurgerMenu className={styles.burgerMenuIcon}/>
+                <div onClick={() => openMobileMenuHandler()}>
+                    <BurgerMenu className={styles.burgerMenuIcon}/>
+                </div>
             </div>
         </div>
     );

@@ -2,12 +2,14 @@ import React, { FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { baseUrl } from '../../envVariables/variables';
+import jwt_decode from 'jwt-decode';
 import { isValidFileUploaded, notifyError, notifySuccess } from '../../helpers/helpers';
 import { useDeleteGroupMutation, useGetGroupByIdQuery, useUpdateDescriptionMutation, useUpdateImageMutation, useUpdateNameMutation, useUpdatePanoramaImageMutation, useUpdateTypeMutation } from '../../store/socmedia/groups/groups.api';
 import EditWrap from '../EditWrap/EditWrap';
 import Button from '../UI/Button/Button';
 import SavingChangesHolder from '../UI/SavingChangesHolder/SavingChangesHolder';
 import styles from './EditGroup.module.scss';
+import { IUser } from '../../models';
 
 interface EditGroupProps {
     refetch: () => void
@@ -16,6 +18,8 @@ interface EditGroupProps {
 }
 
 const EditGroup:FC<EditGroupProps> = ({refetch, visible, setVisible}) => {
+    const user : IUser = jwt_decode(localStorage.getItem('token') || '');
+
     const {id} = useParams();
     const navigate = useNavigate(); 
 
@@ -102,7 +106,7 @@ const EditGroup:FC<EditGroupProps> = ({refetch, visible, setVisible}) => {
     }
 
     useEffect(() => {
-        if(deleteGroupData) navigate('/');
+        if(deleteGroupData) navigate(`/account/${user.email}`);
     }, [deleteGroupData])
 
     useEffect(() => {

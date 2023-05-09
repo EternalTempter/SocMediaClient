@@ -2,9 +2,6 @@
 @import "../../styles/Variables.scss";
 
 .addComment {
-    margin: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200)) 
-            0 
-            calc(5px + (15 - 5) * (100vw - 200px) / (1920 - 200));
     width: 81.308%;
     display: flex;
     align-items: center;
@@ -16,39 +13,30 @@
     min-width: 35px;
     min-height: 35px;
     border-radius: 50%;
-    background: gray;
+    background: $thirdLayerColor;
     @include roundedImageStyles();
 }
 
 .addCommentHolder {
     position: relative;
     width: 100%;
-    margin-left: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200));
     input {
         border: none;
         width: 100%;
         background: $inputColor;
         border: 1px solid #2A2A2A;
-        border-radius: 10px;
         color: $textColor;
-        padding: 
-        calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200))
-        calc(7px + (14 - 7) * (100vw - 200px) / (1920 - 200))
-        calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200))
-        calc(7px + (14 - 7) * (100vw - 200px) / (1920 - 200));
         box-sizing: border-box;
         &::placeholder {
             font-family: 'Roboto';
             font-style: normal;
             font-weight: 400;
-            font-size: calc(8px + (12 - 8) * (100vw - 200px) / (1920 - 200));
             color: $inputTextColor;
         }
     }
     div {
         position: absolute;
         top: 33%;
-        right: 10px;
         display: flex;
     }
 }
@@ -57,16 +45,72 @@
     @include svgIconStyles(1.0417vw, 14px, $darkIconColor);
 }
 
-.addCommentSmile {
-    margin-left: calc(4px + (10 - 4) * (100vw - 200px) / (1920 - 200));    
-}
-
 .sendCommentIcon {
     @include svgIconStyles(1.5625vw, 22px, $darkIconColor);
 }
 
-.sendComment {
-    margin-left: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200))
+@media screen and (max-width: 7680px){
+    .addComment {
+        margin: 1.56vw 0 0.78vw;
+    }
+    
+    .addCommentHolder {
+        margin-left: 0.52vw;
+        input {
+            font-size: calc(12px + (62 - 12) * ( (100vw - 1920px) / (7680 - 1920) ));
+            border-radius: 0.52vw;
+            padding: 0.52vw 0.73vw 0.52vw 0.73vw;
+            &::placeholder {
+                font-size: calc(12px + (62 - 12) * ( (100vw - 1920px) / (7680 - 1920) ));
+            }
+        }
+        div {
+            right: 0.52vw;
+        }
+    }
+    
+    .addCommentSmile {
+        margin-left: 0.52vw;    
+    }
+    
+    .sendComment {
+        margin-left: 0.52vw;
+    } 
+}
+
+@media screen and (max-width: 1920px){
+    .addComment {
+        margin: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200)) 
+                0 
+                calc(5px + (15 - 5) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .addCommentHolder {
+        margin-left: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200));
+        input {
+            border-radius: 10px;
+            font-size: calc(8px + (12 - 8) * (100vw - 200px) / (1920 - 200));
+            padding: 
+                calc(8px + (10 - 8) * (100vw - 200px) / (1920 - 200))
+                calc(7px + (14 - 7) * (100vw - 200px) / (1920 - 200))
+                calc(8px + (10 - 8) * (100vw - 200px) / (1920 - 200))
+                calc(7px + (14 - 7) * (100vw - 200px) / (1920 - 200));
+            &::placeholder {
+                font-size: calc(8px + (12 - 8) * (100vw - 200px) / (1920 - 200));
+            }
+        }
+        div {
+            right: 10px;
+        }
+    }
+    
+    .addCommentSmile {
+        margin-left: calc(4px + (10 - 4) * (100vw - 200px) / (1920 - 200));    
+    }
+    
+    .sendComment {
+        margin-left: calc(5px + (10 - 5) * (100vw - 200px) / (1920 - 200));
+    }
 }
 
 @media screen and (max-width: 768px) {

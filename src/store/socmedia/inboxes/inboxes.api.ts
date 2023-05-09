@@ -11,6 +11,7 @@ export const inboxesApi = createApi({
         getUserInboxes: build.query<any, {}>({
             query: (params: {}) => ({
                 url: 'get',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: params
             })
         }),
@@ -18,6 +19,7 @@ export const inboxesApi = createApi({
             query: (updatedMessage: {}) => ({
                 url: 'updateLastMessage',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: updatedMessage
             })
         }),
@@ -25,12 +27,14 @@ export const inboxesApi = createApi({
             query: (body: {}) => ({
                 url: 'create',
                 method: 'post',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
         getInbox: build.query<IInbox, {}>({
             query: (params: {}) => ({
                 url: 'getInbox',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: params
             })
         }),
@@ -38,6 +42,7 @@ export const inboxesApi = createApi({
             query: (body: {}) => ({
                 url: 'updateLastMessageView',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),

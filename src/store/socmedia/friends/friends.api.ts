@@ -11,12 +11,14 @@ export const friendsApi = createApi({
         getAllFriends: build.query<any, {}>({
             query: (params: {}) => ({
                 url: 'getAllFriends',
-                params: params
+                params: params,
+                headers: {'auth-token': localStorage.getItem('token')!}
             })
         }),
         getAllNotifications: build.query<IAddInFriendsNotification[], string>({
             query: (id: string) => ({
                 url: 'getAllNotifications',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     id: id
                 }
@@ -25,6 +27,7 @@ export const friendsApi = createApi({
         getAllSubscribers: build.query<any, string>({
             query: (id: string) => ({
                 url: 'getAllSubscribers',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     id: id
                 }
@@ -34,6 +37,7 @@ export const friendsApi = createApi({
             query: (body: {}) => ({
                 url: 'sendFriendRequest',
                 method: 'post',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -41,6 +45,7 @@ export const friendsApi = createApi({
             query: (body: {}) => ({
                 url: 'acceptFriendRequest',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -48,6 +53,7 @@ export const friendsApi = createApi({
             query: (body: {}) => ({
                 url: 'rejectFriendRequest',
                 method: 'put',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -55,6 +61,7 @@ export const friendsApi = createApi({
             query: (body: {}) => ({
                 url: 'deleteFriend',
                 method: 'delete',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
@@ -62,12 +69,14 @@ export const friendsApi = createApi({
             query: (body: {}) => ({
                 url: 'deleteFriendRequest',
                 method: 'delete',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 body: body
             })
         }),
         getUserSubscribersCount: build.query<any, string>({
             query: (id: string) => ({
                 url: 'getUserSubscribersCount',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     id: id
                 }
@@ -76,6 +85,7 @@ export const friendsApi = createApi({
         getUserFriendsCount: build.query<any, string>({
             query: (id: string) => ({
                 url: 'getUserFriendsCount',
+                headers: {'auth-token': localStorage.getItem('token')!},
                 params: {
                     id: id
                 }

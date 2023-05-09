@@ -3,7 +3,6 @@
 
 .accountPageWrap {
     @include scrollStyles(0.45em);
-    padding-top: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
     z-index: 3;
     width: 92.5vw;
     height: 100vh;
@@ -15,7 +14,6 @@
 }
 
 .panoramaImage {
-    border-radius: 5px 5px 0px 0px;
     @include imageStyles();
     position: relative;
     width: 55.7292vw;
@@ -31,9 +29,6 @@
         top: 0;
         right: 0;
         z-index: 100;
-        &:last-child {
-            top: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200));
-        }
     }
 }
 
@@ -44,7 +39,6 @@
 .accountPage {
     width: 55.7292vw;
     background: $firstLayerColor;
-    border-radius: 0px 0px 5px 5px;
 }
 
 .userInfo {
@@ -66,7 +60,6 @@
     min-height: 90px;
     border-radius: 50%;
     background: transparent;
-    border: calc(1.5px + (3 - 1.5) * (100vw - 200px) / (1920 - 200)) solid $lightIconColor;
     display: flex;
     align-items: center;
     transition: .5s;
@@ -75,7 +68,6 @@
 }
 
 .userImageHolder:hover {
-    border: calc(2px + (3.5 - 2) * (100vw - 200px) / (1920 - 200)) solid white;
     transition: .5s;
 }
 
@@ -102,24 +94,13 @@
 
 .userName {
     padding-top: 0.7813vw;
-    font-size: calc(12px + (22 - 12) * (100vw - 200px) / (1920 - 200));
 }
 .userName.skeleton {
     display: block;
-    width: calc(160px + (340 - 160) * (100vw - 300px) / (1920 - 300));
-    height: calc(15px + (30 - 15) * (100vw - 300px) / (1920 - 300));
-}
-
-.userStatus {
-    margin-top: calc(5px + (30 - 5) * (100vw - 900px) / (1920 - 900));
-    font-size: calc(8px + (18 - 8) * (100vw - 200px) / (1920 - 200));
 }
 
 .userStatus.skeleton {
     display: block;
-    width: calc(190px + (460 - 190) * (100vw - 300px) / (1920 - 300));
-    height: calc(15px + (25 - 15) * (100vw - 300px) / (1920 - 300));
-    margin-top: -2.5px;
 }
 
 .userEditStatus {
@@ -127,13 +108,10 @@
     border: none;
     margin-left: 30.8411%; 
     box-sizing: border-box;
-    width: 300px;
-    height: 30px;
 }
 
 .userDateBirth, .userCity {
     @include fontStyles($textColor);
-    font-size: calc(8px + (16 - 8) * (100vw - 200px) / (1920 - 200));
     margin: 0;
     padding: 0;
 }
@@ -144,10 +122,6 @@
 
 .userDateBirth.skeleton {
     display: block;
-    width: calc(130px + (320 - 130) * (100vw - 300px) / (1920 - 300));
-    height: calc(20px + (35 - 20) * (100vw - 300px) / (1920 - 300));
-    margin-bottom: calc(5px + (10 - 5) * (100vw - 300px) / (1920 - 300));
-    margin-top: -5px;
 }
 
 .userCity {
@@ -172,22 +146,16 @@
     right: 0;
     top: 0; 
     margin: 0.5208vw 0.5208vw 0 0;
-    width: calc(110px + (210 - 110) * (100vw - 500px) / (1920 - 500));
     min-width: 110px;
     padding: 0.1vw 0;
     background: $secondLayerColor;
-    border-radius: 3px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: $textColor;
     padding-left: 0.7813vw;
-    font-size: calc(8px + (16 - 8) * (100vw - 200px) / (1920 - 200));
     white-space: nowrap;
     transition: .5s;
-    div {
-        margin-top: 5px;
-    }
     &:hover {
         background: $thirdLayerColor;
         transition: .5s;
@@ -196,13 +164,11 @@
 
 .userAdditionalOptions {
     background: $firstLayerColor; 
-    border-radius: 0 0 0 3px;
     box-sizing: border-box;
     transition: 0.1s;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 10px;
 }
 .userAdditionalOptions:hover .accountMore {
     fill: white;
@@ -216,7 +182,6 @@
 
 .userAddInFriendsPlus {
     @include svgIconStyles(1.3021vw, 14px, $darkIconColor);
-    margin-right: 5px;
 }
 
 .hiddenUserAddInFriends {
@@ -233,8 +198,6 @@
 .userOptionsWrap {
     position: absolute;
     cursor: pointer;
-    right: 5px;
-    top: 5px; 
 }
 .userOptions {
     transition: 0.1s;
@@ -243,10 +206,6 @@
 
 .postFinderSearch {
     @include svgIconStyles(1.3021vw, 18px, $darkIconColor);
-}
-
-.addPostSend {
-    margin-left: 5px;
 }
 
 .postOptions {
@@ -261,10 +220,8 @@
         border: none;
         background: rgba(217, 217, 217, 0.3);
         color: $textColor;
-        margin-top: 10px;
         &:focus {
             outline: none;
-            border-radius: 3px;
         }
     }
 }
@@ -276,7 +233,6 @@
 }
 
 .editStatus {
-    font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));
     white-space: nowrap;
     color: $textColor;
     margin: 0;
@@ -284,20 +240,10 @@
     display: none;
     margin-right: 1vw;
     position: absolute;
-    top: -28px;
-    right: 10px;
-}
-
-.editStatus  {
-    margin-top: 30px;
 }
 
 .editStatus.on {
     display: block;
-}
-
-.editStatus.on.editing {
-    top: -18px;
 }
 
 .lastElement {
@@ -312,20 +258,15 @@
 
 .hiddenOptions {
     display: none;
-    padding: 3px;
     a {
         display: block;
         background: $firstLayerColor;
-        border-radius: 3px;
         display: flex;
         align-items: center;
-        padding: 5px 10px;
         box-sizing: border-box;
         @include fontStyles($textColor);
-        font-size: calc(10px + (16 - 10) * (100vw - 200px) / (1920 - 200));
         text-decoration: none;
         transition: 0.5s;
-        margin-top: 3px;
         &:first-child {
             margin-top: 0;  
         }
@@ -340,8 +281,252 @@
     display: block;
 }
 
-.addPostWrap {
-    margin-bottom: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+@media screen and (max-width: 7680px){
+    .accountPageWrap {
+        padding-top: 0.78vw;
+    }
+    
+    .panoramaImage {
+        border-radius: 0.26vw 0.26vw 0px 0px;
+        div {
+            &:last-child {
+                top: 1.56vw;
+            }
+        }
+    }
+
+    .accountPage {
+        border-radius: 0px 0px 0.26vw 0.26vw;
+    }
+    
+    .userImageHolder {
+        border: 0.16vw solid $lightIconColor;
+    }
+    
+    .userImageHolder:hover {
+        border: 0.18vw solid white;
+    }
+
+    .userName {
+        font-size: calc(22px + (76 - 22) * ( (100vw - 1920px) / (7680 - 1920) ));
+    }
+    .userName.skeleton {
+        width: 17.71vw;
+        height: 1.56vw;
+    }
+    
+    .userStatus {
+        margin-top: 1.56vw;
+        font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+    }
+    
+    .userStatus.skeleton {
+        width: 23.96vw;
+        height: 1.3vw;
+        margin-top: -0.13vw;
+    }
+    
+    .userEditStatus {
+        width: 15.63vw;
+        height: 1.56vw;
+    }
+    
+    .userDateBirth, .userCity {
+        font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+    }
+    
+    .userDateBirth.skeleton {
+        width: 16.67vw;
+        height: 1.82vw;
+        margin-bottom: 0.52vw;
+        margin-top: -0.26vw;
+    }
+    
+    .userAddInFriends {
+        width: 10.94vw;
+        border-radius: 0.16vw;
+        font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+        div {
+            margin-top: 0.26vw;
+        }
+    }
+    
+    .userAdditionalOptions {
+        border-radius: 0 0 0 0.16vw;
+        padding: 0 0.52vw;
+    }
+    
+    .userAddInFriendsPlus {
+        margin-right: 0.26vw;
+    }
+    
+    .userOptionsWrap {
+        right: 0.26vw;
+        top: 0.26vw; 
+    }
+    
+    .addPostSend {
+        margin-left: 0.26vw;
+    }      
+    
+    .editablePart input {
+        margin-top: 0.52vw;
+        &:focus {
+            border-radius: 0.16vw;
+        }
+    }
+    
+    .editStatus {
+        font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+        top: -1.46vw;
+        right: 0.52vw;
+    }
+    
+    .editStatus  {
+        margin-top: 1.56vw;
+    }
+    
+    .editStatus.on.editing {
+        top: -0.94vw;
+    }
+    
+    .hiddenOptions {
+        padding: 0.16vw;
+        a {
+            border-radius: 0.16vw;
+            padding: 0.26vw 0.52vw;
+            font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+            margin-top: 0.16vw;
+        }
+    }
+    
+    .addPostWrap {
+        margin-bottom: 0.78vw;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .accountPageWrap {
+        padding-top: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+    }
+    
+    .panoramaImage {
+        border-radius: 5px 5px 0px 0px;
+        div {
+            &:last-child {
+                top: calc(10px + (30 - 10) * (100vw - 200px) / (1920 - 200));
+            }
+        }
+    }
+
+    .accountPage {
+        border-radius: 0px 0px 5px 5px;
+    }
+    
+    .userImageHolder {
+        border: calc(1.5px + (3 - 1.5) * (100vw - 200px) / (1920 - 200)) solid $lightIconColor;
+    }
+    
+    .userImageHolder:hover {
+        border: calc(2px + (3.5 - 2) * (100vw - 200px) / (1920 - 200)) solid white;
+    }
+
+    .userName {
+        font-size: calc(12px + (22 - 12) * (100vw - 200px) / (1920 - 200));
+    }
+    .userName.skeleton {
+        width: calc(160px + (340 - 160) * (100vw - 300px) / (1920 - 300));
+        height: calc(15px + (30 - 15) * (100vw - 300px) / (1920 - 300));
+    }
+    
+    .userStatus {
+        margin-top: calc(5px + (30 - 5) * (100vw - 900px) / (1920 - 900));
+        font-size: calc(8px + (18 - 8) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .userStatus.skeleton {
+        width: calc(190px + (460 - 190) * (100vw - 300px) / (1920 - 300));
+        height: calc(15px + (25 - 15) * (100vw - 300px) / (1920 - 300));
+        margin-top: -2.5px;
+    }
+    
+    .userEditStatus {
+        width: 300px;
+        height: 30px;
+    }
+    
+    .userDateBirth, .userCity {
+        font-size: calc(8px + (16 - 8) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .userDateBirth.skeleton {
+        width: calc(130px + (320 - 130) * (100vw - 300px) / (1920 - 300));
+        height: calc(20px + (35 - 20) * (100vw - 300px) / (1920 - 300));
+        margin-bottom: calc(5px + (10 - 5) * (100vw - 300px) / (1920 - 300));
+        margin-top: -5px;
+    }
+    
+    .userAddInFriends {
+        width: calc(110px + (210 - 110) * (100vw - 500px) / (1920 - 500));
+        border-radius: 3px;
+        font-size: calc(8px + (16 - 8) * (100vw - 200px) / (1920 - 200));
+        div {
+            margin-top: 5px;
+        }
+    }
+    
+    .userAdditionalOptions {
+        border-radius: 0 0 0 3px;
+        padding: 0 10px;
+    }
+    
+    .userAddInFriendsPlus {
+        margin-right: 5px;
+    }
+    
+    .userOptionsWrap {
+        right: 5px;
+        top: 5px; 
+    }
+    
+    .addPostSend {
+        margin-left: 5px;
+    }      
+    
+    .editablePart input {
+        margin-top: 10px;
+        &:focus {
+            border-radius: 3px;
+        }
+    }
+    
+    .editStatus {
+        font-size: calc(8px + (14 - 8) * (100vw - 200px) / (1920 - 200));
+        top: -28px;
+        right: 10px;
+    }
+    
+    .editStatus  {
+        margin-top: 30px;
+    }
+    
+    .editStatus.on.editing {
+        top: -18px;
+    }
+    
+    .hiddenOptions {
+        padding: 3px;
+        a {
+            border-radius: 3px;
+            padding: 5px 10px;
+            font-size: calc(10px + (16 - 10) * (100vw - 200px) / (1920 - 200));
+            margin-top: 3px;
+        }
+    }
+    
+    .addPostWrap {
+        margin-bottom: calc(5px + (15 - 5) * ( (100vw - 200px) / ( 1920 - 200) ));
+    }
 }
 
 @media screen and (max-width: 1023px) {

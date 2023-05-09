@@ -6,10 +6,6 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding: 
-        calc(15px + (40 - 15) * (100vw - 200px) / (1920 - 200))
-        calc(10px + (80 - 10) * (100vw - 200px) / (1920 - 200))
-        calc(20px + (70 - 20) * (100vw - 200px) / (1920 - 200));
 }
 
 .editHeader {
@@ -17,11 +13,9 @@
     position: relative;
     display: flex;
     justify-content: center;
-    margin-bottom: calc(5px + (30 - 5) * (100vw - 200px) / (1920 - 200));
     h2 {
         margin: 0;
         padding: 0;
-        font-size: calc(14px + (20 - 14) * (100vw - 200px) / (1920 - 200));
         font-weight: 600;
         @include fontStyles($textColor);
     }
@@ -50,8 +44,6 @@
     p {
         margin: 0;
         padding: 0;
-        font-size: calc(12px + (16 - 12) * (100vw - 1024px) / (1920 - 1024));
-        margin-left: 5px;
         transition: .5s;
         @include fontStyles($textColor);
     }
@@ -60,6 +52,45 @@
 .backArrowIcon {
     transition: .5s;
     @include svgIconStyles(1.563vw, 20px, $darkIconColor);
+}
+
+@media screen and (max-width: 7680px){
+    .editModalWrap {
+        padding: 2.08vw 4.17vw 3.65vw;
+    }
+    
+    .editHeader {
+        margin-bottom: 1.56vw;
+        h2 {
+            font-size: calc(20px + (72 - 20) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+    
+    .returnBack p {
+        font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+        margin-left: 0.26vw;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .editModalWrap {
+        padding: 
+            calc(15px + (40 - 15) * (100vw - 200px) / (1920 - 200))
+            calc(10px + (80 - 10) * (100vw - 200px) / (1920 - 200))
+            calc(20px + (70 - 20) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .editHeader {
+        margin-bottom: calc(5px + (30 - 5) * (100vw - 200px) / (1920 - 200));
+        h2 {
+            font-size: calc(14px + (20 - 14) * (100vw - 200px) / (1920 - 200));
+        }
+    }
+    
+    .returnBack p {
+        font-size: calc(12px + (16 - 12) * (100vw - 1024px) / (1920 - 1024));
+        margin-left: 5px;
+    }
 }
 
 @media screen and (max-width: 1024px) {

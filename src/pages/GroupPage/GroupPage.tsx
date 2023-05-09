@@ -14,7 +14,7 @@ import { useGetFirstGroupSubsQuery, useGetGroupSubsCountQuery, useLazySubscribeO
 import { baseUrl } from "../../envVariables/variables";
 import BrokenHeart from '../../assets/svg/BrokenHeart';
 import GroupSubscriber from '../../components/GroupSubscriber/GroupSubscriber';
-import { isValidFileUploaded } from '../../helpers/helpers';
+import { declOfNum, isValidFileUploaded } from '../../helpers/helpers';
 import ModalWrap from '../../components/ModalWrap/ModalWrap';
 import ImageOptionsModal from '../../components/ImageModal/ImageModal';
 import Options from '../../assets/svg/Options';
@@ -244,7 +244,10 @@ const GroupPage = () => {
                                 <SkeletonLoader borderRadius={5}/>
                             </p>
                         }
-                        <p className={styles.groupUsersAmount}>{groupSubsCountData && groupSubsCountData} участника</p>
+                        <p className={styles.groupUsersAmount}>
+                            {groupSubsCountData && groupSubsCountData} 
+                            {declOfNum(groupSubsCountData && groupSubsCountData, [' участник', ' участника', ' участников'])}
+                        </p>
                         <div className={styles.groupUsers}>
                             {groupSubsData && groupSubsData.map(sub => 
                                 <GroupSubscriber key={sub.id} user_id={sub.user_id}/>
@@ -318,6 +321,7 @@ const GroupPage = () => {
                         data={postsData} 
                         type="USER_POSTS" 
                         id={String(id)}
+                        newPostData={groupPostData}
                     />
                 </div>
                 

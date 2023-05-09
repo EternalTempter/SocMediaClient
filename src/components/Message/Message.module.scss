@@ -3,13 +3,8 @@
 
 .ourMessage, .otherUserMessage {
     position: relative;
-    padding: calc(7px + (16 - 7) * ( (100vw - 0px) / ( 1920 - 0) ));
-    min-width: calc(100px + (320 - 100) * ( (100vw - 0px) / ( 1920 - 0) ));
-    max-width: 270px;
     background: $firstLayerColor;
     border-radius: 3px;
-    margin-top: calc(20px + (45 - 20) * ( (100vw - 0px) / ( 1920 - 0) ));
-    font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
     color: $textColor;
     font-family: 'Roboto';
     display: flex;
@@ -19,12 +14,9 @@
         @include fontStyles($textColor);
         margin: 0;
         position: absolute;
-        top: calc(-17px + (-26 - -17) * ( (100vw - 1024px) / ( 1920 - 1024) ));
-        font-size: calc(12px + (18 - 12) * ( (100vw - 1024px) / ( 1920 - 1024) ));
     }
 }
 .ourMessageWrap {
-    margin-right: calc(10px + (65 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
     align-self: flex-end;
     p {
         right: 0.5vw;
@@ -32,7 +24,6 @@
 }
 
 .otherUserMessageWrap {
-    margin-left: calc(10px + (65 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
     align-self: flex-start;
     p {
         left: 0.5vw;
@@ -42,7 +33,6 @@
 .ourMessageOptions.on, .otherUserMessageOptions.on {
     display: flex;
     position: absolute;
-    top: -28px;
 }
 
 .ourMessageOptions.on {
@@ -65,11 +55,123 @@
 
 .readIndicator {
     position: absolute;
-    left: calc(-10px + (-20 - -10) * ( (100vw - 200px) / ( 1920 - 200) ));
-    width: 0.78vw;
+    width: 0.63vw;
     min-width: 7px;
-    height: 0.78vw;
+    height: 0.63vw;
     min-height: 7px;
     border-radius: 50%;
-    background: linear-gradient(101.82deg, rgba(255, 255, 255, 0.4) 16.2%, rgba(255, 255, 255, 0.1) 294.57%);
+    background: $darkIconColor;
+}
+
+@media screen and (max-width: 7680px){    
+    .ourMessage, .otherUserMessage {
+        padding: 1.04vw;
+        min-width: 16.67vw;
+        max-width: 21.06vw;
+        margin-top: 2.34vw;
+        font-size: calc(18px + (70 - 18) * ( (100vw - 1920px) / (7680 - 1920) ));
+        p {
+            top: -1.25vw;
+        }
+    }
+    .ourMessageWrap {
+        margin-right: 3.39vw;
+    }
+    
+    .otherUserMessageWrap {
+        margin-left: 3.39vw;
+    }
+    
+    .ourMessageOptions.on, .otherUserMessageOptions.on {
+        top: -1.46vw;
+    }
+    
+    .readIndicator {
+        left: -1.04vw;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .ourMessage, .otherUserMessage {
+        position: relative;
+        padding: calc(7px + (16 - 7) * ( (100vw - 0px) / ( 1920 - 0) ));
+        min-width: calc(100px + (320 - 100) * ( (100vw - 0px) / ( 1920 - 0) ));
+        max-width: 270px;
+        background: $firstLayerColor;
+        border-radius: 3px;
+        margin-top: calc(20px + (45 - 20) * ( (100vw - 0px) / ( 1920 - 0) ));
+        font-size: calc(14px + (18 - 14) * ( (100vw - 1024px) / ( 1920 - 1024) ));
+        color: $textColor;
+        font-family: 'Roboto';
+        display: flex;
+        align-items: center;
+        box-shadow: 4px 4px 4px rgba(13, 13, 13, 0.4);
+        p {
+            @include fontStyles($textColor);
+            margin: 0;
+            position: absolute;
+            top: calc(-19px + (-26 - -19) * ( (100vw - 1024px) / ( 1920 - 1024) ));
+            font-size: calc(14px + (18 - 14) * ( (100vw - 1024px) / ( 1920 - 1024) ));
+        }
+    }
+    .ourMessageWrap {
+        margin-right: calc(10px + (65 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
+        align-self: flex-end;
+        p {
+            right: 0.5vw;
+        }
+    }
+    
+    .otherUserMessageWrap {
+        margin-left: calc(10px + (65 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
+        align-self: flex-start;
+        p {
+            left: 0.5vw;
+        }
+    }
+    
+    .ourMessageOptions.on, .otherUserMessageOptions.on {
+        display: flex;
+        position: absolute;
+        top: calc(-16px + (-28 - -16) * ( (100vw - 0px) / ( 1920 - 0) ));
+    }
+    
+    .ourMessageOptions.on {
+        left: 1%;
+    }
+    
+    .otherUserMessageOptions.on {
+        right: 1%;
+    }
+    
+    .ourMessageOptions, .otherUserMessageOptions {
+        display: none;
+    }
+    
+    .messageOptionsEdit, .messageOptionsTrashCan {
+        @include svgIconStyles(1.0417vw, 14px, $darkIconColor);
+        margin-left: 0.7813vw;
+        transition: .5s;
+    }
+    
+    .readIndicator {
+        position: absolute;
+        left: calc(-10px + (-20 - -10) * ( (100vw - 200px) / ( 1920 - 200) ));
+        width: 0.63vw;
+        min-width: 7px;
+        height: 0.63vw;
+        min-height: 7px;
+        border-radius: 50%;
+        background: $darkIconColor;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .messageOptionsEdit, .messageOptionsTrashCan {
+        @include svgIconStyles(1.0417vw, 16px, $darkIconColor);
+        margin-left: 0.7813vw;
+    }
+    .messageOptionsTrashCan {
+        margin-left: 2.7813vw;
+    }
 }

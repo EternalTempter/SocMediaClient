@@ -27,9 +27,10 @@ const AddPostPanel:FC<AddPostPanelProps> = ({
     setUserCurrentFile, 
     isPostDescriptionError,
 }) => {
+
     function clearPreview() {
         setPostImagePreview('');
-        setUserCurrentFile('');
+        setUserCurrentFile(undefined);
     }
 
     return (

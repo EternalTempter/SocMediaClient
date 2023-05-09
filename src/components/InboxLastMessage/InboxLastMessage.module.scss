@@ -27,6 +27,25 @@
     }
 }
 
+@media screen and (max-width: 7680px){
+    .lastMessage {
+        margin-top: 1vw;
+        p {
+            font-size: calc(16px + (60 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+            margin-left: 0.5vw;
+        }
+    }  
+}
+
+@media screen and (max-width: 1920px){
+    .lastMessage {
+        margin-top: calc(0px + (13 - 0) * ( (100vw - 0px) / ( 1920 - 0) ));
+        p {
+            font-size: calc(10px + (16 - 10) * ( (100vw - 0px) / ( 1920 - 0) ));
+        }
+    }
+}
+
 @media screen and (max-width: 768px) {
     .lastMessage {
         p {

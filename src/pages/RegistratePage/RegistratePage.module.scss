@@ -1,59 +1,102 @@
 @import "../../styles/Mixins.scss";
 @import "../../styles/Variables.scss";
   
-.userDontHaveAccount {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-  
 .userDontHaveAccount{
-    margin-bottom: 30px;
     a {
         margin-left: 0.5vw;
     }
     a, span {
-        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
         @include fontStyles($textColor);
         transition: .5s;
     }
 }
 
-.registrateButton {
-    margin-top: calc(25px + (35 - 25) * ( (100vw - 200px) / ( 1920 - 200) ));
-    margin-bottom: calc(15px + (30 - 15) * ( (100vw - 200px) / ( 1920 - 200) ));
-}
-
-.label {
-    margin-top: calc(20px + (40 - 20) * ( (100vw - 200px) / ( 1920 - 200) ));
-    margin-bottom: calc(15px + (20 - 15) * ( (100vw - 200px) / ( 1920 - 200) ));
-}
-
 .error {
     @include fontStyles(red);
-    font-size: calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
-    margin: 0 0 3px 3px;
 }
 
 .info {
-    font-size: calc(8px + (16 - 8) * ( (100vw - 200px) / ( 1920 - 200) ));
     @include fontStyles($textColor);
 }
 
 .inputBox {
-    margin-top: calc(10px + (15 - 10) * (100vw - 200px) / (1920 - 200));
     display: flex;
     flex-direction: column;
 }
 
-.inputBox.errored {
-    margin-top: 4px;
-}
-
-
-
 .userDontHaveAccount a:hover {
     color: white;
     transition: .5s;
+}
+
+@media screen and (max-width: 7680px){
+    .userDontHaveAccount{
+        margin-bottom: 1.56vw;
+        a, span {
+            font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+        }
+    }
+    
+    .registrateButton {
+        margin-top: 1.82vw;
+        margin-bottom: 1.56vw;
+    }
+    
+    .label {
+        margin-top: 2.08vw;
+        margin-bottom: 1.04vw;
+    }
+    
+    .error {
+        font-size: calc(12px + (62 - 12) * ( (100vw - 1920px) / (7680 - 1920) ));
+        margin: 0 0 0.16vw 0.16vw;
+    }
+    
+    .info {
+        font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+    }
+    
+    .inputBox {
+        margin-top: 0.78vw;
+    }
+    
+    .inputBox.errored {
+        margin-top: 0.21vw;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .userDontHaveAccount{
+        margin-bottom: 30px;
+        a, span {
+            font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+        }
+    }
+    
+    .registrateButton {
+        margin-top: calc(25px + (35 - 25) * ( (100vw - 200px) / ( 1920 - 200) ));
+        margin-bottom: calc(15px + (30 - 15) * ( (100vw - 200px) / ( 1920 - 200) ));
+    }
+    
+    .label {
+        margin-top: calc(20px + (40 - 20) * ( (100vw - 200px) / ( 1920 - 200) ));
+        margin-bottom: calc(15px + (20 - 15) * ( (100vw - 200px) / ( 1920 - 200) ));
+    }
+    
+    .error {
+        font-size: calc(6px + (12 - 6) * (100vw - 200px) / (1920 - 200));
+        margin: 0 0 3px 3px;
+    }
+    
+    .info {
+        font-size: calc(8px + (16 - 8) * ( (100vw - 200px) / ( 1920 - 200) ));
+    }
+    
+    .inputBox {
+        margin-top: calc(10px + (15 - 10) * (100vw - 200px) / (1920 - 200));
+    }
+    
+    .inputBox.errored {
+        margin-top: 4px;
+    }
 }

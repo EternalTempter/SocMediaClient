@@ -7,7 +7,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import ChangeLog from '../../components/AppNews/AppNews';
+import AppNews from '../../components/AppNews/AppNews';
 import Statistics from '../../components/Statistics/Statistics';
 import styles from './HomePage.module.scss';
 
@@ -23,7 +23,7 @@ const HomePage:FC<HomePageProps> = ({setIsAuth}) => {
 
     const [sliderComponents, setSliderComponents] = useState([
         <Statistics/>,
-        <ChangeLog/>
+        <AppNews/>
     ]);
 
     function setStatisticsSlideHandler(e) {  

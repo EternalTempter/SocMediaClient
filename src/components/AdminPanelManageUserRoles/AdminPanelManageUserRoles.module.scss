@@ -4,6 +4,28 @@
 @import "../../components/AdminPanelManageNews/AdminPanelManageNews.module.scss";
 
 .deleteNews {
-    height: calc(200px + (290 - 200) * (100vw - 200px) / (1920 - 200));
     margin-left: 0;
+}
+
+@media screen and (max-width: 7680px){
+    .deleteNews {
+        height: 15.1vw;
+    }
+}
+
+@media screen and (max-width: 1920px){
+    .deleteNews {
+        height: calc(200px + (290 - 200) * (100vw - 200px) / (1920 - 200));
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .userRolesWrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .label {
+        align-self: start;
+    }
 }

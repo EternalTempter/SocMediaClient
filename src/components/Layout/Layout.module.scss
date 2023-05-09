@@ -32,11 +32,11 @@
     box-shadow: -10px 0px 6px rgba(13, 13, 13, 0.25);
 }
 
-.chat, .friends, .logo, .account, .exit {
+.chat, .friends, .logo, .account, .options {
     @include svgIconStylesStroke(2.6042vw, 25px, $darkIconColor); 
     transition: 0.5s;
 }
-.news, .group, .notifications, .burgerMenu, .about {
+.news, .group, .notifications, .burgerMenu, .about, .exit {
     @include svgIconStyles(2.6042vw, 25px, $darkIconColor);
     transition: 0.5s;
 }
@@ -49,11 +49,11 @@
 }
 
 .accountWrap:hover .account, .friendsWrap:hover .friends, 
-.logoWrap:hover .logo, .chatWrap:hover .chat, .exitWrap:hover .exit {
+.logoWrap:hover .logo, .chatWrap:hover .chat, .optionsWrap:hover .options {
     transition: 0.5s;
     stroke: white;
 }
-.newsWrap:hover .news, .groupWrap:hover .group {
+.newsWrap:hover .news, .groupWrap:hover .group, .exitWrap:hover .exit {
     transition: 0.5s;
     fill: white;
 }
@@ -61,6 +61,7 @@
 .chatWrap {
     position: relative;
     display: flex;
+    cursor: pointer;
 }
 
 .newMessages {

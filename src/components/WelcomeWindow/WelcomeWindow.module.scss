@@ -18,7 +18,6 @@
 .homePageContentHello {
     box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
     background: $firstLayerColor;
-    border-radius: 5px;
     width: 55.729vw;
     min-width: 300px;
     display: flex;
@@ -34,17 +33,13 @@
 }
 
 .welcome {
-    margin-top: calc(20px + (50 - 20) * (100vw - 200px) / (1920 - 200));
     @include fontStyles($textColor);
-    font-size: calc(16px + (24 - 16) * (100vw - 768px) / (1920 - 768));
     text-align: center;
 }
 
 .label {
     @include fontStyles($textColor);
-    font-size: calc(14px + (22 - 14) * (100vw - 768px) / (1920 - 768));
     text-align: center;
-    margin-top: calc(10px + (35 - 10) * (100vw - 1024px) / (1920 - 1024));
 }
 
 .logo {
@@ -56,7 +51,6 @@
     justify-content: center;
     min-width: 90px;
     min-height: 90px;
-    margin-top: calc(0px + (30 - 0) * (100vw - 1024px) / (1920 - 1024));
 } 
 
 .logoIcon {
@@ -64,11 +58,8 @@
 }
 
 .body {
-    margin-top: calc(5px + (30 - 5) * (100vw - 1024px) / (1920 - 1024 ));
-    margin-bottom: calc(35px + (70 - 35) * (100vw - 1024px) / (1920 - 1024));
     width: 46.354vw;
     background: $secondLayerColor;
-    border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.4);
 }
 
@@ -76,9 +67,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 
-        calc(20px + (60 - 20) * (100vw - 768px) / (1920 - 768))
-        calc(25px + (70 - 25) * (100vw - 768px) / (1920 - 768));
     width: 46.875vw;
     box-sizing: border-box;
     div {
@@ -97,21 +85,16 @@
         width: 15.323vw;
         min-width: 190px;
         @include fontStyles($textColor);
-        font-size: calc(10px + (16 - 10) * (100vw - 768px) / (1920 - 768));
-        margin-left: calc(15px + (60 - 15) * (100vw - 768px) / (1920 - 768));
         text-align: left;
     }
     button {
-        padding: calc(6px + (15 - 6) * (100vw - 200px) / (1920 - 200));
         width: 11.458vw;
         min-width: 150px;
         margin-left: auto;
         @include fontStyles($textColor);
-        font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
         background: $thirdLayerColor;
         box-shadow: 0px 4px 4px rgba(13, 13, 13, 0.15);
         transition: .5s;
-        border-radius: 5px;
         border: none;
         cursor: pointer;
         &:hover {
@@ -131,6 +114,86 @@
 }
 .groupIcon {
     @include svgIconStyles(4.688vw, 40px, $textColor);
+}
+
+@media screen and (max-width: 7680px){
+    .homePageContentHello {
+        border-radius: 0.26vw;
+    }
+    
+    .welcome {
+        margin-top: 2.6vw;
+        font-size: calc(24px + (76 - 24) * ( (100vw - 1920px) / (7680 - 1920) ));
+    }
+    
+    .label {
+        font-size: calc(22px + (74 - 22) * ( (100vw - 1920px) / (7680 - 1920) ));
+        margin-top: 1.82vw;
+    }
+    
+    .logo {
+        margin-top: 1.56vw;
+    } 
+    
+    .body {
+        margin-top: 1.56vw;
+        margin-bottom: 3.65vw;
+        border-radius: 0.52vw;
+    }
+    
+    .findFriends, .findGroups {
+        padding: 3.13vw 3.65vw;
+        p {
+            font-size: calc(16px + (66 - 16) * ( (100vw - 1920px) / (7680 - 1920) ));
+            margin-left: 3.13vw;
+        }
+        button {
+            padding: 0.78vw;
+            font-size: calc(14px + (64 - 14) * ( (100vw - 1920px) / (7680 - 1920) ));
+            border-radius: 0.26px;
+        }
+    }
+}
+
+@media screen and (max-width: 1920px){ 
+    .homePageContentHello {
+        border-radius: 5px;
+    }
+    
+    .welcome {
+        margin-top: calc(20px + (50 - 20) * (100vw - 200px) / (1920 - 200));
+        font-size: calc(16px + (24 - 16) * (100vw - 768px) / (1920 - 768));
+    }
+    
+    .label {
+        font-size: calc(14px + (22 - 14) * (100vw - 768px) / (1920 - 768));
+        margin-top: calc(10px + (35 - 10) * (100vw - 1024px) / (1920 - 1024));
+    }
+    
+    .logo {
+        margin-top: calc(0px + (30 - 0) * (100vw - 1024px) / (1920 - 1024));
+    } 
+    
+    .body {
+        margin-top: calc(5px + (30 - 5) * (100vw - 1024px) / (1920 - 1024 ));
+        margin-bottom: calc(35px + (70 - 35) * (100vw - 1024px) / (1920 - 1024));
+        border-radius: 10px;
+    }
+    
+    .findFriends, .findGroups {
+        padding: 
+            calc(20px + (60 - 20) * (100vw - 768px) / (1920 - 768))
+            calc(25px + (70 - 25) * (100vw - 768px) / (1920 - 768));
+        p {
+            font-size: calc(10px + (16 - 10) * (100vw - 768px) / (1920 - 768));
+            margin-left: calc(15px + (60 - 15) * (100vw - 768px) / (1920 - 768));
+        }
+        button {
+            padding: calc(6px + (15 - 6) * (100vw - 200px) / (1920 - 200));
+            font-size: calc(10px + (14 - 10) * (100vw - 200px) / (1920 - 200));
+            border-radius: 5px;
+        }
+    }
 }
 
 @media screen and(max-width: 1023px) {

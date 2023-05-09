@@ -281,6 +281,7 @@ const Post:FC<PostProps> = ({post, hidePost, filterPostsAfterDeletion, reportPos
                         {hiddenPostOptionsVisible &&
                             <div className={styles.hiddenPostOptions}>
                                 <a onClick={() => hidePost(post.id)}>Скрыть пост</a>
+                                <a onClick={() => setIsReportVisible(true)}>Пожаловаться</a>
                             </div>
                         }
                     </div>
