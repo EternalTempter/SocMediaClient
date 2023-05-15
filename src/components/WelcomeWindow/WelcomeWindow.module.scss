@@ -196,7 +196,7 @@
     }
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and(max-width: 1023px) {
     .findFriends, .findGroups {
         display: flex;
         flex-direction: column;
@@ -219,7 +219,7 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and(max-width: 768px) {
     .homePageContentHello {
         width: 100vw;
         height: 100%;
@@ -261,7 +261,7 @@
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and(max-width: 600px) {
     .findFriends, .findGroups {
         flex-direction: column;
         button {

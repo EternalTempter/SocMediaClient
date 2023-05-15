@@ -12,6 +12,8 @@ import PasswordInput from '../../components/PasswordInput/PasswordInput';
 import { notifyAlert, notifyError } from '../../helpers/helpers';
 import { isErrored } from 'stream';
 import SavingChangesHolder from '../../components/UI/SavingChangesHolder/SavingChangesHolder';
+import jwt_decode from "jwt-decode"
+import { IUser } from '../../models';
 
 interface RegistratePageProps {
     setIsAuth: (state: boolean) => void
@@ -81,8 +83,11 @@ const RegistratePage:FC<RegistratePageProps> = ({setIsAuth, setIsWelcomeWindowVi
             localStorage.setItem('token', JSON.stringify(data.token));
             setDefaultUserData(registrationData.email);
             setIsAuth(true);
-            setIsWelcomeWindowVisible(false);
-            navigate('/activate');
+            setIsWelcomeWindowVisible(true);
+            const user : IUser = jwt_decode(localStorage.getItem('token') || '');
+            navigate(`/account/${user.email}`);
+            // navigate('/activate');
+            // setIsWelcomeWindowVisible(false);
         }
     }, [data]);
 

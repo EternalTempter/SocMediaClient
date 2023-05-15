@@ -22,12 +22,11 @@ import Options from '../../assets/svg/Options';
 
 interface LayoutProps {
     setIsAuth: (state: boolean) => void
-    setIsActivated: (state: boolean) => void
     isWelcomeWindowVisible: boolean
     setIsWelcomeWindowVisible: (value: boolean) => void
 }
 
-const Layout:FC<LayoutProps> = ({setIsAuth, isWelcomeWindowVisible, setIsWelcomeWindowVisible, setIsActivated}) => {
+const Layout:FC<LayoutProps> = ({setIsAuth, isWelcomeWindowVisible, setIsWelcomeWindowVisible}) => {
     const user : IUser = jwt_decode(localStorage.getItem('token') || '');
     const navigate = useNavigate();
     const location = useLocation();
@@ -57,7 +56,6 @@ const Layout:FC<LayoutProps> = ({setIsAuth, isWelcomeWindowVisible, setIsWelcome
     function logoutHandler() {
         if(isWelcomeWindowVisible) setIsWelcomeWindowVisible(false);
         setIsAuth(false);
-        setIsActivated(false);
         localStorage.removeItem('token');
         navigate('/auth');
     }

@@ -1223,13 +1223,13 @@
     }
 }
 
-@media screen and (max-width: 1439px) {
+@media screen and(max-width: 1439px) {
     .links {
         width: calc(720px + (1200 - 720) * ( (100vw - 768px) / ( 1439 - 768) ));
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and(max-width: 768px) {
     .welcomePageWrap {
         @include scrollStyles(0.05em);
     }
@@ -1411,7 +1411,7 @@
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and(max-width: 600px) {
     .offerInfo {
         width: 100%;
     }
