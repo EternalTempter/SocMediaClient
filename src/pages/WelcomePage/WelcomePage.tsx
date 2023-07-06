@@ -22,6 +22,8 @@ const WelcomePage = () => {
     const [sliderComponents, setSliderComponents] = useState([
         <img src={require('../../assets/images/preview1.png')}/>,
         <img src={require('../../assets/images/preview2.png')}/>,
+        <img src={require('../../assets/images/preview3.png')}/>,
+        <img src={require('../../assets/images/preview4.png')}/>,
     ]);
 
     const [isScrollBlocked, setIsScrollBlocked] = useState(false);

@@ -68,7 +68,7 @@ const ChosenReport:FC<ChosenReportProps> = ({report, refetchReports, removeChose
 
     useEffect(() => {
         if(deleteReportData) {
-            notifySuccess('Жалоба успешно отклонена');
+            notifySuccess('Жалоба закрыта');
             refetchReports();
         } 
     }, [deleteReportData])

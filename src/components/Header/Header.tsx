@@ -23,7 +23,7 @@ const Header:FC<HeaderProps> = ({openMobileMenuHandler}) => {
                     Войти
                 </Link>
                 <Link 
-                    to='/registration' 
+                    to='/registrate' 
                     className={styles.register}
                 >
                     Зарегистрироваться

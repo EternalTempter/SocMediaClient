@@ -87,6 +87,13 @@ code {
   font-weight: 400;
 }
 
+@font-face {
+  font-family: "Oxygen";
+  src: local("Oxygen"), local("Oxygen"),
+    url("./assets/fonts/Oxygen-Regular.ttf");
+  font-weight: 400;
+}
+
 @media screen and (max-width: 7680px){
   .swiper-button-prev {
     left: 0.52vw !important;
